@@ -30,9 +30,9 @@ Date.now());
 
 
 //bucket list check
-listBuckets();
+//listBuckets();
 
-function listBuckets () {
+/*function listBuckets () {
   // Instantiates a client
   const storage = Storage();
 
@@ -66,9 +66,11 @@ bucket.file('hi.png').download({
 	console.log("success");
 });
 
+*/
 
 
-router.post('/', upload.single('member_img') ,function(req, res, next){
+
+router.post('/',function(req, res, next){
 
         pool.getConnection(function(error, connection){
         if (error){
@@ -76,18 +78,23 @@ router.post('/', upload.single('member_img') ,function(req, res, next){
                 res.sendStatus(500);
         }
     
-                var sql, inserts;
-                sql = 'insert into member(member_img,email,passwd, member_name) values(?,?,?,?)';
-                inserts = [ req.body.member_img, req.body.nickname];
-
+                var sql = 'insert into duckmate.member(email, passwd, member_name) values(?,?,?)';
+               var inserts = [ req.body.email, req.body.passwd, req.body.member_name];
+	//	var inserts = ["d@d.b","23","hoho"]
                 connection.query(sql, inserts, function(error, rows){
                 if (error){
                   console.log("Connection Error" + error);
-                  res.sendStatus(500);
+                  res.status(500);
                 }
-                  res.status(201).send({result : 'success'});
-                  connection.release();
-                 });//connection query 
+		
+		if(rows.length == 0){
+			res.status(201).send({result: "false"});
+		}else{
+			console.log("1",rows);
+                	res.status(201).send({result : 'success'});
+		}
+                connection.release();
+               	});//connection query 
 
   });
 });

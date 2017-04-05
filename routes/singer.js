@@ -136,7 +136,7 @@ router.get('/singer_rank', function(req, res, next) {
       res.sendStatus(500);
     }
     else{
-      connection.query('select * from singer order by choice_count desc', function(error, rows){
+      connection.query('select singer_id, singer_name, singer_img from singer order by choice_count desc', function(error, rows){
         if (error){
           console.log("Connection Error" + error);
           res.sendStatus(500);

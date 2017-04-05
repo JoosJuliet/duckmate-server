@@ -36,12 +36,12 @@ var mypage = require('./routes/mypage');
 //var test = require('./routes/test');
 
 
-//var login = require('./routes/1/login');
-//var register = require('./routes/1/register');
+var login = require('./routes/1/login');
+var register = require('./routes/1/register');
 var sns = require('./routes/1/sns');
 
 var question = require('./routes/question');
-var board = require('./routes/board');
+var notice = require('./routes/notice');
 
 
 var app = express();
@@ -86,16 +86,16 @@ app.use('/duckmate/mypage', mypage);
 
 
 // cd ./routes/1
-//app.use('/duckmate/login', login);
+app.use('/duckmate/login', login);
 app.use('/duckmate/sns', sns);
-//app.use('/duckmate/register', register);
+app.use('/duckmate/register', register);
 
 
 
 // cd ./routes/2
 
 app.use('/duckmate/question', question);
-app.use('/duckmate/board', board);
+app.use('/duckmate/notice', notice);
 
 
 //app.use('/duckmate/test', test);
