@@ -75,7 +75,7 @@ router.post('/', function(req, res, next){
                 console.log("rows[0].b_vote_count는" , BVoteCount);
 
                 var SingerInfoQry = "select singer_name, album_img, choice_count from duckmate.singer where singer_id = ?;"
-                connction.query(SingerInfoQry,[BVoteCount], function(error, rows) {
+                connection.query(SingerInfoQry,[BVoteCount], function(error, rows) {
                     connection.release();
                     if (error){
                       console.log("SingerInfoQry Connection Error" + error);
