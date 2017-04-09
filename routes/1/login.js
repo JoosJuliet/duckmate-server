@@ -55,7 +55,7 @@ router.post('/', function(req, res, next){
             console.log("RowsMemberId는 ",RowsMemberId);
 
             var dectect_b_vote_count_qry = 'select b_vote_count from duckmate.mylist where member_id = ?';
-            connction.query(dectect_b_vote_count_qry,[RowsMemberId], function(error, rows) {
+            connection.query(dectect_b_vote_count_qry,[RowsMemberId], function(error, rows) {
                 if (error){
                   console.log("dectect_b_vote_count_qry Connection Error" + error);
                   res.sendStatus(500).send({ result : "db error" });
