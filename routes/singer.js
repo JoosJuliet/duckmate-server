@@ -60,9 +60,6 @@ router.get('/singerbase/:member_name', function(req, res, next) {
                 connection.release();
             }
 
-
-
-
         });
     }
   });
