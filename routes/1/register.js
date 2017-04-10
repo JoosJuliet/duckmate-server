@@ -95,8 +95,7 @@ router.get('/:member_name', function(req, res, next) {
             if( rows[0].length == 0){
                 res.status(201).send(
                     {
-                        data : "member data",
-                        message: "success",
+
                         result: true
                     }
 
@@ -104,8 +103,7 @@ router.get('/:member_name', function(req, res, next) {
             }
             res.status(201).send(
                 {
-                    data : "member data",
-                    message: "false",
+                    
                     result: true
                 }
             );
