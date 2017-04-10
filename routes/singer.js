@@ -131,8 +131,8 @@ router.post('/singerAdd', function(req, res, next){
         }
         var SingerId = "singer"+SingerIdArr[BodyNum]+"_id";
 
-        var InsertValueQry = ' update duckmate.mylist SET ? = ? where (member_id = ?);';
-        connection.query( InsertValueQry ,[SingerId, BodySingerId, BodyMemberId], function(error, rows){
+        var InsertValueQry = ' update duckmate.mylist SET'+SingerId +'= ? where (member_id = ?);';
+        connection.query( InsertValueQry ,[ BodySingerId, BodyMemberId], function(error, rows){
             if (error){
               console.log("InsertValueQry Connection Error" + error);
               res.sendStatus(500).send({ result : "db error" });
