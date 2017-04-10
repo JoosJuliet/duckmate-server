@@ -133,23 +133,23 @@ router.post('/singerAdd', function(req, res, next){
 
         var InsertValueQry = ' update duckmate.mylist SET '+SingerId+'= ? where (member_id = ?);';
         console.log(InsertValueQry);
-        // connection.query( InsertValueQry ,[ BodySingerId, BodyMemberId], function(error, rows){
-        //     if (error){
-        //       console.log("InsertValueQry Connection Error" + error);
-        //       res.sendStatus(500).send({ result : "db error" });
-        //     }
-        //
-    	// 	if(rows.length == 0){
-    	// 		res.status(201).send(
-        //             {
-        //                 data : "member data",
-        //                 message: "success",
-        //                 result: false
-        //             }
-        //         );
-        //         return
-    	// 	}
-            res.status(200).send({result : success});
+        connection.query( InsertValueQry ,[ BodySingerId, BodyMemberId], function(error, rows){
+            if (error){
+              console.log("InsertValueQry Connection Error" + error);
+              res.sendStatus(500).send({ result : "db error" });
+            }
+
+    		if(rows.length == 0){
+    			res.status(201).send(
+                    {
+                        data : "member data",
+                        message: "success",
+                        result: false
+                    }
+                );
+                return
+    		}
+            res.status(200).send({result : "success"});
 
         // });
     });// pool
