@@ -78,14 +78,14 @@ router.post('/',function(req, res, next){
 
 
 
-router.get('/:member_name', function(req, res, next) {
+router.get('/:member_email', function(req, res, next) {
     pool.getConnection(function(error, connection){
         if (error){
             console.log("getConnection Error" + error);
             res.sendStatus(500);
         }
-        var CheckMemberName = "SELECT member_name FROM duckmate.member where member_name =? ;"
-        connection.query(CheckMemberName,[req.params.member_name], function(error, rows){
+        var CheckMemberName = "SELECT member_name FROM duckmate.member where member_email =? ;"
+        connection.query(CheckMemberName,[req.params.member_email], function(error, rows){
             if (error){
               console.log("Connection Error" + error);
               res.sendStatus(500);
