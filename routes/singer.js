@@ -131,26 +131,27 @@ router.post('/singerAdd', function(req, res, next){
         }
         var SingerId = "singer"+SingerIdArr[BodyNum]+"_id";
 
-        var InsertValueQry = ' update duckmate.mylist SET'+SingerId +'= ? where (member_id = ?);';
-        connection.query( InsertValueQry ,[ BodySingerId, BodyMemberId], function(error, rows){
-            if (error){
-              console.log("InsertValueQry Connection Error" + error);
-              res.sendStatus(500).send({ result : "db error" });
-            }
-
-    		if(rows.length == 0){
-    			res.status(201).send(
-                    {
-                        data : "member data",
-                        message: "success",
-                        result: false
-                    }
-                );
-                return
-    		}
+        var InsertValueQry = ' update duckmate.mylist SET'+SingerId+'= ? where (member_id = ?);';
+        console.log(InsertValueQry);
+        // connection.query( InsertValueQry ,[ BodySingerId, BodyMemberId], function(error, rows){
+        //     if (error){
+        //       console.log("InsertValueQry Connection Error" + error);
+        //       res.sendStatus(500).send({ result : "db error" });
+        //     }
+        //
+    	// 	if(rows.length == 0){
+    	// 		res.status(201).send(
+        //             {
+        //                 data : "member data",
+        //                 message: "success",
+        //                 result: false
+        //             }
+        //         );
+        //         return
+    	// 	}
             res.status(200).send({result : success});
 
-        });
+        // });
     });// pool
 });//post
 
