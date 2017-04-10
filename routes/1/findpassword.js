@@ -4,7 +4,7 @@ var app = express();
 var fs = require('fs');
 
 
-router.post('/findpassword', function(req, res, next){
+router.post('/', function(req, res, next){
 
 	pool.getConnection(function(error, connection){
     	if (error){
