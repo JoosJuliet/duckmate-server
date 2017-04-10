@@ -4,37 +4,14 @@ var app = express();
 var fs = require('fs');
 var multer = require('multer');
 var upload = multer({ dest : 'upload/' })
-const Storage = require('@google-cloud/storage');
-
-console.log("hi");
-
-var exit_flag = false;
-
-fs.watch(__filename, (eventType, filename) => {
-    if( exit_flag )return;
-    exit_flag = true;
-    if( eventType ==  'rename' || eventType ==  'change' ){
-        setTimeout(()=>{
-            process.exit();
-        },2000);
-    }
-});
-
-
-console.log("db connect register");
-router.get('/', function(req, res, next) {
-console.log("time"+
-Date.now());
-         res.send('register');
-});
-
+const STORAGE = require('@google-cloud/storage');
 
 //bucket list check
 //listBuckets();
 
 /*function listBuckets () {
   // Instantiates a client
-  const storage = Storage();
+  const storage = STORAGE();
 
   // Lists all buckets in the current project
   return storage.getBuckets()
@@ -77,7 +54,7 @@ router.post('/',function(req, res, next){
                 console.log("getConnection Error" + error);
                 res.sendStatus(500);
         }
-    
+
                 var sql = 'insert into duckmate.member(email, passwd, member_name) values(?,?,?)';
                var inserts = [ req.body.email, req.body.passwd, req.body.member_name];
 	//	var inserts = ["d@d.b","23","hoho"]
@@ -86,7 +63,7 @@ router.post('/',function(req, res, next){
                   console.log("Connection Error" + error);
                   res.status(500);
                 }
-		
+
 		if(rows.length == 0){
 			res.status(201).send({result: "false"});
 		}else{
@@ -94,7 +71,7 @@ router.post('/',function(req, res, next){
                 	res.status(201).send({result : 'success'});
 		}
                 connection.release();
-               	});//connection query 
+               	});//connection query
 
   });
 });
