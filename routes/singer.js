@@ -4,7 +4,6 @@ var multer = require('multer');
 var fs = require('fs');
 var db_config = require('../config/db_config.json');
 var router = express.Router();
-var exit_flag = false;
 
 
 var pool = mysql.createPool({
@@ -15,35 +14,6 @@ var pool = mysql.createPool({
   connectionLimit : db_config.connectionLimit
 });
 
-
-fs.watch(__filename, (eventType, filename) => {
-    if( exit_flag )return;
-    exit_flag = true;
-    if( eventType ==  'rename' || eventType ==  'change' ){
-        setTimeout(()=>{
-            process.exit();
-        },2000);
-    }
-});
-
-
-Object.defineProperty(global, '__stack', {
-    get: function(){
-        var orig = Error.prepareStackTrace;
-        Error.prepareStackTrace = function(_, stack){ return stack; };
-        var err = new Error;
-        Error.captureStackTrace(err, arguments.callee);
-        var stack = err.stack;
-        Error.prepareStackTrace = orig;
-        return stack;
-    }
-});
-
-Object.defineProperty(global, '__line', {
-    get: function(){
-        return __stack[1].getLineNumber();
-    }
-});
 
 router.get('/', function(req, res, next) {
   res.render('singer', { title: 'singer' });
@@ -146,6 +116,41 @@ router.get('/singer_rank', function(req, res, next) {
     }
   });
 });
+
+
+//
+
+
+router.post('/singerAdd', function(req, res, next){
+    var BodySingerId = req.body.singer_id; var BodyMemberId = req.body.member_id;
+    pool.getConnection(function(error, connection){
+        if (error){
+            console.log("getConnection Error" + error);
+            res.sendStatus(500);
+        }
+
+        var InsertValueQry = ' INSERT INTO mylist (singer_id, member_id) VALUES (?,?);';
+        connection.query( InsertValueQry ,[BodySingerId, BodyMemberId], function(error, rows){
+            if (error){
+              console.log("InsertValueQry Connection Error" + error);
+              res.sendStatus(500).send({ result : "db error" });
+            }
+
+    		if(rows.length == 0){
+    			res.status(201).send(
+                    {
+                        data : "member data",
+                        message: "success",
+                        result: false
+                    }
+                );
+                return
+    		}
+            res.status(200).send({result : success});
+
+        });
+    });// pool
+});//post
 
 
 module.exports = router;
