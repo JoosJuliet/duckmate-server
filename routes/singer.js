@@ -37,25 +37,33 @@ router.get('/singerinfo/:singer_id', function(req, res, next) {
   });
 });
 
-router.get('/singerbase/:member_id', function(req, res, next) {
+router.get('/singerbase/:member_name', function(req, res, next) {
   pool.getConnection(function(error, connection){
     if (error){
-      console.log("getConnection Error" + error);
-      res.sendStatus(500);
+        console.log("getConnection Error" + error);
+        res.sendStatus(500);
     }
     else{
-      connection.query('select singerb_id, singer0_id, singer1_id, singer2_id, singer3_id from mylist where member_id = ?',
-       [req.params.member_id], function(error, rows){
-        if (error){
-          console.log("Connection Error" + error);
-          res.sendStatus(500);
-          connection.release();
-        }
-        else {
-          res.status(200).send({result : rows[0]});
-          connection.release();
-        }
-      });
+        connection.query('SELECT member_name FROM duckmate.member where member_name = ? ;',
+        [req.params.member_name], function(error, rows){
+            if (error){
+                console.log("Connection Error" + error);
+                res.sendStatus(500);
+                connection.release();
+            }
+
+            if(rows[0].length != 0 ){
+                res.status(200).send({result : "success"});
+                connection.release();
+            }else{
+                res.status(200).send({result : "false"});
+                connection.release();
+            }
+
+
+
+
+        });
     }
   });
 });
@@ -121,7 +129,7 @@ router.post('/singerAdd', function(req, res, next){
         }
         var SingerId = "singer"+SingerIdArr[BodyNum]+"_id";
 
-        var InsertValueQry = ' update duckmate.mylist SET '+SingerId+'= ? where (member_id = ?);';
+        var InsertValueQry = 'update duckmate.mylist SET '+SingerId+'= ? where (member_id = ?);';
         console.log(InsertValueQry);
         connection.query( InsertValueQry ,[ BodySingerId, BodyMemberId], function(error, rows){
             if (error){

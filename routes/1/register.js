@@ -78,4 +78,29 @@ router.post('/',function(req, res, next){
 
 
 
+router.get('/:member_name', function(req, res, next) {
+    pool.getConnection(function(error, connection){
+    if (error){
+        console.log("getConnection Error" + error);
+        res.sendStatus(500);
+    }
+    else{
+        connection.query('select singerb_id, singer0_id, singer1_id, singer2_id, singer3_id from mylist where member_id = ?',
+        [req.params.member_name], function(error, rows){
+        if (error){
+          console.log("Connection Error" + error);
+          res.sendStatus(500);
+          connection.release();
+        }
+        else {
+          res.status(200).send({result : rows[0]});
+          connection.release();
+        }
+        });
+    }
+    });
+});
+
+
+
 module.exports = router;
