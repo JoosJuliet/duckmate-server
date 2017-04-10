@@ -116,20 +116,23 @@ router.get('/singer_rank', function(req, res, next) {
     }
   });
 });
+//UPDATE [테이블] SET [열] = '변경할값' WHERE [조건]
+//            /singer/singerAdd   -> 자신의 가수 추가시      singer_id, member_id,num
 
+//where에서 member_id 에다가 singerb_id넣는다.
 
-//
-
-
+var SingerIdArr = ["b","0","1","2","3"];
 router.post('/singerAdd', function(req, res, next){
-    var BodySingerId = req.body.singer_id; var BodyMemberId = req.body.member_id;
+    var BodySingerId = req.body.singer_id; var BodyMemberId = req.body.member_id; var BodyNum = req.body.singerNum;
     pool.getConnection(function(error, connection){
         if (error){
             console.log("getConnection Error" + error);
             res.sendStatus(500);
         }
+        console.log( "singer"+SingerIdArr[0]+"_id");
+        console.log( SingerIdArr[0] );
 
-        var InsertValueQry = ' INSERT INTO mylist (singer_id, member_id) VALUES (?,?);';
+        // var InsertValueQry = ' update duckmate.mylist SET singer_id = 1 , member_id = 1;';
         connection.query( InsertValueQry ,[BodySingerId, BodyMemberId], function(error, rows){
             if (error){
               console.log("InsertValueQry Connection Error" + error);
