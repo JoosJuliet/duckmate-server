@@ -72,10 +72,10 @@ router.post('/', function(req, res, next){
         		}
 
                 var RowsBVoteCount = rows[0].b_vote_count;
-                console.log("rows[0].b_vote_count는" , BVoteCount);
+                console.log("rows[0].b_vote_count는" , RowsBVoteCount);
 
                 var SingerInfoQry = "select singer_name, album_img, choice_count from duckmate.singer where singer_id = ?;"
-                connection.query(SingerInfoQry,[BVoteCount], function(error, rows) {
+                connection.query(SingerInfoQry,[RowsBVoteCount], function(error, rows) {
                     connection.release();
                     if (error){
                       console.log("SingerInfoQry Connection Error" + error);
