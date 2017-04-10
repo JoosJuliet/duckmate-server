@@ -5,22 +5,6 @@ var fs = require('fs');
 console.log("hi registersns");
 
 
-var exit_flag = false;
-
-console.log(1);
-fs.watch(__filename, (eventType, filename) => {
-console.log( 1);
-    if( exit_flag )return;
-    exit_flag = true;
-console.log( 3, eventType );
-    if( eventType ==  'rename' || eventType ==  'change' ){
-console.log( 2);
-        setTimeout(()=>{
-            process.exit();
-        },2000);
-    }
-});
-
 
 
 router.get('/', function(req, res, next) {
@@ -37,7 +21,7 @@ router.post('/', function(req, res, next){
       		console.log("getConnection Error" + error);
       		res.sendStatus(500);
     	}
-    
+
       		var sql, inserts;
         	sql = 'insert into duckmate.member( member_name) values(?)';
         	inserts = [  req.body.nickname];
@@ -49,12 +33,11 @@ router.post('/', function(req, res, next){
        		}
              	  res.status(201).send({result : 'success'});
          	  connection.release();
-     		 });//connection query 
-   	 
+     		 });//connection query
+
   });
 })
 
 
 
 module.exports = router;
-
