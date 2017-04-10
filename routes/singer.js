@@ -131,7 +131,7 @@ router.post('/singerAdd', function(req, res, next){
         }
         var SingerId = "singer"+SingerIdArr[BodyNum]+"_id";
 
-        var InsertValueQry = ' update duckmate.mylist SET'+SingerId+'= ? where (member_id = ?);';
+        var InsertValueQry = ' update duckmate.mylist SET '+SingerId+'= ? where (member_id = ?);';
         console.log(InsertValueQry);
         // connection.query( InsertValueQry ,[ BodySingerId, BodyMemberId], function(error, rows){
         //     if (error){
