@@ -129,29 +129,28 @@ router.post('/singerAdd', function(req, res, next){
             console.log("getConnection Error" + error);
             res.sendStatus(500);
         }
-        console.log( "singer"+SingerIdArr[0]+"_id");
-        console.log( SingerIdArr[0] );
+        var SingerId = "singer"+SingerIdArr[BodyNum]+"_id";
 
-        // var InsertValueQry = ' update duckmate.mylist SET singer_id = 1 , member_id = 1;';
-        // connection.query( InsertValueQry ,[BodySingerId, BodyMemberId], function(error, rows){
-        //     if (error){
-        //       console.log("InsertValueQry Connection Error" + error);
-        //       res.sendStatus(500).send({ result : "db error" });
-        //     }
-        //
-    	// 	if(rows.length == 0){
-    	// 		res.status(201).send(
-        //             {
-        //                 data : "member data",
-        //                 message: "success",
-        //                 result: false
-        //             }
-        //         );
-        //         return
-    	// 	}
-        //     res.status(200).send({result : success});
-        //
-        // });
+        var InsertValueQry = ' update duckmate.mylist SET ? = ? where (member_id = ?);';
+        connection.query( InsertValueQry ,[SingerId, BodySingerId, BodyMemberId], function(error, rows){
+            if (error){
+              console.log("InsertValueQry Connection Error" + error);
+              res.sendStatus(500).send({ result : "db error" });
+            }
+
+    		if(rows.length == 0){
+    			res.status(201).send(
+                    {
+                        data : "member data",
+                        message: "success",
+                        result: false
+                    }
+                );
+                return
+    		}
+            res.status(200).send({result : success});
+
+        });
     });// pool
 });//post
 
