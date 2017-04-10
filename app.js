@@ -34,12 +34,12 @@ var count = require('./routes/count');
 var singer = require('./routes/singer');
 var mainpage = require('./routes/mainpage');
 var mypage = require('./routes/mypage');
-//var test = require('./routes/test');
 
 
 var login = require('./routes/1/login');
 var register = require('./routes/1/register');
 var sns = require('./routes/1/sns');
+var FindPassWord = require('./routes/1/findpassword');
 
 var question = require('./routes/question');
 var notice = require('./routes/notice');
@@ -60,7 +60,7 @@ fs.watch(__filename, (eventType, filename) => {
 });
 
 
-    
+
 console.log("db connect");
 
 // view engine setup
@@ -90,6 +90,7 @@ app.use('/duckmate/mypage', mypage);
 app.use('/duckmate/login', login);
 app.use('/duckmate/sns', sns);
 app.use('/duckmate/register', register);
+app.use('/duckmate/findword',FindPassWord);
 
 
 
