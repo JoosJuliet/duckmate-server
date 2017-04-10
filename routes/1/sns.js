@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 var fs = require('fs');
-console.log("hi registersns");
-
 
 
 
@@ -37,7 +35,5 @@ router.post('/', function(req, res, next){
 
   });
 })
-
-
 
 module.exports = router;

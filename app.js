@@ -90,7 +90,7 @@ app.use('/duckmate/mypage', mypage);
 app.use('/duckmate/login', login);
 app.use('/duckmate/sns', sns);
 app.use('/duckmate/register', register);
-app.use('/duckmate/findword',FindPassWord);
+app.use('/duckmate/findpassword',FindPassWord);
 
 
 
