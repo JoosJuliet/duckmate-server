@@ -22,7 +22,7 @@ router.post('/', function(req, res, next){
 
       		var sql, inserts;
         	sql = 'insert into duckmate.member( member_name) values(?)';
-        	inserts = [  req.body.nickname];
+        	inserts = [ req.body.nickname];
 
         	connection.query(sql, inserts, function(error, rows){
         	if (error){
