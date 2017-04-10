@@ -71,7 +71,7 @@ router.post('/', function(req, res, next){
                     return
         		}
 
-                var BVoteCount = rows[0].b_vote_count;
+                var RowsBVoteCount = rows[0].b_vote_count;
                 console.log("rows[0].b_vote_count는" , BVoteCount);
 
                 var SingerInfoQry = "select singer_name, album_img, choice_count from duckmate.singer where singer_id = ?;"
@@ -91,21 +91,25 @@ router.post('/', function(req, res, next){
                         );
                         return
             		}
-                    console.log("singer정보들",rows[0]);
 
-                });
+                    res.status(200)
+                    .send(
+                        {
+                            result : {
+                                member_id : RowsMemberId,
+                                b_vote_count : RowsBVoteCount,
+                                singer_info : rows[0]
+                            }
+                        }
+                    );//send 완료
 
 
 
+                }); //SingerInfoQry
             }); //dectect_b_vote_count_qry
-
-
-
-
         });//SelectEmailPasswdQry
-
-    });
-})
+    });//pool
+}); //post
 
 
 
