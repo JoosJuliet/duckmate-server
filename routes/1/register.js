@@ -92,18 +92,20 @@ router.get('/:member_name', function(req, res, next) {
               connection.release();
             }
 
-            if( rows[0].length == 0){
+            console.log("rows는",rows[0]);
+
+            if( rows[0].length != 0){
                 res.status(201).send(
                     {
+                        result: false
 
-                        result: true
                     }
 
                 );
             }
             res.status(201).send(
                 {
-                    
+
                     result: true
                 }
             );
