@@ -7,7 +7,46 @@ var app = express();
 console.log("hi");
 
 
+router.delete('/:member_email', function(req, res, next) {
+    pool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+      if (error) throw error;
+      console.log('The solution is: ', rows[0].solution);
+    });
 
+
+    // pool.getConnection(function(error, connection){
+    //     if (error){
+    //         console.log("getConnection Error" + error);
+    //         res.sendStatus(500);
+    //     }
+    //     var CheckMemberName = "SELECT member_name FROM duckmate.member where member_email =? ;"
+    //     connection.query(CheckMemberName,[req.params.member_email], function(error, rows){
+    //         connection.release();
+    //         if (error){
+    //           console.log("Connection Error" + error);
+    //           res.sendStatus(500);
+    //         }
+    //
+    //         console.log("rows는",rows[0]);
+    //
+    //         if( rows[0].length != 0){
+    //             res.status(201).send(
+    //                 { result: false}
+    //             );
+    //         }
+    //         res.status(201).send(
+    //             { result: true }
+    //         );
+    //         return
+    //
+    //
+    //     });// connection
+    // });// pool
+
+
+
+
+}); // :member_name
 
 /* GET home page. */
 /*router.post('/',(req,res,next)=>{

@@ -10,9 +10,6 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var db_config = require('./config/db_config.json');
 
-
-
-
 global.pool = mysql.createPool({
   host : db_config.host,
   port : db_config.port,
