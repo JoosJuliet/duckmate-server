@@ -54,9 +54,11 @@ router.get('/:member_email', function(req, res, next) {
 
             if( rows[0] == undefined){
                 res.status(201).send(
-                    { result: false}
+                    { result: false }
                 );
+                return
             }
+
             res.status(201).send(
                 { result: true }
             );
