@@ -4,17 +4,21 @@ var router = express.Router();
 
 var app = express();
 
+//member_id로
+//UPDATE 테이블명 SET 바꿀것  WHERE 조건 Class=10
+// 서브가수삭제
 
+var SingerIdArr = ["b","0","1","2","3"];
 router.delete('/singerDelete', function(req, res, next) {
 
-    var MemberId = req.body.member_id;
-    var SingerId = req.body.singer_id;
-    pool.query('delete from duckmate.member where member_id=?;',[ MemberId ], function (error, results, fields) {
+    var MemberId = req.body.member_id; var SingerNum = req.body.singerNum;
+
+    pool.query('UPDATE duckmate.mylist SET singer'+SingerIdArr[SingerNum]+'_id = null where member_id= ?;',[ MemberId ], function (error, results, fields) {
         if (error){
-          console.log("/memberDelete Error" + error);
+          console.log("/singerDelete Error" + error);
           res.sendStatus(500).send({
               data : {},
-              result : "/memberDelete에서 db pool error"
+              result : "/singerDelete에서 db pool error"
           });
         }// error
         console.log('The solution is: ', results);
