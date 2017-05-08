@@ -218,30 +218,10 @@ router.post('/tabpage', function(req, res, next){
                     member_img : result[0].member_img,
                     member_name : result[0].member_name,
                     member_level : result[0].member_level,
-                    singer : {
-                        singerb_id:{
-                            "singer_name": '젝스키스',
-                            "new_flag" : 'f'
+                    singer :
+                        [
 
-                        },singer1_id:{
-                            "singer_name": '젝스키스',
-                            "new_flag" : 'f'
-                        },singer2_id:{
-
-                            "singer_name": '젝스키스',
-                            "new_flag" : 'f'
-
-                        },singer3_id:{
-
-                            "singer_name": '젝스키스',
-                            "new_flag" : 'f'
-
-                        },singer0_id:{
-
-                            "singer_name": '젝스키스',
-                            "new_flag" : 'f'
-                        }
-                    }
+                        ]
                 }
 
                 var check = [];
@@ -267,11 +247,7 @@ router.post('/tabpage', function(req, res, next){
                         }//없는 것 확인
                         console.log("connection안의 y확인",y);
                         console.log("singer result1",result1[0]);
-                        // 매번 다 찍힌다.{ singer_name: '젝스키스', new_flag: 'f' }
-
-                        sendData.singer["singer"+y+"_id"]["singer_name"] = result1[0].singer_name;
-                        sendData.singer["singer"+y+"_id"]["new_flag"] = result1[0].new_flag;
-                        console.log("이건 왜 안나와",sendData.singer["singer"+y+"_id"]["singer_name"]);
+                        sendData.singer.push(result1[0]);
 
                         console.log("sendData",sendData);
                         check.push("1");
