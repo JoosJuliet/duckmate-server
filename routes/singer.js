@@ -229,10 +229,6 @@ router.post('/tappage', function(req, res, next){
                 for (var y = 0; y < NotUndefinedSigner.length ; y++) {
                     console.log("for문 y확인",y);
 
-                    setInterval(function() {
-                        console.log("부디");
-                    }, 5000);
-
 
 
                     connection.query( SingerNameFlagQry ,[ NotUndefinedSigner[y] ], function(error, result1){
@@ -257,6 +253,8 @@ router.post('/tappage', function(req, res, next){
 
                         sendData.singer["singer"+y+"_id"] = result1[0].singer_name;
                         sendData.singer["singer"+y+"_id"] = result1[0].new_flag;
+                        console.log("이건 왜 안나와",sendData.singer["singer"+y+"_id"]);
+                        console.log(sendData.singer["singer"+y+"_id"]);
 
                         console.log("sendData",sendData);
                         check.push("1");
