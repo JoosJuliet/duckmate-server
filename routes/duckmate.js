@@ -12,7 +12,7 @@ var SingerIdArr = ["b","0","1","2","3"];
 router.delete('/singerDelete', function(req, res, next) {
 
     var MemberId = req.body.member_id; var SingerNum = req.body.singerNum;
-    pool.query('UPDATE duckmate.mylist SET singer'+SingerIdArr[SingerNum]+'_id = null where member_id= ?;',[ MemberId ], function (error, results, fields) {
+    pool.query('UPDATE duckmate.mylist SET singer'+SingerIdArr[SingerNum]+'_id = null, '+SingerIdArr[SingerNum]+'_flag = null where member_id= ?;',[ MemberId ], function (error, results, fields) {
         if (error){
           console.log("/singerDelete Error" + error);
           res.sendStatus(500).send({
