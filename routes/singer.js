@@ -154,7 +154,6 @@ router.post('/singerAdd', function(req, res, next){
 
 
 router.post('/tappage', function(req, res, next){
-    var SingerIdArr = ["b","0","1","2","3"];
     var BodyMemberId = req.body.member_id;
 
     pool.getConnection(function(error, connection){
@@ -165,7 +164,6 @@ router.post('/tappage', function(req, res, next){
 
 
         var InsertValueQry = 'SELECT member_img,member_name,member_level FROM duckmate.member where member_id = ?;';
-        console.log(InsertValueQry);
         connection.query( InsertValueQry ,[ BodyMemberId ], function(error, result){
             if (error){
               console.log("InsertValueQry Connection Error" + error);
@@ -202,24 +200,28 @@ router.post('/tappage', function(req, res, next){
                     return
                 }//없는 것 확인
 
-
-                // console.log("singer result",result0[0]);
-                // singerb_id: 2,
-                // singer0_id: 1,
-                // singer1_id: 3,
-                // singer2_id: 4,
-                // singer3_id: 5
-
+		var NotUndefinedSigner = [];
                 var singerArr = ["singerb_id","singer0_id", "singer1_id", "singer2_id", "singer3_id"];
                 for ( var x = 0 ; x < singerArr.length ; x ++){
-                    var Singerb_id = result0[0].singerArr[i];
-                    if( singerb_id ){
+                    var Singerb_id = result0[0][singerArr[x]];
+                    if( Singerb_id ){
                         NotUndefinedSigner.push(Singerb_id);
                     }
                 }
                 console.log(NotUndefinedSigner);
+		
 
-                for( var y = 0 ; y < NotUndefinedSigner.length ; y ++){
+		var sendData = {
+                            member_img : result[0].member_img,
+                            member_name : result[0].member_name,
+                            member_level : result[0].member_level,
+                            singer : {
+                                singerb_id:{
+                                }
+                            }
+                        }
+
+			
                     var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ? ;';
                     connection.query( SingerNameFlagQry ,[ NotUndefinedSigner[y] ], function(error, result1){
                         if (error){
@@ -241,25 +243,18 @@ router.post('/tappage', function(req, res, next){
                         console.log("singer result",result1[0]);
                         // { singer_name: '젝스키스', new_flag: 'f' }
 
-                        var sendData = {
-                            member_img : result[0].member_img,
-                            member_name : result[0].member_name,
-                            member_level : result[0].member_level,
-                            singer : {
-                                singerb_id{
-                                    singer_name : result1[0].singer_name,
-                                    new_flag : result1[0].new_flag
-                                }
-                            }
-                        }
                         sendData.singer["singer"+y+"_id"] = result1[0].singer_name;
                         sendData.singer["singer"+y+"_id"] = result1[0].new_flag;
 
-                        console.log(SendData);
+                        console.log(sendData);
 
 
+                    }); //SingerNameFlagQry connection
 
-                        res.status(200).send(
+                
+
+
+		 res.status(200).send(
                             {
                                 data : sendData,
                                 message: "success",
@@ -267,10 +262,6 @@ router.post('/tappage', function(req, res, next){
 
                             }
                         );
-
-                    }); //SingerNameFlagQry connection
-
-                }
 
 
 
