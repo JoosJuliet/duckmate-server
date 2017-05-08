@@ -220,26 +220,26 @@ router.post('/tabpage', function(req, res, next){
                     member_level : result[0].member_level,
                     singer : {
                         singerb_id:{
-                            singer_name: '젝스키스',
-                            new_flag : 'f'
+                            "singer_name": '젝스키스',
+                            "new_flag" : 'f'
 
                         },singer1_id:{
-                            singer_name: '라붐',
-                            new_flag : 't'
+                            "singer_name": '젝스키스',
+                            "new_flag" : 'f'
                         },singer2_id:{
 
-                            singer_name: '신화',
-                            new_flag : 't'
+                            "singer_name": '젝스키스',
+                            "new_flag" : 'f'
 
                         },singer3_id:{
 
-                            singer_name: '모모랜드',
-                            new_flag : 'f'
+                            "singer_name": '젝스키스',
+                            "new_flag" : 'f'
 
                         },singer0_id:{
 
-                            singer_name: '빅뱅',
-                            new_flag : 'f'
+                            "singer_name": '젝스키스',
+                            "new_flag" : 'f'
                         }
                     }
                 }
@@ -269,9 +269,9 @@ router.post('/tabpage', function(req, res, next){
                         console.log("singer result1",result1[0]);
                         // 매번 다 찍힌다.{ singer_name: '젝스키스', new_flag: 'f' }
 
-                        // sendData.singer["singer"+y+"_id"]["singer_name"] = result1[0].singer_name;
-                        // sendData.singer["singer"+y+"_id"]["new_flag"] = result1[0].new_flag;
-                        // console.log("이건 왜 안나와",sendData.singer["singer"+y+"_id"]["singer_name"]);
+                        sendData.singer["singer"+y+"_id"]["singer_name"] = result1[0].singer_name;
+                        sendData.singer["singer"+y+"_id"]["new_flag"] = result1[0].new_flag;
+                        console.log("이건 왜 안나와",sendData.singer["singer"+y+"_id"]["singer_name"]);
 
                         console.log("sendData",sendData);
                         check.push("1");
