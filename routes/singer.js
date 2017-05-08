@@ -218,20 +218,26 @@ router.post('/tappage', function(req, res, next){
                     member_level : result[0].member_level,
                     singer : {
                         singerb_id:{
-                            singer_name: 1,
-                            new_flag : 1
+                            singer_name: '젝스키스',
+                            new_flag : 'f'
 
                         },singer1_id:{
-                            singer_name: 1,
-                            new_flag : 1
+                            singer_name: '라붐',
+                            new_flag : 't'
                         },singer2_id:{
 
-                            singer_name: 1,
-                            new_flag : 1
+                            singer_name: '신화',
+                            new_flag : 't'
 
                         },singer3_id:{
-                            singer_name: 1,
-                            new_flag : 1
+
+                            singer_name: '모모랜드',
+                            new_flag : 'f'
+
+                        },singer0_id:{
+
+                            singer_name: '빅뱅',
+                            new_flag : 'f'
                         }
                     }
                 }
