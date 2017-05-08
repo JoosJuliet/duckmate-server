@@ -172,7 +172,7 @@ router.post('/tappage', function(req, res, next){
               res.sendStatus(500).send({ result : "db connection error" });
             }// error
 
-    		if(rows.length == 0){
+    		if(result.length == 0){
     			res.status(201).send(
                     {
                         data : "member data",
@@ -185,13 +185,13 @@ router.post('/tappage', function(req, res, next){
 
             var SingerValueQry = 'SELECT singerb_id,singer0_id, singer1_id,singer2_id,singer3_id FROM duckmate.mylist where member_id = ? ;';
             console.log(InsertValueQry);
-            connection.query( SingerValueQry ,[ BodyMemberId ], function(error, result){
+            connection.query( SingerValueQry ,[ BodyMemberId ], function(error, result0){
                 if (error){
                   console.log("SingerValueQry Connection Error" + error);
                   res.sendStatus(500).send({ result : "db connection error" });
                 }// error
 
-                if(rows.length == 0){
+                if(result0.length == 0){
                     res.status(201).send(
                         {
                             data : "member data",
@@ -203,8 +203,8 @@ router.post('/tappage', function(req, res, next){
                 }//없는 것 확인
 
 
-                console.log("singer result",result[0]);
-                var Singerb_id = result[0].singerb_id;
+                console.log("singer result",result0[0]);
+                var Singerb_id = result0[0].singerb_id;
 
                 var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ? ;';
                 console.log(SingerNameFlagQry);
