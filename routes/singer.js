@@ -227,6 +227,7 @@ router.post('/tappage', function(req, res, next){
                 var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ? ;';
 
                 for (var y = 0; y < NotUndefinedSigner.length ; y++) {
+                    console.log("for문 y확인",y);
                     connection.query( SingerNameFlagQry ,[ NotUndefinedSigner[y] ], function(error, result1){
                         if (error){
                           console.log("SingerValueQry Connection Error" + error);
@@ -243,14 +244,14 @@ router.post('/tappage', function(req, res, next){
                             );
                             return
                         }//없는 것 확인
-
-                        console.log("singer result",result1[0]);
-                        // { singer_name: '젝스키스', new_flag: 'f' }
+                        console.log("connection안의 y확인",y);
+                        console.log("singer result1",result1[0]);
+                        // 매번 다 찍힌다.{ singer_name: '젝스키스', new_flag: 'f' }
 
                         sendData.singer["singer"+y+"_id"] = result1[0].singer_name;
                         sendData.singer["singer"+y+"_id"] = result1[0].new_flag;
 
-                        console.log(sendData);
+                        console.log("sendData",sendData);
                         check.push("1");
                         return Check();
 
