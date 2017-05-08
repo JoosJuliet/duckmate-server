@@ -7,7 +7,7 @@ var app = express();
 console.log("hi");
 
 
-router.delete('/:member_id', function(req, res, next) {
+router.delete('/member_id', function(req, res, next) {
 
     console.log( req.body.member_id );
     pool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
