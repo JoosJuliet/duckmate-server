@@ -228,6 +228,13 @@ router.post('/tappage', function(req, res, next){
 
                 for (var y = 0; y < NotUndefinedSigner.length ; y++) {
                     console.log("for문 y확인",y);
+
+                    setInterval(function() {
+                        console.log("부디");
+                    }, 5000);
+
+
+
                     connection.query( SingerNameFlagQry ,[ NotUndefinedSigner[y] ], function(error, result1){
                         if (error){
                           console.log("SingerValueQry Connection Error" + error);
