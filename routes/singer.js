@@ -218,7 +218,20 @@ router.post('/tappage', function(req, res, next){
                     member_level : result[0].member_level,
                     singer : {
                         singerb_id:{
+                            singer_name: undefined,
+                            new_flag : undefined
 
+                        },singer1_id:{
+                            singer_name: undefined,
+                            new_flag : undefined
+                        },singer2_id:{
+
+                            singer_name: undefined,
+                            new_flag : undefined
+
+                        },singer3_id:{
+                            singer_name: undefined,
+                            new_flag : undefined
                         }
                     }
                 }
