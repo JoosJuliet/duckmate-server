@@ -7,10 +7,10 @@ var app = express();
 console.log("hi");
 
 
-router.delete('/member_id', function(req, res, next) {
+router.delete('/memberDelete', function(req, res, next) {
 
-    console.log( req.body.member_id );
-    pool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+    var MemberId = req.body.member_id;
+    pool.query('delete from duckmate.member where member_id=?;',[ MemberId ], function (error, results, fields) {
       if (error) throw error;
       console.log('The solution is: ', results);
     });
