@@ -247,11 +247,8 @@ router.post('/tabpage', function(req, res, next){
                 var check = [];
                 var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ? ;';
 
-                for (var y = 0; y < NotUndefinedSigner.length ; y++) {
+                var SingerDb = (element, y) =>{
                     console.log("for문 y확인",y);
-
-
-
                     connection.query( SingerNameFlagQry ,[ NotUndefinedSigner[y] ], function(error, result1){
                         if (error){
                           console.log("SingerValueQry Connection Error" + error);
@@ -283,6 +280,12 @@ router.post('/tabpage', function(req, res, next){
 
                     }); //SingerNameFlagQry connection
                 }
+
+
+                NotUndefinedSigner.forEach(SingerDb);
+
+
+
 
                 var Check = () => {
                     if ( check.length ==  NotUndefinedSigner.length) {
