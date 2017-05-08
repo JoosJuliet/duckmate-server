@@ -151,4 +151,118 @@ router.post('/singerAdd', function(req, res, next){
 });//post
 
 
+
+
+router.post('/tappage', function(req, res, next){
+    var SingerIdArr = ["b","0","1","2","3"];
+    var BodyMemberId = req.body.member_id;
+
+    pool.getConnection(function(error, connection){
+        if (error){
+            console.log("getConnection Error" + error);
+            res.sendStatus(500).send({ result : "db pool error" });;
+        }
+
+
+        var InsertValueQry = 'SELECT member_img,member_name,member_level FROM duckmate.member where member_id = ?;';
+        console.log(InsertValueQry);
+        connection.query( InsertValueQry ,[ BodyMemberId ], function(error, result){
+            if (error){
+              console.log("InsertValueQry Connection Error" + error);
+              res.sendStatus(500).send({ result : "db connection error" });
+            }// error
+
+    		if(rows.length == 0){
+    			res.status(201).send(
+                    {
+                        data : "member data",
+                        message: "success",
+                        result: false
+                    }
+                );
+                return
+    		}//없는 것 확인
+
+            var SingerValueQry = 'SELECT singerb_id,singer0_id, singer1_id,singer2_id,singer3_id FROM duckmate.mylist where member_id = ? ;';
+            console.log(InsertValueQry);
+            connection.query( SingerValueQry ,[ BodyMemberId ], function(error, result){
+                if (error){
+                  console.log("SingerValueQry Connection Error" + error);
+                  res.sendStatus(500).send({ result : "db connection error" });
+                }// error
+
+                if(rows.length == 0){
+                    res.status(201).send(
+                        {
+                            data : "member data",
+                            message: "success",
+                            result: false
+                        }
+                    );
+                    return
+                }//없는 것 확인
+
+
+                console.log("singer result",result[0]);
+
+
+                // var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ? ;';
+                // console.log(SingerNameFlagQry);
+                // connection.query( SingerNameFlagQry ,[ BodyMemberId ], function(error, result){
+                //     if (error){
+                //       console.log("SingerValueQry Connection Error" + error);
+                //       res.sendStatus(500).send({ result : "db connection error" });
+                //     }// error
+                //
+                //     if(rows.length == 0){
+                //         res.status(201).send(
+                //             {
+                //                 data : "member data",
+                //                 message: "success",
+                //                 result: false
+                //             }
+                //         );
+                //         return
+                //     }//없는 것 확인
+                //
+                //
+                //     console.log("singer result",result[0]);
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+                //     res.status(200).send({result : "success"});
+                //
+                // }); //connection
+
+
+
+
+            }); //connection
+
+            console.log("result[0].member_img",result[0].member_img);
+
+
+            result[0].member_img;
+            result[0].member_name;
+            result[0].member_level;
+
+
+            res.status(200).send({result : "success"});
+
+        }); //connection
+    });// pool
+});//post
+
+
+//tappage에서 하는일
+// member_id로 - member table에서 member_img,member_name,member_level 그리고
+// member_id로 -  mylist table에서 singerb_id,singer0_id, singer1_id,singer2_id,singer3_id 가져와서
+// s_id이용해서 singer table에서 {singer_name,new_flag}
+
+
+
 module.exports = router;
