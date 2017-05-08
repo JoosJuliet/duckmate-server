@@ -218,20 +218,20 @@ router.post('/tappage', function(req, res, next){
                     member_level : result[0].member_level,
                     singer : {
                         singerb_id:{
-                            singer_name: undefined,
-                            new_flag : undefined
+                            singer_name: 1,
+                            new_flag : 1
 
                         },singer1_id:{
-                            singer_name: undefined,
-                            new_flag : undefined
+                            singer_name: 1,
+                            new_flag : 1
                         },singer2_id:{
 
-                            singer_name: undefined,
-                            new_flag : undefined
+                            singer_name: 1,
+                            new_flag : 1
 
                         },singer3_id:{
-                            singer_name: undefined,
-                            new_flag : undefined
+                            singer_name: 1,
+                            new_flag : 1
                         }
                     }
                 }
@@ -265,7 +265,7 @@ router.post('/tappage', function(req, res, next){
                         // 매번 다 찍힌다.{ singer_name: '젝스키스', new_flag: 'f' }
 
                         sendData.singer["singer"+y+"_id"]["singer_name"] = result1[0].singer_name;
-                        sendData.singer["singer"+y+"_id"].["new_flag"] = result1[0].new_flag;
+                        sendData.singer["singer"+y+"_id"]["new_flag"] = result1[0].new_flag;
                         console.log("이건 왜 안나와",sendData.singer["singer"+y+"_id"]["singer_name"]);
 
                         console.log("sendData",sendData);
