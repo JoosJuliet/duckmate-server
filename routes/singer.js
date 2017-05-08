@@ -52,12 +52,14 @@ router.get('/singerbase/:member_name', function(req, res, next) {
                 connection.release();
             }
 
-            if(rows[0].length != 0 ){
+            if( rows[0] == undefined ){
                 res.status(200).send({result : "success"});
+                return
                 connection.release();
             }else{
                 res.status(200).send({result : "false"});
                 connection.release();
+                return
             }
 
         });
