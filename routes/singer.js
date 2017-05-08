@@ -155,7 +155,7 @@ router.post('/singerAdd', function(req, res, next){
 
 
 
-router.post('/tappage', function(req, res, next){
+router.post('/tabpage', function(req, res, next){
     var BodyMemberId = req.body.member_id;
 
     pool.getConnection(function(error, connection){
