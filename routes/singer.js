@@ -200,7 +200,8 @@ router.post('/tappage', function(req, res, next){
                     return
                 }//없는 것 확인
 
-		var NotUndefinedSigner = [];
+		        var NotUndefinedSigner = [];
+
                 var singerArr = ["singerb_id","singer0_id", "singer1_id", "singer2_id", "singer3_id"];
                 for ( var x = 0 ; x < singerArr.length ; x ++){
                     var Singerb_id = result0[0][singerArr[x]];
@@ -209,20 +210,23 @@ router.post('/tappage', function(req, res, next){
                     }
                 }
                 console.log(NotUndefinedSigner);
-		
 
-		var sendData = {
-                            member_img : result[0].member_img,
-                            member_name : result[0].member_name,
-                            member_level : result[0].member_level,
-                            singer : {
-                                singerb_id:{
-                                }
-                            }
+
+		        var sendData = {
+                    member_img : result[0].member_img,
+                    member_name : result[0].member_name,
+                    member_level : result[0].member_level,
+                    singer : {
+                        singerb_id:{
+
                         }
+                    }
+                }
 
-			
-                    var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ? ;';
+                var check = [];
+                var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ? ;';
+
+                for (var y = 0; y < NotUndefinedSigner.length ; y++) {
                     connection.query( SingerNameFlagQry ,[ NotUndefinedSigner[y] ], function(error, result1){
                         if (error){
                           console.log("SingerValueQry Connection Error" + error);
@@ -247,14 +251,16 @@ router.post('/tappage', function(req, res, next){
                         sendData.singer["singer"+y+"_id"] = result1[0].new_flag;
 
                         console.log(sendData);
+                        check.push("1");
+                        return Check();
 
 
                     }); //SingerNameFlagQry connection
+                }
 
-                
-
-
-		 res.status(200).send(
+                var Check = () => {
+                    if ( check.length ==  NotUndefinedSigner.length) {
+                        res.status(200).send(
                             {
                                 data : sendData,
                                 message: "success",
@@ -262,6 +268,10 @@ router.post('/tappage', function(req, res, next){
 
                             }
                         );
+                    }
+                }
+
+
 
 
 
