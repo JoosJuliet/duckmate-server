@@ -23,7 +23,7 @@ router.post('/',function(req, res, next){
               res.status(500);
             }
 
-        	if(rows.length == 0){
+        	if( rows[0] == undefined ){
         		res.status(201).send({result: "false"});
         	}else{
         		console.log("1",rows);
