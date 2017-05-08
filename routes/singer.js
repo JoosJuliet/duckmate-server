@@ -204,56 +204,60 @@ router.post('/tappage', function(req, res, next){
 
 
                 console.log("singer result",result[0]);
+                var Singerb_id = result[0].singerb_id;
+
+                var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ? ;';
+                console.log(SingerNameFlagQry);
+                connection.query( SingerNameFlagQry ,[ Singerb_id ], function(error, result1){
+                    if (error){
+                      console.log("SingerValueQry Connection Error" + error);
+                      res.sendStatus(500).send({ result : "db connection error" });
+                    }// error
+
+                    if( result1.length == 0 ){
+                        res.status(201).send(
+                            {
+                                data : "member data",
+                                message: "success",
+                                result: false
+                            }
+                        );
+                        return
+                    }//없는 것 확인
+
+                    console.log("singer result",result1[0]);
 
 
-                // var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ? ;';
-                // console.log(SingerNameFlagQry);
-                // connection.query( SingerNameFlagQry ,[ BodyMemberId ], function(error, result){
-                //     if (error){
-                //       console.log("SingerValueQry Connection Error" + error);
-                //       res.sendStatus(500).send({ result : "db connection error" });
-                //     }// error
-                //
-                //     if(rows.length == 0){
-                //         res.status(201).send(
-                //             {
-                //                 data : "member data",
-                //                 message: "success",
-                //                 result: false
-                //             }
-                //         );
-                //         return
-                //     }//없는 것 확인
-                //
-                //
-                //     console.log("singer result",result[0]);
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //     res.status(200).send({result : "success"});
-                //
-                // }); //connection
+                    res.status(200).send(
+                        {
+                            data : {
+
+                                member_img : result[0].member_img,
+                                member_name : result[0].member_name,
+                                member_level : result[0].member_level,
+                                singer : {
+                                    singer_name : result1[0].singer_name,
+                                    new_flag : result1[0].new_flag
+
+                                }
+
+                            },
+                            message: "success",
+                            result : "success"
+
+                        }
+                    );
+
+                }); //SingerNameFlagQry connection
 
 
 
 
-            }); //connection
+            }); //SingerValueQry connection
 
-            console.log("result[0].member_img",result[0].member_img);
+            // console.log("result[0].member_img",result[0].member_img);
 
-
-            result[0].member_img;
-            result[0].member_name;
-            result[0].member_level;
-
-
-            res.status(200).send({result : "success"});
-
-        }); //connection
+        }); //InsertValueQry connection
     });// pool
 });//post
 
