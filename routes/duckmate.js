@@ -4,15 +4,26 @@ var router = express.Router();
 
 var app = express();
 
-console.log("hi");
-
-
 router.delete('/memberDelete', function(req, res, next) {
 
     var MemberId = req.body.member_id;
     pool.query('delete from duckmate.member where member_id=?;',[ MemberId ], function (error, results, fields) {
-      if (error) throw error;
-      console.log('The solution is: ', results);
+        if (error){
+          console.log("/memberDelete Error" + error);
+          res.sendStatus(500).send({
+              data : {},
+              result : "/memberDelete에서 db pool error"
+          });
+        }// error
+        console.log('The solution is: ', results);
+        res.status(201).send(
+            {
+                data : {},
+                result: "success"
+            }
+        );
+
+        return
     });
 
 
