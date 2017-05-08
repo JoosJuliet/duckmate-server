@@ -14,7 +14,7 @@ router.post('/',function(req, res, next){
                 res.sendStatus(500);
         }
 
-        var sql = 'insert into duckmate.member(email, passwd, member_name) values(?,?,?)';
+        var sql = 'insert into duckmate.member(member_email, member_passwd, member_name) values(?,?,?)';
         var inserts = [ req.body.email, req.body.passwd, req.body.member_name];
         connection.query(sql, inserts, function(error, rows){
             connection.release();
@@ -27,7 +27,7 @@ router.post('/',function(req, res, next){
         		res.status(201).send({result: "false"});
         	}else{
         		console.log("1",rows);
-                    	res.status(201).send({result : 'success'});
+                res.status(201).send({result : 'success'});
         	}
         });//connection query
 
