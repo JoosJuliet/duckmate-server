@@ -129,7 +129,6 @@ router.post('/singerAdd', function(req, res, next){
         var SingerId = "singer"+SingerIdArr[BodyNum]+"_id";
 
         var InsertValueQry = 'update duckmate.mylist SET '+SingerId+'= ? where (member_id = ?);';
-        console.log(InsertValueQry);
         connection.query( InsertValueQry ,[ BodySingerId, BodyMemberId], function(error, rows){
             if (error){
               console.log("InsertValueQry Connection Error" + error);
@@ -184,7 +183,6 @@ router.post('/tabpage', function(req, res, next){
     		}//없는 것 확인
 
             var SingerValueQry = 'SELECT singerb_id,singer0_id, singer1_id,singer2_id,singer3_id FROM duckmate.mylist where member_id = ? ;';
-            console.log(InsertValueQry);
             connection.query( SingerValueQry ,[ BodyMemberId ], function(error, result0){
                 if (error){
                   console.log("SingerValueQry Connection Error" + error);
@@ -211,8 +209,6 @@ router.post('/tabpage', function(req, res, next){
                         NotUndefinedSigner.push(Singerb_id);
                     }
                 }
-                console.log(NotUndefinedSigner);
-
 
 		        var sendData = {
                     member_img : result[0].member_img,
@@ -228,7 +224,6 @@ router.post('/tabpage', function(req, res, next){
                 var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ? ;';
 
                 var SingerDb = (element, y) =>{
-                    console.log("for문 y확인",y);
                     connection.query( SingerNameFlagQry ,[ NotUndefinedSigner[y] ], function(error, result1){
                         if (error){
                           console.log("SingerValueQry Connection Error" + error);
@@ -245,11 +240,7 @@ router.post('/tabpage', function(req, res, next){
                             );
                             return
                         }//없는 것 확인
-                        console.log("connection안의 y확인",y);
-                        console.log("singer result1",result1[0]);
                         sendData.singer.push(result1[0]);
-
-                        console.log("sendData",sendData);
                         check.push("1");
                         return Check();
 
@@ -282,8 +273,6 @@ router.post('/tabpage', function(req, res, next){
 
 
             }); //SingerValueQry connection
-
-            // console.log("result[0].member_img",result[0].member_img);
 
         }); //InsertValueQry connection
     });// pool

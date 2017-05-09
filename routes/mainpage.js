@@ -13,23 +13,7 @@ var pool = mysql.createPool({
   user : db_config.user,
   database : db_config.database,
   connectionLimit : db_config.connectionLimit
-});
-
-
-console.log(1);
-fs.watch(__filename, (eventType, filename) => {
-console.log( 1);
-    if( exit_flag )return;
-    exit_flag = true;
-console.log( 3, eventType );
-    if( eventType ==  'rename' || eventType ==  'change' ){
-console.log( 2);
-        setTimeout(()=>{
-            process.exit();
-        },2000);
-    }
-});
-      
+}); 
 
 
 router.get('/:member_id', function(req, res, next) {

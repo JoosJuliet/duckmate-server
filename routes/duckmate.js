@@ -20,7 +20,6 @@ router.delete('/singerDelete', function(req, res, next) {
               result : "/singerDelete에서 db pool error"
           });
         }// error
-        console.log('The solution is: ', results);
         res.status(201).send(
             {
                 data : {},
@@ -46,7 +45,6 @@ router.delete('/memberDelete', function(req, res, next) {
               result : "/memberDelete에서 db pool error"
           });
         }// error
-        console.log('The solution is: ', results);
         res.status(201).send(
             {
                 data : {},
@@ -70,7 +68,6 @@ Date.now());
          res.send('depromeet');
 });
 
-console.log("right");
 
 
 module.exports = router;

@@ -3,26 +3,6 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 var fs = require('fs');
-var multer = require('multer');
-var upload = multer({ dest : 'upload/' })
-const Storage = require('@google-cloud/storage');
-
-console.log("hi");
-
-var exit_flag = false;
-
-fs.watch(__filename, (eventType, filename) => {
-    if( exit_flag )return;
-    exit_flag = true;
-    if( eventType ==  'rename' || eventType ==  'change' ){
-        setTimeout(()=>{
-            process.exit();
-        },2000);
-    }
-});
-
-
-
 
 router.post('/', function(req, res, next){
     var BodyEmail = req.body.email; var BodyPasswd = req.body.passwd;

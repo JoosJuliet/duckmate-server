@@ -2,9 +2,6 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 var fs = require('fs');
-var multer = require('multer');
-var upload = multer({ dest : 'upload/' })
-const STORAGE = require('@google-cloud/storage');
 
 router.post('/',function(req, res, next){
 
@@ -26,7 +23,6 @@ router.post('/',function(req, res, next){
         	if( rows[0] == undefined ){
         		res.status(201).send({result: "false"});
         	}else{
-        		console.log("1",rows);
                 res.status(201).send({result : 'success'});
         	}
         });//connection query

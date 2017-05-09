@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 var fs = require('fs');
-console.log("hi board");
-
 
 
 router.get('/', function(req, res, next) {
@@ -19,8 +17,8 @@ router.get('/', function(req, res, next) {
         }
           res.status(200).send({result : rows});
           connection.release();
-      });//connection query 
-  }); //pool 
+      });//connection query
+  }); //pool
 });
 
 
