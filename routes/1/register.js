@@ -19,7 +19,7 @@ router.post('/',function(req, res, next){
               console.log("register에서 post / Connection Error" + error);
               res.status(500);
             }
-
+            console.log( rows );
         	if( rows.length == 0 ){
         		res.status(201).send({result: false});
         	}else{
