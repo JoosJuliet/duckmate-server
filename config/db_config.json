@@ -1,8 +1,0 @@
-{
-  "host" : "35.187.197.79",
-  "port" : "3306",
-  "user" : "root",
-  "database" : "duckmate",
-  "connectionLimit" : 20
-}
-
