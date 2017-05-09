@@ -4,6 +4,12 @@ var router = express.Router();
 
 var app = express();
 
+
+
+
+
+
+
 //member_id로
 //UPDATE 테이블명 SET 바꿀것  WHERE 조건 Class=10
 // 서브가수삭제
