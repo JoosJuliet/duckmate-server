@@ -10,7 +10,7 @@ router.post('/',function(req, res, next){
                 console.log("getConnection Error" + error);
                 res.sendStatus(500);
         }
-
+        console.log(req.body.member_name);
         var sql = 'insert into duckmate.member(member_email, member_passwd, member_name) values(?,?,?)';
         var inserts = [ req.body.member_email, req.body.member_passwd, req.body.member_name];
         connection.query(sql, inserts, function(error, rows){
