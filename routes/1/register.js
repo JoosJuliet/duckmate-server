@@ -20,7 +20,7 @@ router.post('/',function(req, res, next){
               res.status(500);
             }
 
-        	if( rows[0] == undefined ){
+        	if( rows == undefined ){
         		res.status(201).send({result: "false"});
         	}else{
                 res.status(201).send({result : 'success'});
