@@ -1,14 +1,17 @@
 
 var express = require('express');
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' });
 var router = express.Router();
 
 var app = express();
 
+app.post('/profile', upload.single('test.png'), function (req, res, next) {
 
-
-
-
-
+    console.log(req.file);
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+})
 
 //member_id로
 //UPDATE 테이블명 SET 바꿀것  WHERE 조건 Class=10
