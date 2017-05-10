@@ -6,7 +6,7 @@ var router = express.Router();
 
 var app = express();
 
-app.post('/profile', upload.single('test.png'), function (req, res, next) {
+router.post('/profile', upload.single('test.png'), function (req, res, next) {
 
     console.log(req.file);
   // req.file is the `avatar` file
