@@ -11,12 +11,17 @@ var gcs = gcloud({
 
 });
 console.log("1");
+
+//gcs.createBucket('new-bucket2017-05-10', function(err,bucket){
+//	console.log('createBucket err',err);
+//});
+
 var bucket = gcs.bucket('duckmate_1');
 
 
 	bucket.file('why.png').download({
 	  destination: './photos/why.png'
-	}, function(err) {});
+	}, function(err) {console.log("err",err);});
 
 
 module.exports = router;
