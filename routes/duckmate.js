@@ -3,11 +3,12 @@ var express = require('express');
 var multer  = require('multer');
 var upload = multer({ dest: 'uploads/' });
 var router = express.Router();
-
+var imagePath = "public/images";
 var app = express();
+var Q = require("q");
 
-router.post('/:profile', upload.single('test.png'), function (req, res, next) {
-
+router.post('/:filename',  function (req, res, next) {
+	console.log(req.file);
     var upload = function (req, res) {
   var deferred = Q.defer();
   var storage = multer.diskStorage({
