@@ -5,7 +5,7 @@ var fs = require('fs');
 
 var router = express.Router();
 
-var gcs = gcloud.storage({
+var gcs = gcloud({
 	projectId: 'favorable-mark-151209',
 	keyFilename : './config/keyfile.json'
 
