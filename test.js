@@ -32,8 +32,26 @@ var bucket = gcs.bucket('duckmate_1');
 
 // Streams are also supported for reading and writing files.
 
+
+gcs.getBucketsStream()
+  .on('error', console.error)
+  .on('data', function(bucket) {
+    // bucket is a Bucket object.
+  })
+  .on('end', function() {
+    // All buckets retrieved.
+  });
+
+
+
 var remoteReadStream = bucket.file('test01.png').createReadStream();
 var localWriteStream = fs.createWriteStream('./photos/test01.png');
+remoteReadStream.on('error', (err) =>{
+	console.log("remote err",err)
+});
+localWriteStream.on('error', (err) => {
+	console.log("local err",err)
+})
 remoteReadStream.pipe(localWriteStream);
 
 
