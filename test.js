@@ -28,14 +28,13 @@ var bucket = gcs.bucket('duckmate_1');
 // });
 
 /******************************************************/
-
 var remoteFile = bucket.file('test1.png');
-var localFilename = './photos/test01.png';
+var localFilename = './photos/test1.png';
 
 remoteFile.createReadStream()
 	.on('error', function(err) {console.log("err",err);})
 	.on('response', function(response) {
-		console.log("response",response);
+		console.log("response.status",response);
 	// Server connected and responded with the specified status and headers.
 	})
 	.on('end', function() {
@@ -43,6 +42,7 @@ remoteFile.createReadStream()
 	// The file is fully downloaded.
 	})
 	.pipe(fs.createWriteStream(localFilename));
+
 
 
 
