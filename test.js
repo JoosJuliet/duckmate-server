@@ -29,27 +29,13 @@ var bucket = gcs.bucket('duckmate_1');
 
 /******************************************************/
 
-
-// Streams are also supported for reading and writing files.
-
-
-// gcs.getBucketsStream("test01.png")
-// .on('error', console.error)
-// .on('data', function(bucket) {
-// // bucket is a Bucket object.
-//
-// })
-// .on('end', function() {
-// // All buckets retrieved.
-// });
-
-var remoteFile = bucket.file('test01.png');
+var remoteFile = bucket.file('test1.png');
 var localFilename = './photos/test01.png';
 
 remoteFile.createReadStream()
 	.on('error', function(err) {console.log("err",err);})
 	.on('response', function(response) {
-		console.log("response.status",response.status);
+		console.log("response",response);
 	// Server connected and responded with the specified status and headers.
 	})
 	.on('end', function() {
