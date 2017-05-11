@@ -1,9 +1,22 @@
 var express = require('express');
 var router = express.Router();
 var app = express();
+
+
+/*******img올리기 위해 필요한 것들 ********/
 var fs = require('fs');
+var imagePath = "public/images";
+var multer  = require('multer');
+var upload = multer({ dest: 'uploads/' });
+var Q = require("q");
+/************************************/
+
 
 router.post('/',function(req, res, next){
+// db에서 notnull인 것 없을 때 예외처리 다 해야한다
+
+// member_img,member_email,member_passwd, member_name
+// member_img은 member_email로 이름을 만든다.
 
     pool.getConnection(function(error, connection){
         if (error){
