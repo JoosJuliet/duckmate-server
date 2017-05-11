@@ -33,26 +33,41 @@ var bucket = gcs.bucket('duckmate_1');
 // Streams are also supported for reading and writing files.
 
 
-gcs.getBucketsStream()
+// gcs.getBucketsStream("test01.png")
+// .on('error', console.error)
+// .on('data', function(bucket) {
+// // bucket is a Bucket object.
+//
+// })
+// .on('end', function() {
+// // All buckets retrieved.
+// });
+
+
+bucket.getFilesStream("test01.png")
   .on('error', console.error)
-  .on('data', function(bucket) {
-    // bucket is a Bucket object.
+  .on('data', function(file) {
+    // file is a File object.
+	console.log(file);
   })
   .on('end', function() {
-    // All buckets retrieved.
+	  console.log("end");
+    // All files retrieved.
   });
 
 
-
-var remoteReadStream = bucket.file('test01.png').createReadStream();
-var localWriteStream = fs.createWriteStream('./photos/test01.png');
-remoteReadStream.on('error', (err) =>{
-	console.log("remote err",err)
-});
-localWriteStream.on('error', (err) => {
-	console.log("local err",err)
-})
-remoteReadStream.pipe(localWriteStream);
+// var remoteReadStream = bucket.file('test01.png').createReadStream();
+// var localWriteStream = fs.createWriteStream('./photos/test01.png');
+//
+//
+//
+// remoteReadStream.on('error', (err) =>{
+// 	console.log("remote err",err)
+// });
+// localWriteStream.on('error', (err) => {
+// 	console.log("local err",err)
+// })
+// remoteReadStream.pipe(localWriteStream);
 
 
 
