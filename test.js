@@ -38,7 +38,7 @@ var bucket = gcs.bucket('duckmate_1');
 // .on('data', function(bucket) {
 // // bucket is a Bucket object.
 //
-// })
+// })adsfadsfs
 // .on('end', function() {
 // // All buckets retrieved.
 // });
