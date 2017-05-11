@@ -14,27 +14,34 @@ console.log("1");
 var bucket = gcs.bucket('duckmate_1');
 
 
-	//douwnload
-bucket.file('why.png').download({
-	destination: './photos/why.png'
-}, function(err) {});
+/****************douwnload,upload ver ******************/
 
+// bucket.file('why.png').download({
+// 	destination: './photos/why.png'
+// }, function(err) {});
+//
+//
+// bucket.upload('./public/images/profile.png', function(err, file) {
+// 	if (!err) {
+// 		console.log("success");
+// 	}
+// });
 
-bucket.upload('./public/images/profile.png', function(err, file) {
-	if (!err) {
-		console.log("success");
-	}
-});
+/******************************************************/
+
 
 // Streams are also supported for reading and writing files.
-// var remoteReadStream = bucket.file('giraffe.jpg').createReadStream();
-// var localWriteStream = fs.createWriteStream('/photos/zoo/giraffe.jpg');
-// remoteReadStream.pipe(localWriteStream);
-//
+
+var remoteReadStream = bucket.file('test01.png').createReadStream();
+var localWriteStream = fs.createWriteStream('./photos/test01.png');
+remoteReadStream.pipe(localWriteStream);
+
+
+
 // var localReadStream = fs.createReadStream('/photos/zoo/zebra.jpg');
 // var remoteWriteStream = bucket.file('zebra.jpg').createWriteStream();
 // localReadStream.pipe(remoteWriteStream);
-//
-// module.exports = router;
+
+module.exports = router;
 
 // automator 연동 api
