@@ -43,37 +43,22 @@ var bucket = gcs.bucket('duckmate_1');
 // // All buckets retrieved.
 // });
 
+var remoteFile = bucket.file('test01.png');
+var localFilename = './photos/test01.png';
 
-bucket.getFilesStream("test01.png")
-  .on('error', console.error)
-  .on('data', function(file) {
-    // file is a File object.
-	console.log(file);
-  })
-  .on('end', function() {
-	  console.log("end");
-    // All files retrieved.
-  });
-
-
-// var remoteReadStream = bucket.file('test01.png').createReadStream();
-// var localWriteStream = fs.createWriteStream('./photos/test01.png');
-//
-//
-//
-// remoteReadStream.on('error', (err) =>{
-// 	console.log("remote err",err)
-// });
-// localWriteStream.on('error', (err) => {
-// 	console.log("local err",err)
-// })
-// remoteReadStream.pipe(localWriteStream);
+remoteFile.createReadStream()
+	.on('error', function(err) {console.log("err",err);})
+	.on('response', function(response) {
+		console.log("response.status",response.status);
+	// Server connected and responded with the specified status and headers.
+	})
+	.on('end', function() {
+		console.log("end");
+	// The file is fully downloaded.
+	})
+	.pipe(fs.createWriteStream(localFilename));
 
 
-
-// var localReadStream = fs.createReadStream('/photos/zoo/zebra.jpg');
-// var remoteWriteStream = bucket.file('zebra.jpg').createWriteStream();
-// localReadStream.pipe(remoteWriteStream);
 
 module.exports = router;
 
