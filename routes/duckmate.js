@@ -1,14 +1,16 @@
 
 var express = require('express');
 var multer  = require('multer');
-var upload = multer({ dest: 'uploads/' });
+var upload = multer({ dest: '../photos' });
 var router = express.Router();
-var imagePath = "public/images";
+var imagePath = "photos/images";
 var app = express();
 var Q = require("q");
 
 router.post('/:filename',  function (req, res, next) {
-	console.log(req.file);
+	
+        console.log("1");
+        console.log(req.file);
     var upload = function (req, res) {
         var deferred = Q.defer();
         var storage = multer.diskStorage({
@@ -29,8 +31,15 @@ router.post('/:filename',  function (req, res, next) {
 
         var upload = multer({ storage: storage }).single('file');
         upload(req, res, function (err) {
-            if (err) deferred.reject();
-            else deferred.resolve(req.file.uploadedFile);
+            if (err)
+            {
+           
+           
+           console.log("upload single file",err);
+           
+            deferred.reject();}
+            
+            else{ deferred.resolve(req.file.uploadedFile); }
         });
         return deferred.promise;
     };
@@ -38,7 +47,7 @@ router.post('/:filename',  function (req, res, next) {
     upload(req, res).then(function (file) {
         res.json(file);
     }, function (err) {
-		console.log(err);
+		console.log("upload err",err);
         res.send(500, err);
     });
 
