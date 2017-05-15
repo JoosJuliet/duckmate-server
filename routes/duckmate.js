@@ -38,6 +38,7 @@ router.post('/:filename',  function (req, res, next) {
     upload(req, res).then(function (file) {
         res.json(file);
     }, function (err) {
+		console.log(err);
         res.send(500, err);
     });
 
