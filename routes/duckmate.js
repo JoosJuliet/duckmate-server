@@ -40,7 +40,7 @@ router.post('/:filename', function(req, res, next) {
   upload(req, res).then(function (file) {
     res.sendStatus(200).json(file);
   }, function (err) {
-    res.sendStatus(500).send(500, err);
+    res.sendStatus(500).send( err);
   });
 });
 
