@@ -10,7 +10,13 @@ var multer  = require('multer');
 var upload = multer({ dest: '../photos' });
 var imagePath = "../photos/images";
 
+router.post('/filename' , update.array() , ( req,res, next )=>{
+    console.log(req.body );
+    req.statusCode(200).send("hi");
 
+});
+
+/*
 router.post('/filename', function(req, res, next) {
     // router.post('/:filename', function(req, res, next) {
     var upload = function (req, res) {
@@ -49,6 +55,7 @@ router.post('/filename', function(req, res, next) {
         res.sendStatus(500).send(err);
     });
 });
+*/
 
 //member_id로
 //UPDATE 테이블명 SET 바꿀것  WHERE 조건 Class=10
