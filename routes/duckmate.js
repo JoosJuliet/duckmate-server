@@ -7,13 +7,6 @@ var imagePath = "photos/images";
 var app = express();
 var Q = require("q");
 
-router.post('/:filenam', function(req, res, next) {
-    console.log(req.params.filenam);
-    res.send(req.params.filenam)
-
-});
-
-
 router.post('/:filename',  function (req, res, next) {
 
         console.log("1");
