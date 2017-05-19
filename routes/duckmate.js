@@ -34,9 +34,9 @@ router.post('/:filename', function(req, res, next) {
   return deferred.promise;
 };
   upload(req, res).then(function (file) {
-    res.json(file);
+    res.sendStatus(200).json(file);
   }, function (err) {
-    res.send(500, err);
+    res.sendStatus(500).send(500, err);
   });
 });
 
