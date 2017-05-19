@@ -28,8 +28,12 @@ router.post('/:filename', function(req, res, next) {
 
   var upload = multer({ storage: storage }).single('file');
   upload(req, res, function (err) {
-    if (err) deferred.reject();
-    else deferred.resolve(req.file.uploadedFile);
+    if (err) {
+        console.log("err",err);
+        deferred.reject();
+    }else {
+        deferred.resolve(req.file.uploadedFile);
+    }
   });
   return deferred.promise;
 };
