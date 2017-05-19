@@ -10,6 +10,7 @@ var Q = require("q");
 router.post('/:filename',  function (req, res, next) {
 
         console.log("1");
+        console.log(req.params.filename);
         console.log(req.file);
     var upload = function (req, res) {
         var deferred = Q.defer();
