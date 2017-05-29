@@ -12,7 +12,7 @@ var upload = multer({ dest: 'uploads/' });
 
 router.post('/filename' , upload.single('avatar')  , ( req,res ,next)=>{
 
-            console.log("err", next(err));
+    console.log("err", next.err);
 
     console.log("req.file", req.file);
     console.log("req.body", req.body);
