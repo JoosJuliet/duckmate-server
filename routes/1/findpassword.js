@@ -17,6 +17,8 @@ router.post('/', function(req, res, next){
     	connection.query(sql, inserts, function(error, rows){
 			connection.release();
 
+			console.log("rows",rows);
+
 	    	if (error){
 	    	  console.log("Connection Error" + error);
 	    	  res.status(500).send({result : "db error"});
