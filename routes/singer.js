@@ -52,9 +52,6 @@ router.get('/singerbase/:member_id', function(req, res, next) {
                 connection.release();
             }
 
-            console.log(rows[0]);
-            return;
-
             if( rows[0] == undefined ){
                 res.status(200).send({result : "false"});
                 return
