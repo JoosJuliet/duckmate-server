@@ -145,7 +145,13 @@ router.post('/singerAdd', function(req, res, next){
                 );
                 return
     		}
-            res.status(200).send({result : "success"});
+            res.status(200).send(
+                {
+                    data : "member data",
+                    message: "success",
+                    result: true
+                }
+            );
 
          });
     });// pool
