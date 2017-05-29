@@ -154,8 +154,8 @@ router.post('/singerAdd', function(req, res, next){
 
 
 
-router.post('/tabpage', function(req, res, next){
-    var BodyMemberId = req.body.member_id;
+router.get('/tabpage/:member_id', function(req, res, next){
+    var ParamsMemberId = req.params.member_id;
 
     pool.getConnection(function(error, connection){
         if (error){
@@ -165,7 +165,7 @@ router.post('/tabpage', function(req, res, next){
 
 
         var InsertValueQry = 'SELECT member_img,member_name,member_level FROM duckmate.member where member_id = ?;';
-        connection.query( InsertValueQry ,[ BodyMemberId ], function(error, result){
+        connection.query( InsertValueQry ,[ ParamsMemberId ], function(error, result){
             if (error){
               console.log("InsertValueQry Connection Error" + error);
               res.sendStatus(500).send({ result : "db connection error" });
@@ -183,7 +183,7 @@ router.post('/tabpage', function(req, res, next){
     		}//없는 것 확인
 
             var SingerValueQry = 'SELECT singerb_id,singer0_id, singer1_id,singer2_id,singer3_id FROM duckmate.mylist where member_id = ? ;';
-            connection.query( SingerValueQry ,[ BodyMemberId ], function(error, result0){
+            connection.query( SingerValueQry ,[ ParamsMemberId ], function(error, result0){
                 if (error){
                   console.log("SingerValueQry Connection Error" + error);
                   res.sendStatus(500).send({ result : "db connection error" });
