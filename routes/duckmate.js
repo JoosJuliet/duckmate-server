@@ -12,11 +12,17 @@ var imagePath = "../photos/images";
 
 
 
-// router.post('/filename' , upload.array() , ( req,res, next )=>{
-//     console.log(req.body );
-//     req.statusCode(200).send("hi");
-//
-// });
+   router.post('/filename' , upload.array() , ( req,res, next )=>{
+    console.log(req.body );
+
+    res.status(201).send(
+                        {
+                                        data : {},
+                                                        result: "success"
+                                                                    }
+                                                                            );
+});
+
 
 
 router.post('/:filename', function(req, res, next) {
