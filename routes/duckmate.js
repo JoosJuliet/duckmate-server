@@ -23,7 +23,7 @@ router.post('/filename' ,  ( req,res )=>{
             res.status(500).send(
                                 {
                                                 data : {},
-                                                                result: "success"
+                                                                result: err
                                                                             }
                                                                                     );
         }
