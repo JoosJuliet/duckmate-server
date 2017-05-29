@@ -10,18 +10,10 @@ var multer  = require('multer');
 var upload = multer({ dest: 'uploads/' });
 // var imagePath = "../photos/images";
 
-var upload1 = upload.single('avatar');
-router.post('/filename' , upload1  , ( req,res ,err)=>{
+router.post('/filename' , upload.single('avatar');  , ( req,res ,err)=>{
 
-    upload1(req, res, function (err) {
-        if (err) {
-            console.log("test");
             console.log("err",err);
-          // An error occurred when uploading
-          return
-        }
-    });
-    upload1(req,res,err);
+
     console.log("req.file", req.file);
     console.log("req.body", req.body);
     res.status(201).send(
