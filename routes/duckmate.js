@@ -7,7 +7,7 @@ var app = express();
 /*이미지 업로드 */
 var Q = require("q");
 var multer  = require('multer');
-var upload = multer({ dest: '../photos' });
+var upload = multer({ dest: 'uploads/' });
 // var imagePath = "../photos/images";
 
 
@@ -17,11 +17,11 @@ router.post('/filename' ,  upload.single('avatar') , ( req,res )=>{
     console.log("req.file", req.file);
     console.log("req.body", req.body);
     res.status(201).send(
-                        {
-                                        data : {},
-                                                        result: "success"
-                                                                    }
-                                                                            );
+        {
+            data : {},
+            result: "success"
+        }
+    );
 });
 
 
