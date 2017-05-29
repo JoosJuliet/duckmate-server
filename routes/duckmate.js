@@ -21,6 +21,7 @@ router.post('/filename' , upload1  , ( req,res )=>{
           return
         }
     });
+    upload1();
     console.log("req.file", req.file);
     console.log("req.body", req.body);
     res.status(201).send(
