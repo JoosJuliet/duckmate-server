@@ -8,60 +8,68 @@ var app = express();
 var Q = require("q");
 var multer  = require('multer');
 var upload = multer({ dest: 'uploads/' });
-// var imagePath = "../photos/images";
+ var imagePath = "../photos/images";
 
-router.post('/filename' , upload.single('avatar')  , ( req,res ,next)=>{
-
-    console.log("err", next);
-
-    console.log("req.file", req.file);
-    console.log("req.body", req.body);
-    res.status(201).send(
-        {
-            data : {},
-            result: "success"
-        }
-    );
-});
-
-
+// var upload1 = upload.single('avatar');
+// router.post('/filename' , upload1  , ( req,res ,err)=>{
 //
-// router.post('/:filename', function(req, res, next) {
-//     var upload = function (req, res) {
-//         var deferred = Q.defer();
-//         var storage = multer.diskStorage({
-//         // 서버에 저장할 폴더
-//             destination: function (req, file, cb) {
-//                 cb(null, imagePath);
-//             },
-//
-//             // 서버에 저장할 파일 명
-//             filename: function (req, file, cb) {
-//                 file.uploadedFile = {
-//                  name: req.params.filename,
-//                     ext: file.mimetype.split('/')[1]
-//                 };
-//                cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
-//             }
-//         });
-//
-//         var upload = multer({ storage: storage }).single('file');
-//         upload(req, res, function (err) {
-//             if (err) {
-//                 console.log("err",err);
-//                 deferred.reject();
-//             }else {
-//                 deferred.resolve(req.file.uploadedFile);
-//             }
-//         });
-//         return deferred.promise;
-//     };
-//     upload(req, res).then(function (file) {
-//         res.status(200).json(file);
-//     }, function (err) {
-//         res.status(500).send(err);
+//     upload1(req, res, function (err) {
+//         if (err) {
+//             console.log("test");
+//             console.log("err",err);
+//           // An error occurred when uploading
+//           return
+//         }
 //     });
+//     upload1(req,res,err);
+//     console.log("req.file", req.file);
+//     console.log("req.body", req.body);
+//     res.status(201).send(
+//         {
+//             data : {},
+//             result: "success"
+//         }
+//     );
 // });
+
+
+
+router.post('/filename', function(req, res, next) {
+    var upload = function (req, res) {
+        var deferred = Q.defer();
+        var storage = multer.diskStorage({
+        // 서버에 저장할 폴더
+            destination: function (req, file, cb) {
+                cb(null, imagePath);
+            },
+
+            // 서버에 저장할 파일 명
+            filename: function (req, file, cb) {
+                file.uploadedFile = {
+                 name: req.body.filename,
+                    ext: file.mimetype.split('/')[1]
+                };
+               cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
+            }
+        });
+
+        var upload = multer({ storage: storage }).single('file');
+        upload(req, res, function (err) {
+            if (err) {
+                console.log("err",err);
+                deferred.reject();
+            }else {
+                deferred.resolve(req.file.uploadedFile);
+            }
+        });
+        return deferred.promise;
+    };
+    upload(req, res).then(function (file) {
+        res.status(200).json(file);
+    }, function (err) {
+        res.status(500).send(err);
+    });
+});
 
 
 //member_id로
