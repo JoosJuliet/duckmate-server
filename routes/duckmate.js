@@ -19,6 +19,7 @@ router.post('/filename' ,  upload.single('avatar') , ( req,res )=>{
       // An error occurred when uploading
       return
     }
+});
     console.log("req.file", req.file);
     console.log("req.body", req.body);
     res.status(201).send(
