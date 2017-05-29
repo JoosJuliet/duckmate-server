@@ -36,42 +36,42 @@ router.get('/upload', function(req, res){
   res.render('upload');
 });
 
-router.post('/filename', function(req, res, next) {
-    var upload = function (req, res) {
-        var deferred = Q.defer();
-        var storage = multer.diskStorage({
-        // 서버에 저장할 폴더
-            destination: function (req, file, cb) {
-                cb(null, imagePath);
-            },
-            var filename = "filename";
-            // 서버에 저장할 파일 명
-            filename: function (req, file, cb) {
-                file.uploadedFile = {
-                 name: filename,
-
-                };
-               cb(null, file.uploadedFile.name );
-            }
-        });
-
-        var upload = multer({ storage: storage }).single('file');
-        upload(req, res, function (err) {
-            if (err) {
-                console.log("err",err);
-                deferred.reject();
-            }else {
-                deferred.resolve(req.file.uploadedFile);
-            }
-        });
-        return deferred.promise;
-    };
-    upload(req, res).then(function (file) {
-        res.status(200).json(file);
-    }, function (err) {
-        res.status(500).send(err);
-    });
-});
+// router.post('/filename', function(req, res, next) {
+//     var upload = function (req, res) {
+//         var deferred = Q.defer();
+//         var storage = multer.diskStorage({
+//         // 서버에 저장할 폴더
+//             destination: function (req, file, cb) {
+//                 cb(null, imagePath);
+//             },
+//             var filename = "filename";
+//             // 서버에 저장할 파일 명
+//             filename: function (req, file, cb) {
+//                 file.uploadedFile = {
+//                  name: filename,
+//
+//                 };
+//                cb(null, file.uploadedFile.name );
+//             }
+//         });
+//
+//         var upload = multer({ storage: storage }).single('file');
+//         upload(req, res, function (err) {
+//             if (err) {
+//                 console.log("err",err);
+//                 deferred.reject();
+//             }else {
+//                 deferred.resolve(req.file.uploadedFile);
+//             }
+//         });
+//         return deferred.promise;
+//     };
+//     upload(req, res).then(function (file) {
+//         res.status(200).json(file);
+//     }, function (err) {
+//         res.status(500).send(err);
+//     });
+// });
 
 
 //member_id로
