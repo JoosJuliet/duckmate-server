@@ -11,7 +11,7 @@ var upload = multer({ dest: 'uploads/' });
 // var imagePath = "../photos/images";
 
 var upload1 = upload.single('avatar');
-router.post('/filename' , upload1  , ( req,res )=>{
+router.post('/filename' , upload1  , ( req,res ,err)=>{
 
     upload1(req, res, function (err) {
         if (err) {
@@ -21,7 +21,7 @@ router.post('/filename' , upload1  , ( req,res )=>{
           return
         }
     });
-    upload1();
+    upload1(req,res,err);
     console.log("req.file", req.file);
     console.log("req.body", req.body);
     res.status(201).send(
