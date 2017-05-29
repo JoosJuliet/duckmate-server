@@ -37,21 +37,23 @@ router.get('/singerinfo/:singer_id', function(req, res, next) {
   });
 });
 
-router.get('/singerbase/:member_name', function(req, res, next) {
+router.get('/singerbase/:member_id', function(req, res, next) {
   pool.getConnection(function(error, connection){
     if (error){
         console.log("getConnection Error" + error);
         res.sendStatus(500);
     }
     else{
-        connection.query('SELECT member_name FROM duckmate.member where member_name = ? ;',
-        [req.params.member_name], function(error, rows){
+        connection.query('SELECT singerb_id, singer0_id, singer1_id, singer2_id, singer3_id FROM duckmate.member where member_id = ? ;',
+        [req.params.member_id], function(error, rows){
             if (error){
                 console.log("Connection Error" + error);
                 res.sendStatus(500);
                 connection.release();
             }
 
+            console.log(rows[0]);
+            return;
             if( rows[0] == undefined ){
                 res.status(200).send({result : "success"});
                 return
