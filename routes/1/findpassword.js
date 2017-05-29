@@ -3,7 +3,7 @@ var router = express.Router();
 var app = express();
 var fs = require('fs');
 
-router.post('/', function(req, res, next){
+router.post('/findpassword', function(req, res, next){
 
 	pool.getConnection(function(error, connection){
     	if (error){
@@ -24,7 +24,8 @@ router.post('/', function(req, res, next){
 	    	  res.status(500).send({result : "db error"});
 	   		}
 
-			if( rows[0].length == 0 ){
+
+			if( rows[0] == undefined ){
                 res.status(201).send(
                     { result: false }
                 );
