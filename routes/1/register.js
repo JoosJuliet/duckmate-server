@@ -45,7 +45,7 @@ router.post('/',function(req, res, next){
     });
 });
 
-
+// TODO 비밀번호 찾고싶은 사람 표시해주기
 
 router.get('/:member_email', function(req, res, next) {
     pool.getConnection(function(error, connection){
@@ -53,17 +53,18 @@ router.get('/:member_email', function(req, res, next) {
             console.log("getConnection Error" + error);
             res.sendStatus(500);
         }
-        var CheckMemberName = "SELECT * FROM duckmate.member where member_email =? ;"
-        connection.query(CheckMemberName,[req.params.member_name], function(error, rows){
+        var CheckMemberName = "SELECT * FROM duckmate.member where member_email = ? ;"
+        connection.query(CheckMemberName,[ req.params.member_email ], function(error, rows){
             connection.release();
             if (error){
               console.log("register에서 get /:member_email Connection Error" + error);
               res.sendStatus(500);
             }
 
-            // console.log("rows는",rows[0]);
+            console.log("rows는",rows[0]);
 
-            if( rows[0] == undefined ){
+
+            if( rows[0].length == 0 ){
                 res.status(201).send(
                     { result: false }
                 );
