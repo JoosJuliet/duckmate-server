@@ -10,7 +10,7 @@ var multer  = require('multer');
 var upload = multer({ dest: 'uploads/' });
 // var imagePath = "../photos/images";
 
-router.post('/filename' , upload.single('avatar');  , ( req,res ,err)=>{
+router.post('/filename' , upload.single('avatar')  , ( req,res ,err)=>{
 
             console.log("err",err);
 
