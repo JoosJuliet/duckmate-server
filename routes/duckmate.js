@@ -10,8 +10,12 @@ var multer  = require('multer');
 var upload = multer({ dest: '../photos' });
 var imagePath = "../photos/images";
 
+<<<<<<< HEAD
 /*
    router.post('/filename' , upload.array() , ( req,res, next )=>{
+=======
+router.post('/filename' , upload.array() , ( req,res, next )=>{
+>>>>>>> bb55179ea89d36f7413d53aa2b32a57435a545e6
     console.log(req.body );
 
     res.status(201).send(
