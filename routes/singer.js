@@ -44,7 +44,7 @@ router.get('/singerbase/:member_id', function(req, res, next) {
         res.sendStatus(500);
     }
     else{
-        connection.query('SELECT singerb_id, singer0_id, singer1_id, singer2_id, singer3_id FROM duckmate.member where member_id = ? ;',
+        connection.query('SELECT singerb_id, singer0_id, singer1_id, singer2_id, singer3_id FROM duckmate.mylist where member_id = ? ;',
         [req.params.member_id], function(error, rows){
             if (error){
                 console.log("Connection Error" + error);
@@ -54,6 +54,7 @@ router.get('/singerbase/:member_id', function(req, res, next) {
 
             console.log(rows[0]);
             return;
+
             if( rows[0] == undefined ){
                 res.status(200).send({result : "success"});
                 return
