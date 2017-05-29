@@ -11,16 +11,29 @@ var upload = multer({ dest: '../photos' });
 var imagePath = "../photos/images";
 
 
+var upload = multer().single('avatar')
+router.post('/filename' ,  ( req,res )=>{
 
-   router.post('/filename' , upload.array() , ( req,res, next )=>{
-    console.log(req.body );
 
-    res.status(201).send(
-                        {
-                                        data : {},
-                                                        result: "success"
-                                                                    }
-                                                                            );
+    upload(req,res, function(err){
+
+        if(err){
+
+            console.log("err",err)
+            res.status(500).send(
+                                {
+                                                data : {},
+                                                                result: "success"
+                                                                            }
+                                                                                    );
+        }
+    })
+res.status(201).send(
+                    {
+                                    data : {},
+                                                    result: "success"
+                                                                }
+                                                                        );
 });
 
 
