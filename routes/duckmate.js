@@ -10,52 +10,59 @@ var multer  = require('multer');
 var upload = multer({ dest: '../photos' });
 var imagePath = "../photos/images";
 
-router.post('/filename' , update.array() , ( req,res, next )=>{
+
+
+   router.post('/filename' , upload.array() , ( req,res, next )=>{
+
     console.log(req.body );
-    req.statusCode(200).send("hi");
 
+    res.status(201).send(
+                        {
+                                        data : {},
+                                                        result: "success"
+                                                                    }
+                                                                            );
 });
 
-/*
-router.post('/filename', function(req, res, next) {
-    // router.post('/:filename', function(req, res, next) {
-    var upload = function (req, res) {
-        var deferred = Q.defer();
-        var storage = multer.diskStorage({
-        // 서버에 저장할 폴더
-            destination: function (req, file, cb) {
-                cb(null, imagePath);
-            },
 
-            // 서버에 저장할 파일 명
-            filename: function (req, file, cb) {
-                file.uploadedFile = {
-                // name: req.params.filename,
-                    ext: file.mimetype.split('/')[1]
-                };
-            //   cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
-                cb(null, file.uploadedFile.ext);
-            }
-        });
+//
+// router.post('/:filename', function(req, res, next) {
+//     var upload = function (req, res) {
+//         var deferred = Q.defer();
+//         var storage = multer.diskStorage({
+//         // 서버에 저장할 폴더
+//             destination: function (req, file, cb) {
+//                 cb(null, imagePath);
+//             },
+//
+//             // 서버에 저장할 파일 명
+//             filename: function (req, file, cb) {
+//                 file.uploadedFile = {
+//                  name: req.params.filename,
+//                     ext: file.mimetype.split('/')[1]
+//                 };
+//                cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
+//             }
+//         });
+//
+//         var upload = multer({ storage: storage }).single('file');
+//         upload(req, res, function (err) {
+//             if (err) {
+//                 console.log("err",err);
+//                 deferred.reject();
+//             }else {
+//                 deferred.resolve(req.file.uploadedFile);
+//             }
+//         });
+//         return deferred.promise;
+//     };
+//     upload(req, res).then(function (file) {
+//         res.status(200).json(file);
+//     }, function (err) {
+//         res.status(500).send(err);
+//     });
+// });
 
-        var upload = multer({ storage: storage }).single('file');
-        upload(req, res, function (err) {
-            if (err) {
-                console.log("err",err);
-                deferred.reject();
-            }else {
-                deferred.resolve(req.file.uploadedFile);
-            }
-        });
-        return deferred.promise;
-    };
-    upload(req, res).then(function (file) {
-        res.sendStatus(200).json(file);
-    }, function (err) {
-        res.sendStatus(500).send(err);
-    });
-});
-*/
 
 //member_id로
 //UPDATE 테이블명 SET 바꿀것  WHERE 조건 Class=10
