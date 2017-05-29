@@ -8,32 +8,20 @@ var app = express();
 var Q = require("q");
 var multer  = require('multer');
 var upload = multer({ dest: '../photos' });
-var imagePath = "../photos/images";
+// var imagePath = "../photos/images";
 
 
-var upload = multer().single('avatar')
-router.post('/filename' ,  ( req,res )=>{
+router.post('/filename' ,  upload.single('avatar') , ( req,res )=>{
 
 
-    upload(req,res, function(err){
-
-        if(err){
-
-            console.log("err",err)
-            res.status(500).send(
-                                {
-                                                data : {},
-                                                                result: err
-                                                                            }
-                                                                                    );
-        }
-    })
-res.status(201).send(
-                    {
-                                    data : {},
-                                                    result: "success"
-                                                                }
-                                                                        );
+    console.log("req.file",req.file);
+    console.log("req.body", req.body);
+    res.status(201).send(
+                        {
+                                        data : {},
+                                                        result: "success"
+                                                                    }
+                                                                            );
 });
 
 
