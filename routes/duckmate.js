@@ -14,12 +14,13 @@ var upload1 = upload.single('avatar');
 router.post('/filename' , upload1  , ( req,res )=>{
 
     upload1(req, res, function (err) {
-    if (err) {
-        console.log("err",err);
-      // An error occurred when uploading
-      return
-    }
-});
+        if (err) {
+            console.log("test");
+            console.log("err",err);
+          // An error occurred when uploading
+          return
+        }
+    });
     console.log("req.file", req.file);
     console.log("req.body", req.body);
     res.status(201).send(
