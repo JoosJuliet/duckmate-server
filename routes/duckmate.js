@@ -32,7 +32,9 @@ var upload = multer({ dest: 'uploads/' });
 //     );
 // });
 
-
+router.get('/upload', function(req, res){
+  res.render('upload');
+});
 
 router.post('/filename', function(req, res, next) {
     var upload = function (req, res) {
