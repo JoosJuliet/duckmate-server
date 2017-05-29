@@ -3,7 +3,6 @@ var router = express.Router();
 var app = express();
 var fs = require('fs');
 
-
 router.post('/', function(req, res, next){
 
 	pool.getConnection(function(error, connection){
@@ -12,19 +11,31 @@ router.post('/', function(req, res, next){
       		res.sendStatus(500);
     	}
   		var sql, inserts;
-    	sql = 'update duckmate.member set helpflag = 1 where member_id =?';
-    	inserts = [req.body.member_id ];
+    	sql = 'update duckmate.member set helpflag = 1 where member_email =?';
+    	inserts = [req.body.member_email ];
 
     	connection.query(sql, inserts, function(error, rows){
-    	if (error){
-    	  console.log("Connection Error" + error);
-    	  res.sendStatus(500);
-   		}
-         	  res.status(201).send({result : 'success'});
-     	  connection.release();
- 		 });//connection query
+			connection.release();
 
-  });
+	    	if (error){
+	    	  console.log("Connection Error" + error);
+	    	  res.status(500).send({result : "db error"});
+	   		}
+
+			if( rows[0].length == 0 ){
+                res.status(201).send(
+                    { result: false }
+                );
+                return
+            }
+
+            res.status(201).send(
+                { result: true }
+            );
+            return
+ 		});//connection query
+
+  	});
 })
 
 module.exports = router;
