@@ -42,14 +42,14 @@ router.post('/filename', function(req, res, next) {
             destination: function (req, file, cb) {
                 cb(null, imagePath);
             },
-
+            var filename = "filename";
             // 서버에 저장할 파일 명
             filename: function (req, file, cb) {
                 file.uploadedFile = {
-                 name: req.body.filename,
-                    ext: file.mimetype.split('/')[1]
+                 name: filename,
+
                 };
-               cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
+               cb(null, file.uploadedFile.name );
             }
         });
 
