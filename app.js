@@ -40,6 +40,7 @@ var FindPassWord = require('./routes/1/findpassword');
 var question = require('./routes/question');
 var notice = require('./routes/notice');
 
+var alarm = require('./routes/alarm')
 
 var app = express();
 
@@ -98,6 +99,8 @@ app.use('/duckmate/findpassword',FindPassWord);
 
 app.use('/duckmate/question', question);
 app.use('/duckmate/notice', notice);
+
+app.use('./duckmate/alarm',alarm);
 
 
 //app.use('/duckmate/test', test);
