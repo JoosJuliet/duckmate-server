@@ -17,16 +17,11 @@ global.pool = mysql.createPool({
   connectionLimit : db_config.connectionLimit
 });
 
-
-
-
 var duckmate = require('./routes/duckmate');
 
 
 
-
 var users = require('./routes/users');
-var count = require('./routes/count');
 var singer = require('./routes/singer');
 var mainpage = require('./routes/mainpage');
 var mypage = require('./routes/mypage');
@@ -81,7 +76,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 console.log("app.js time",Date.now());
 app.use('/duckmate', duckmate);
 app.use('/duckmate/users', users);
-app.use('/duckmate/count', count);
 app.use('/duckmate/singer', singer);
 app.use('/duckmate/mainpage', mainpage);
 app.use('/duckmate/mypage', mypage);
