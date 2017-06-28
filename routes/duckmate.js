@@ -1,4 +1,3 @@
-
 var express = require('express');
 var router = express.Router();
 var app = express();
@@ -6,13 +5,15 @@ var app = express();
 
 /*이미지 업로드 */
 var Q = require("q");
-var multer  = require('multer');
-var upload = multer({ dest: 'uploads/' });
- var imagePath = "../photos/images";
+var multer = require('multer');
+var upload = multer({
+    dest: 'uploads/'
+});
+var imagePath = "../photos/images";
 
 // var upload1 = upload.single('avatar');
 // router.post('/filename' , upload1  , ( req,res ,err)=>{
-//
+//A
 //     upload1(req, res, function (err) {
 //         if (err) {
 //             console.log("test");
@@ -32,8 +33,8 @@ var upload = multer({ dest: 'uploads/' });
 //     );
 // });
 
-router.get('/upload', function(req, res){
-  res.render('upload');
+router.get('/upload', function(req, res) {
+    res.render('upload');
 });
 
 // router.post('/filename', function(req, res, next) {
@@ -78,25 +79,24 @@ router.get('/upload', function(req, res){
 //UPDATE 테이블명 SET 바꿀것  WHERE 조건 Class=10
 // 서브가수삭제
 
-var SingerIdArr = ["b","0","1","2","3"];
+var SingerIdArr = ["b", "0", "1", "2", "3"];
 router.delete('/singerDelete', function(req, res, next) {
 
-    var MemberId = req.body.member_id; var SingerNum = req.body.singerNum;
-    pool.query('UPDATE duckmate.mylist SET singer'+SingerIdArr[SingerNum]+'_id = null, '+SingerIdArr[SingerNum]+'_flag = null where member_id= ?;',[ MemberId ], function (error, results, fields) {
-        if (error){
-          console.log("/singerDelete Error" + error);
-          res.sendStatus(500).send({
-              data : {},
-              result : "/singerDelete에서 db pool error"
-          });
-        }// error
-        res.status(201).send(
-            {
-                data : {},
-                message: "success",
-                result: "success"
-            }
-        );
+    var MemberId = req.body.member_id;
+    var SingerNum = req.body.singerNum;
+    pool.query('UPDATE duckmate.mylist SET singer' + SingerIdArr[SingerNum] + '_id = null, ' + SingerIdArr[SingerNum] + '_flag = null where member_id= ?;', [MemberId], function(error, results, fields) {
+        if (error) {
+            console.log("/singerDelete Error" + error);
+            res.sendStatus(500).send({
+                data: {},
+                result: "/singerDelete에서 db pool error"
+            });
+        } // error
+        res.status(201).send({
+            data: {},
+            message: "success",
+            result: "success"
+        });
 
         return
     });
@@ -107,20 +107,18 @@ router.delete('/singerDelete', function(req, res, next) {
 router.delete('/memberDelete', function(req, res, next) {
 
     var MemberId = req.body.member_id;
-    pool.query('delete from duckmate.member where member_id=?;',[ MemberId ], function (error, results, fields) {
-        if (error){
-          console.log("/memberDelete Error" + error);
-          res.sendStatus(500).send({
-              data : {},
-              result : "/memberDelete에서 db pool error"
-          });
-        }// error
-        res.status(201).send(
-            {
-                data : {},
-                result: "success"
-            }
-        );
+    pool.query('delete from duckmate.member where member_id=?;', [MemberId], function(error, results, fields) {
+        if (error) {
+            console.log("/memberDelete Error" + error);
+            res.sendStatus(500).send({
+                data: {},
+                result: "/memberDelete에서 db pool error"
+            });
+        } // error
+        res.status(201).send({
+            data: {},
+            result: "success"
+        });
 
         return
     });
@@ -129,7 +127,7 @@ router.delete('/memberDelete', function(req, res, next) {
 
 
 router.get('/', function(req, res, next) {
-    console.log("time"+Date.now());
+    console.log("time" + Date.now());
     res.send('depromeet');
 });
 

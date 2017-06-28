@@ -16,7 +16,7 @@ global.pool = mysql.createPool({
   database : db_config.database,
   connectionLimit : db_config.connectionLimit
 });
-
+// TEST
 var duckmate = require('./routes/duckmate');
 
 
@@ -38,18 +38,6 @@ var notice = require('./routes/notice');
 var alarm = require('./routes/alarm')
 
 var app = express();
-
-var exit_flag = false;
-
-fs.watch(__filename, (eventType, filename) => {
-    if( exit_flag )return;
-    exit_flag = true;
-    if( eventType ==  'rename' || eventType ==  'change' ){
-        setTimeout(()=>{
-            process.exit();
-        },2000);
-    }
-});
 
 
 // view engine setup
