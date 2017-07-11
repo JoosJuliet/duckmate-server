@@ -16,6 +16,7 @@ global.pool = mysql.createPool({
     host : db_config.host,
     port : db_config.port,
     user : db_config.user,
+	password : db_config.password,
     database : db_config.database,
     connectionLimit : db_config.connectionLimit
 });
@@ -39,7 +40,7 @@ pool.on('release', function (connection) {
 
 pool.getConnection(function(err, connection) {
     if( err ){
-        Logger.error( err );
+        console.log("error 처리",err);
         return;
     }
 
@@ -134,10 +135,11 @@ app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+	console.log("1");
     // render the error page
     res.status(err.status || 500);
     res.render('error');
+	req.emit('error', err);
 });
 
 module.exports = app;
