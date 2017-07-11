@@ -1,14 +1,10 @@
 
 var express = require('express');
-var mysql = require('mysql');
-var multer = require('multer');
 var fs = require('fs');
-var db_config = require('../config/db_config.json');
 var router = express.Router();
-var exit_flag = false;
 
 
-router.post('/firebasetoken',function(req, res, next){
+router.post('/',function(req, res, next){
     pool.getConnection(function(error, connection){
         if (error){
                 console.log("getConnection Error" + error);
@@ -35,6 +31,11 @@ router.post('/firebasetoken',function(req, res, next){
 
     });
 });
+
+router.get('/', function(req, res, next) {
+		    console.log("time" + Date.now());
+			    res.send('depromeet');
+				});
 
 
 module.exports = router;

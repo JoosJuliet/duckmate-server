@@ -118,7 +118,7 @@ app.use('/duckmate/findpassword',FindPassWord);
 app.use('/duckmate/question', question);
 app.use('/duckmate/notice', notice);
 
-app.use('./duckmate/alarm',alarm);
+app.use('/duckmate/alarm',alarm);
 
 
 //app.use('/duckmate/test', test);
