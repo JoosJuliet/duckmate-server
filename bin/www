@@ -6,23 +6,24 @@
 
 
 var createServer = require("auto-sni");
- 
+
+/*
 var server = createServer({
-		    email: "saven7788@gmail.com", // Emailed when certificates expire. 
-			    agreeTos: true, // Required for letsencrypt. 
-				    debug: true, // Add console messages and uses staging LetsEncrypt server. (Disable in production) 
-					    domains:  ["defflee.com", "www.defflee.com"], // List of accepted domain names. (You can use nested arrays to register bundles with LE). 
-						    ports: {
-							        http: 8080, // Optionally override the default http port. 
-									        https: 443 // // Optionally override the default https port. 
-											    }
-												});
- 
+	email: "saven7788@gmail.com", // Emailed when certificates expire. 
+	agreeTos: true, // Required for letsencrypt. 
+	debug: true, // Add console messages and uses staging LetsEncrypt server. (Disable in production) 
+	domains:  ["defflee.com", "www.defflee.com"], // List of accepted domain names. (You can use nested arrays to register bundles with LE). 
+	ports: {
+		http: 8080, // Optionally override the default http port. 
+		https: 443 // // Optionally override the default https port. 
+	}
+});
+
 // Server is a "https.createServer" instance. 
 server.once("listening", ()=> {
-		    console.log("We are ready to go.");
-			});
-
+	console.log("We are ready to go.");
+});
+*/
 
 
 
@@ -40,7 +41,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '8000');
+var port = normalizePort(process.env.PORT || '7000');
 
 console.log("port is"+ port);
 app.set('port', port);
