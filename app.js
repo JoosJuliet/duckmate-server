@@ -8,13 +8,48 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var db_config = require('./config/db_config.json');
+// MySQL 연동
+var connectionLimit = 20;
+//db connection 몇개 남았는 지 알려줘서 보내는 코드
 
 global.pool = mysql.createPool({
-  host : db_config.host,
-  port : db_config.port,
-  user : db_config.user,
-  database : db_config.database,
-  connectionLimit : db_config.connectionLimit
+    host : db_config.host,
+    port : db_config.port,
+    user : db_config.user,
+    database : db_config.database,
+    connectionLimit : db_config.connectionLimit
+});
+
+var LeftConnections = connectionLimit;
+pool.on('acquire', function (connection) {
+    LeftConnections--;
+    if( LeftConnections < 5 ){
+        console.log("DB Connections이 5개 밖에 남지 않았습니다!");
+    }
+});
+
+pool.on('enqueue', function () {
+    console.log("DB Connections이 고갈됨");
+
+});
+
+pool.on('release', function (connection) {
+    LeftConnections++;
+});
+
+pool.getConnection(function(err, connection) {
+    if( err ){
+        Logger.error( err );
+        return;
+    }
+
+    connection.query( 'select 1' , function(err, rows) {
+        connection.release();
+        if (err){
+            console.log(err);
+            return;
+        };
+    });
 });
 // TEST
 var duckmate = require('./routes/duckmate');
@@ -53,9 +88,9 @@ app.use(logger('dev'));
 //app.use(bodyParser.urlencoded({ extended: false }));
 app.use( bodyParser.json({limit: '50mb'}) );
 app.use(bodyParser.urlencoded({
-  limit: '50mb',
-  extended: true,
-  parameterLimit:50000
+    limit: '50mb',
+    extended: true,
+    parameterLimit:50000
 }));
 
 app.use(cookieParser());
@@ -89,20 +124,20 @@ app.use('./duckmate/alarm',alarm);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;

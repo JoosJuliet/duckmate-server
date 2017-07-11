@@ -98,7 +98,7 @@ router.delete('/singerDelete', function(req, res, next) {
             result: "success"
         });
 
-        return
+        return;
     });
 
 }); // :member_name
@@ -120,7 +120,7 @@ router.delete('/memberDelete', function(req, res, next) {
             result: "success"
         });
 
-        return
+        return;
     });
 
 }); // :member_name
