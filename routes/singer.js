@@ -6,11 +6,11 @@ var db_config = require('../config/db_config.json');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  res.render('singer', { title: 'singer' });
+    res.render('singer', { title: 'singer' });
 });
 
 router.get('/singertest/:id', function(req, res, next) {
-  res.send(req.params.id);
+    res.send(req.params.id);
 });
 
 

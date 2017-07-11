@@ -8,14 +8,6 @@ var router = express.Router();
 var exit_flag = false;
 
 
-var pool = mysql.createPool({
-  host : db_config.host,
-  port : db_config.port,
-  user : db_config.user,
-  database : db_config.database,
-  connectionLimit : db_config.connectionLimit
-});
-
 router.post('/firebasetoken',function(req, res, next){
     pool.getConnection(function(error, connection){
         if (error){
