@@ -16,6 +16,8 @@ var app = express();
 
 var upload = function (req, res) {
     console.log("1111111111111111111");
+    console.log("req.params.filename",req.params.filename);
+    console.log("file##",file.mimetype.split('/')[1]);
     var deferred = Q.defer();
     var storage = multer.diskStorage({
         // 서버에 저장할 폴더
@@ -26,8 +28,8 @@ var upload = function (req, res) {
 
         // 서버에 저장할 파일 명
         filename: function (req, file, cb) {
-            console.log("req.params.filename",req.params.filename);
-            console.log("file##",file.mimetype.split('/')[1]);
+            console.log("!!req.params.filename",req.params.filename);
+            console.log("!!file##",file.mimetype.split('/')[1]);
             file.uploadedFile = {
                 name: req.params.filename,
                 ext: file.mimetype.split('/')[1]
