@@ -14,50 +14,71 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 
-var upload = function (req, res) {
-    console.log("1111111111111111111");
-    console.log("req.params.filename",req.params.filename);
-    console.log("file##",file.mimetype.split('/')[1]);
-    var deferred = Q.defer();
-    var storage = multer.diskStorage({
-        // 서버에 저장할 폴더
-        destination: function (req, file, cb) {
-            console.log("2");
-            cb(null, imagePath);
-        },
+// var upload = function (req, res) {
+//     console.log("req.params.filename",req.params.filename); //test
+//     console.log("file##",file.mimetype.split('/')[1]);
+//     var deferred = Q.defer();
+//     var storage = multer.diskStorage({
+//         // 서버에 저장할 폴더
+//         destination: function (req, file, cb) {
+//             console.log("2");
+//             cb(null, imagePath);
+//         },
+//
+//         // 서버에 저장할 파일 명
+//         filename: function (req, file, cb) {
+//             console.log("!!req.params.filename",req.params.filename);
+//             console.log("!!file##",file.mimetype.split('/')[1]);
+//             file.uploadedFile = {
+//                 name: req.params.filename,
+//                 ext: file.mimetype.split('/')[1]
+//             };
+//             cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
+//         }
+//     });
+//
+//     var upload = multer({ storage: storage }).single('file');
+//     upload(req, res, function (err) {
+//         if (err) deferred.reject();
+//         else deferred.resolve(req.file.uploadedFile);
+//     });
+//     return deferred.promise;
+// };
+//
 
-        // 서버에 저장할 파일 명
-        filename: function (req, file, cb) {
-            console.log("!!req.params.filename",req.params.filename);
-            console.log("!!file##",file.mimetype.split('/')[1]);
-            file.uploadedFile = {
-                name: req.params.filename,
-                ext: file.mimetype.split('/')[1]
-            };
-            cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
-        }
-    });
-
-    var upload = multer({ storage: storage }).single('file');
-    upload(req, res, function (err) {
-        if (err) deferred.reject();
-        else deferred.resolve(req.file.uploadedFile);
-    });
-    return deferred.promise;
-};
+// router.post('/:filename', function(req, res, next) {
+//     upload(req, res).then(function (file) {
+//         res.json(file);
+//     }, function (err) {
+//         res.sendStatus(500).send(err);
+//     });
+// });
 
 
-router.post('/:filename', function(req, res, next) {
-    upload(req, res).then(function (file) {
-        res.json(file);
-    }, function (err) {
-        res.sendStatus(500).send(err);
-    });
+var storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, 'uploads')
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.originalname + Date.now())
+    }
+});
+
+var upload = multer({
+    storage: storage,
+    limits: {
+		files: 10,
+		fileSize: 1024 * 1024 * 1024
+	}
+});
+router.post('/', upload.array('photo', 1), function (req, res, next) {
+    console.log(req.files);
 });
 
 
+// TODO 이거는 다시 풀어ㅑㅇ한다
 
-//
+
 // router.post('/',function(req, res, next){
 // // db에서 notnull인 것 없을 때 예외처리 다 해야한다
 //
