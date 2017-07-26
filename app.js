@@ -21,16 +21,6 @@ global.pool = mysql.createPool({
     connectionLimit : db_config.connectionLimit
 });
 
-global.ResponseToJson = (r,m,d) =>{
-    let object = {
-        results : r,
-        message : m,
-        data : d,
-    };
-
-    if( !d ) delete object.data;
-    return res.json(object);
-};
 
 var LeftConnections = connectionLimit;
 pool.on('acquire', function (connection) {
