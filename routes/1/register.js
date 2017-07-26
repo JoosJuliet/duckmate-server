@@ -4,12 +4,10 @@
  var fs = require('fs');
 var imagePath = "./public/images";
 var multer  = require('multer');
-
-
 var Q = require("q");
 /************************************/
 
-
+// var upload = multer({ dest: './uploads/'});
 
 var express = require('express');
 var router = express.Router();
@@ -29,7 +27,6 @@ var upload = function (req, res) {
         // 서버에 저장할 파일 명
         filename: function (req, file, cb) {
             console.log("!!req.params.filename",req.params.filename);
-    
             file.uploadedFile = {
                 name: req.params.filename,
                 ext: file.mimetype.split('/')[1]
@@ -38,10 +35,14 @@ var upload = function (req, res) {
         }
     });
 
-    var upload = multer({ dest: './uploads/'}).single('file');
+    var upload = multer({ storage: storage }).single('file');
     upload(req, res, function (err) {
-        if (err) deferred.reject();
-        else deferred.resolve(req.file.uploadedFile);
+        if (err) {
+            console.log("err",err);
+            deferred.reject();
+        } else {
+            deferred.resolve(req.file.uploadedFile);
+        }
     });
     return deferred.promise;
 };
