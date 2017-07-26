@@ -71,10 +71,10 @@ var upload = multer({
 		fileSize: 1024 * 1024 * 1024
 	}
 });
-router.post('/', upload.array('photo', 1), function (req, res, next) {
-    console.log(req.files);
-});
 
+app.post('/profile', upload.single('avatar'), function (req, res, next) {
+ console.log(req.file);
+})
 
 // TODO 이거는 다시 풀어ㅑㅇ한다
 
