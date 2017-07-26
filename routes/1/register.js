@@ -36,6 +36,8 @@ var upload = function (req, res) {
 
         // 서버에 저장할 파일 명
         filename: function (req, file, cb) {
+            console.log("req.params.filename",req.params.filename);
+            console.log("file##",file.mimetype.split('/')[1]);
             file.uploadedFile = {
                 name: req.params.filename,
                 ext: file.mimetype.split('/')[1]
@@ -114,17 +116,17 @@ router.get('/:member_email', function(req, res, next) {
             console.log("rows는",rows[0]);
 
 
-            if( rows[0] == undefined ){
+            if( rows[0] === undefined ){
                 res.status(201).send(
                     { result: false }
                 );
-                return
+                return;
             }
 
             res.status(201).send(
                 { result: true }
             );
-            return
+            return;
 
 
         });// connection
