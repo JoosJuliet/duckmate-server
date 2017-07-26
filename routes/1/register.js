@@ -30,7 +30,6 @@ var upload = function (req, res) {
         ext: file.mimetype.split('/')[1]
       };
       console.log("######");
-      console.log(file.uploadedFile);
       cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
     }
   });
