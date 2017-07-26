@@ -44,13 +44,10 @@ pool.getConnection(function(err, connection) {
         return;
     }
 
-    connection.query( 'select 1' , function(err, rows) {
-        connection.release();
-        if (err){
-            console.log(err);
-            return;
-        };
-    });
+    connection.ping(function (err) {
+        if (err) throw err;
+        console.log('Server responded to ping');
+    })
 });
 // TEST
 var duckmate = require('./routes/duckmate');

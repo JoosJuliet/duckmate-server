@@ -1,7 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var app = express();
-
+//
+// const responseToJson = (...args) => {
+//     console.log(args);
+//     var json = {
+//         result : r,
+//         msg : m,
+//         data : d
+//     };
+//     if( !d ) delete json.data;
+//     return ;
+// };
+// responseToJson(1,1,1);
 
 /*******img올리기 위해 필요한 것들 ********/
 var fs = require('fs');
@@ -18,31 +29,6 @@ router.post('/',function(req, res, next){
 // member_img,member_email,member_passwd, member_name
 // member_img은 member_email로 이름을 만든다.
 
-    pool.getConnection(function(error, connection){
-        if (error){
-                console.log("getConnection Error" + error);
-                res.sendStatus(500);
-        }
-        console.log(req.body.member_email);
-        console.log(req.body.member_passwd);
-        console.log(req.body.member_name);
-        var sql = 'insert into duckmate.member(member_email, member_passwd, member_name) values(?,?,?)';
-        var inserts = [ req.body.member_email, req.body.member_passwd, req.body.member_name];
-        connection.query(sql, inserts, function(error, rows){
-            connection.release();
-            if (error){
-              console.log("register에서 post / Connection Error" + error);
-              res.status(500);
-            }
-            console.log( rows );
-        	if( rows.length == 0 ){
-        		res.status(201).send({result: false});
-        	}else{
-                res.status(201).send({result : true});
-        	}
-        });//connection query
-
-    });
 });
 
 // TODO 비밀번호 찾고싶은 사람 표시해주기
