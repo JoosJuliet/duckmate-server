@@ -2,7 +2,7 @@
 
 /*******img올리기 위해 필요한 것들 ********/
 var fs = require('fs');
-var imagePath = "public/images";
+var imagePath = "./public/images";
 var multer  = require('multer');
 var upload = multer({ dest: 'uploads/' });
 var Q = require("q");
@@ -27,10 +27,12 @@ var app = express();
 // responseToJson(1,1,1);
 
 var upload = function (req, res) {
+    console.log("1");
     var deferred = Q.defer();
     var storage = multer.diskStorage({
         // 서버에 저장할 폴더
         destination: function (req, file, cb) {
+            console.log("2");
             cb(null, imagePath);
         },
 
