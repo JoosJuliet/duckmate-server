@@ -29,7 +29,7 @@ global.ResponseToJson = (r,m,d) =>{
     };
 
     if( !d ) delete object.data;
-    return object;
+    return res.json(object);
 };
 
 var LeftConnections = connectionLimit;
