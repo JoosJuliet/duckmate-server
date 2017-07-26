@@ -2,11 +2,11 @@
 
 /*******img올리기 위해 필요한 것들 ********/
  var fs = require('fs');
-// var imagePath = "./public/images";
+var imagePath = "./public/images";
 var multer  = require('multer');
-var upload = multer({ dest: './uploads/'});
 
-// var Q = require("q");
+
+var Q = require("q");
 /************************************/
 
 
@@ -38,7 +38,7 @@ var upload = function (req, res) {
         }
     });
 
-    var upload = multer({ storage: storage }).single('file');
+    var upload = multer({ dest: 'uploads/'}).single('file');
     upload(req, res, function (err) {
         if (err) deferred.reject();
         else deferred.resolve(req.file.uploadedFile);
