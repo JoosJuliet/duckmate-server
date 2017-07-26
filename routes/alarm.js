@@ -12,17 +12,16 @@ router.post('/',function(req, res, next){
         }
         console.log(req.body.member_id);
         console.log(req.body.firebasetoken);
+        console.log(req.body.today_alarm);
 
-        var sql = 'update duckmate.member set firebasToken = ? where member_id = ?';
-        var inserts = [ req.body.firebasetoken, req.body.member_id];
-        connection.query(sql, inserts, function(error, rows){
+        connection.query('update duckmate.member set firebasToken = ? or today_alarm = ? where member_id = ?;', [ req.body.firebasetoken, req.body.today_alarm,req.body.member_id], function(error, results){
             connection.release();
             if (error){
               console.log(" post /alarm/firebasetoken Connection Error" + error);
               res.status(500);
             }
-            console.log( rows );
-        	if( rows.length == 0 ){
+            console.log( results );
+        	if( results.affectedRows === 1 ){
         		res.status(201).send({result: false});
         	}else{
                 res.status(201).send({result : true});
