@@ -25,7 +25,7 @@ router.post('/',function(req, res, next){
         return;
     }
 
-    pool.query( 'update duckmate.member set firebasToken = ? or today_alarm = ? where member_id = ?;', [ req.body.firebasetoken, req.body.today_alarm,req.body.member_id] , function(err, rows) {
+    pool.query( 'update duckmate.member set firebasToken = ? or today_alarm = ? where member_id = ?;', [ req.body.firebasetoken, req.body.today_alarm,req.body.member_id] , function( err, results ) {
         if (err){
             res.json({
                 result: false,
