@@ -24,6 +24,10 @@ var Q = require("q");
 
 
 router.post('/',function(req, res, next){
+    console.log("1");
+    res.status(201).send(
+        { result: false }
+    );
 // db에서 notnull인 것 없을 때 예외처리 다 해야한다
 
 // member_img,member_email,member_passwd, member_name
