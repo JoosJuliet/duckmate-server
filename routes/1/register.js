@@ -13,18 +13,6 @@ var Q = require("q");
 var express = require('express');
 var router = express.Router();
 var app = express();
-//
-// const responseToJson = (...args) => {
-//     console.log(args);
-//     var json = {
-//         result : r,
-//         msg : m,
-//         data : d
-//     };
-//     if( !d ) delete json.data;
-//     return ;
-// };
-// responseToJson(1,1,1);
 
 var upload = function (req, res) {
     console.log("1111111111111111111");
@@ -61,7 +49,7 @@ router.post('/:filename', function(req, res, next) {
     upload(req, res).then(function (file) {
         res.json(file);
     }, function (err) {
-        res.send(500, err);
+        res.send(500);
     });
 });
 
