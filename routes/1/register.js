@@ -4,7 +4,7 @@
  var fs = require('fs');
 var imagePath = "./public/images";
 var multer  = require('multer');
-var upload = multer({ dest: './uploads/'});
+var upload = multer({ dest: './uploads'});
 
 var Q = require("q");
 /************************************/
@@ -29,6 +29,7 @@ var upload = function (req, res) {
         name: req.params.filename,
         ext: file.mimetype.split('/')[1]
       };
+      console.log(file.uploadedFile);
       cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
     }
   });
