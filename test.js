@@ -1,18 +1,30 @@
 
 var express = require('express');
-var gcloud = require('@google-cloud/storage');
 var fs = require('fs');
 
 var router = express.Router();
 
+var gcs = require('@google-cloud/storage')({
+	projectId: 'defflee-162207',
+	keyFilename : './config/keyfile.json'
+});
+var mybucket = gcs.bucket('duckmate');
+
+mybucket.upload('./public/image.png', function(err, file) {
+	if (!err) {
+		console.log("success");
+	}else{
+		console.log(err);
+	}
+});
+/*
 var gcs = gcloud({
-	projectId: 'favorable-mark-151209',
+	projectId: 'defflee-162207',
 	keyFilename : './config/keyfile.json'
 
 });
-console.log("1");
-var bucket = gcs.bucket('duckmate_1');
-
+var bucket = gcs.bucket('duckmate');
+*/
 
 /****************douwnload,upload ver ******************/
 
@@ -31,7 +43,7 @@ var bucket = gcs.bucket('duckmate_1');
 
 
 /**************** Stream douwnload ver ******************/
-var remoteFile = bucket.file('test01.png');
+/*var remoteFile = bucket.file('test01.png');
 var localFilename = './photos/test01.png';
 
 remoteFile.createReadStream()
@@ -44,7 +56,7 @@ remoteFile.createReadStream()
 		console.log("end");
 	// The file is fully downloaded.
 	})
-	.pipe(fs.createWriteStream(localFilename));
+	.pipe(fs.createWriteStream(localFilename));*/
 
 /******************************************************/
 
@@ -76,7 +88,7 @@ remoteFile.createReadStream()
 /**************************************************/
 
 
-
+/*
 module.exports = router;
-
+*/
 // automator 연동 api
