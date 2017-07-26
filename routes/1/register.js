@@ -22,13 +22,14 @@ var upload = function (req, res) {
     destination: function (req, file, cb) {
       cb(null, imagePath);
     },
-
+    console.log("!!!!!!!");
     // 서버에 저장할 파일 명
     filename: function (req, file, cb) {
       file.uploadedFile = {
         name: req.params.filename,
         ext: file.mimetype.split('/')[1]
       };
+      console.log("######");
       console.log(file.uploadedFile);
       cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
     }
