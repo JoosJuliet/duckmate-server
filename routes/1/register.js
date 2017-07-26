@@ -72,7 +72,8 @@ var upload = multer({
 	}
 });
 
-app.post('/profile', upload.single('avatar'), function (req, res, next) {
+router.post('/profile', upload.single('avatar'), function (req, res, next) {
+    console.log("!");
  console.log(req.file);
 })
 
