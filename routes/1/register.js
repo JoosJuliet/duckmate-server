@@ -72,9 +72,9 @@ var upload = multer({
 	}
 });
 
-router.post('/profile', upload.single('avatar'), function (req, res, next) {
+router.post('/profile',multer({ dest: './uploads/'}).single('upl'), function (req, res, next) {
     console.log("!");
- console.log(req.file);
+    console.log(req.file);
 })
 
 // TODO 이거는 다시 풀어ㅑㅇ한다
