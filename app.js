@@ -21,6 +21,17 @@ global.pool = mysql.createPool({
     connectionLimit : db_config.connectionLimit
 });
 
+global.ResponseToJson = (r,m,d) =>{
+    let object = {
+        results : r,
+        message : m,
+        data : d,
+    };
+
+    if( !d ) delete object.data;
+    return object;
+};
+
 var LeftConnections = connectionLimit;
 pool.on('acquire', function (connection) {
     LeftConnections--;
@@ -69,7 +80,6 @@ var question = require('./routes/question');
 var notice = require('./routes/notice');
 
 var alarm = require('./routes/alarm');
-
 var program = require('./routes/program');
 
 var app = express();
