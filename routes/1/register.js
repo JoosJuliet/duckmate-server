@@ -27,7 +27,7 @@ var app = express();
 // responseToJson(1,1,1);
 
 var upload = function (req, res) {
-    console.log("1");
+    console.log("1111111111111111111");
     var deferred = Q.defer();
     var storage = multer.diskStorage({
         // 서버에 저장할 폴더
