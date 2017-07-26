@@ -49,7 +49,7 @@ router.post('/:filename', function(req, res, next) {
     upload(req, res).then(function (file) {
         res.json(file);
     }, function (err) {
-        res.send(500);
+        res.sendStatus(500).send(err);
     });
 });
 
