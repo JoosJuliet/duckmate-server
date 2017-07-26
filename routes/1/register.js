@@ -1,11 +1,12 @@
 
 
 /*******img올리기 위해 필요한 것들 ********/
-var fs = require('fs');
-var imagePath = "./public/images";
+ var fs = require('fs');
+// var imagePath = "./public/images";
 var multer  = require('multer');
-var upload = multer({ dest: 'uploads/' });
-var Q = require("q");
+var upload = multer({ dest: './uploads/'});
+
+// var Q = require("q");
 /************************************/
 
 
@@ -55,26 +56,10 @@ var app = express();
 // });
 
 
-var storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, 'uploads')
-    },
-    filename: function (req, file, callback) {
-        callback(null, file.originalname + Date.now())
-    }
-});
-
-var upload = multer({
-    storage: storage,
-    limits: {
-		files: 10,
-		fileSize: 1024 * 1024 * 1024
-	}
-});
-
-router.post('/profile',multer({ dest: './uploads/'}).single('upl'), function (req, res, next) {
+router.post('/profile',upload.single('photho'), function (req, res, next) {
     console.log("!");
-    console.log(req.file);
+    console.log("!!!",req.file);
+    console.log("!!!!!!!!",req.body);
 })
 
 // TODO 이거는 다시 풀어ㅑㅇ한다
