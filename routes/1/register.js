@@ -15,7 +15,7 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 var upload = function (req, res) {
-    console.log("##",req.file);
+    console.log("##",file);
   var deferred = Q.defer();
   var storage = multer.diskStorage({
     // 서버에 저장할 폴더
