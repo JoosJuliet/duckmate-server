@@ -13,6 +13,17 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 
+/*******img 보내기 위해 필요한 것들 ********/
+var gcs = require('@google-cloud/storage')({
+	projectId: 'defflee-162207',
+	keyFilename : './config/keyfile.json'
+});
+var mybucket = gcs.bucket('duckmate');
+
+/************************************/
+// https://storage.googleapis.com/duckmate/image.png
+
+
 var upload = function (req, res) {
     console.log("req.params.filename",req.params.filename); //test
 

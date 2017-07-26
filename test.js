@@ -5,17 +5,37 @@ var fs = require('fs');
 var router = express.Router();
 
 var gcs = require('@google-cloud/storage')({
-	projectId: 'defflee-162207',
-	keyFilename : './config/keyfile.json'
+    projectId: 'defflee-162207',
+    keyFilename : './config/keyfile.json'
 });
-var mybucket = gcs.bucket('duckmate');
+var myBucket = gcs.bucket('duckmate');
+var file = myBucket.file('image.png');
 
-mybucket.upload('./public/image.png', function(err, file) {
-	if (!err) {
-		console.log("success");
-	}else{
-		console.log(err);
-	}
+var options = {
+      entity: 'allUsers',
+              role: gcs.acl.READER_ROLE
+};
+
+file.acl.add(options, function(err, aclObject) {
+        if(err){ console.log(err); return;}else{
+    console.log("1");
+
+        }
+        });
+
+
+//gsutil defacl set public-read gs://{bucket-name}
+//이거하면 그 bucket public된다
+
+
+
+
+myBucket.upload('./public/image.png', function(err, file) {
+    if (!err) {
+        console.log("success");
+    }else{
+        console.log(err);
+    }
 });
 /*
 var gcs = gcloud({
