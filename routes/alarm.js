@@ -3,11 +3,12 @@ var express = require('express');
 var fs = require('fs');
 var router = express.Router();
 
-router.post('/',function(req, res, next){
-    if( !req.body.firebasetoken ){
+router.route('/')
+.post((req, res)=>{
+    if( !req.body.firebaseToken ){
         res.json({
             result: false,
-            msg: "req.body.firebasetoken이 없습니다."
+            msg: "req.body.firebaseToken이 없습니다."
         });
         return;
     }else if( !req.body.today_alarm ){
@@ -24,7 +25,7 @@ router.post('/',function(req, res, next){
         return;
     }
 
-    pool.query( 'update duckmate.member set firebasToken = ? or today_alarm = ? where member_id = ?;', [ req.body.firebasetoken, req.body.today_alarm,req.body.member_id] , function( err, results ) {
+    pool.query( 'update duckmate.member set firebasToken = ? or today_alarm = ? where member_id = ?;', [ req.body.firebaseToken, req.body.today_alarm,req.body.member_id] , function( err, results ) {
         if (err){
             res.json({
                 result: false,
@@ -41,6 +42,37 @@ router.post('/',function(req, res, next){
             res.status(201).json({
                 result: false,
                 msg: "업데이트를 실패했습니다.",
+            });
+        }
+    });
+})
+.get((req,res)=>{
+    if( !req.body.member_id ){
+        res.json({
+            result: false,
+            msg: "req.body.firebaseToken이 없습니다."
+        });
+        return;
+    }
+    pool.query( 'select 0_flag,1_flag,2_flag,3_flag,4_flag,today_alarm FROM duckmate.member where member_id = ?  ;', [ req.body.member_id ] , function( err, rows ) {
+        if (err){
+            res.json({
+                result: false,
+                qry: this.sql,
+                msg: "db 접속 에러",
+            });
+            return;
+        }
+        rows = JSON.stringify(rows);
+        if( rows.length ){
+            res.status(201).json({
+                result: true,
+                msg: rows
+            });
+        }else{
+            res.status(201).json({
+                result: false,
+                msg: "해당 member_id가 등록되있지 않습니다.",
             });
         }
     });
