@@ -14,6 +14,7 @@
         "ejs": "~2.5.5",
         "express": "~4.14.1",
         "fcm-push": "^1.1.2",
+        "firebase-admin": "^5.1.0",
         "gcloud": "^0.37.2",
         "gm": "^1.23.0",
         "jsonwebtoken": "^7.3.0",
