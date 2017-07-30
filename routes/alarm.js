@@ -49,9 +49,10 @@ router.route('/')
         return;
     }
 
-    pool.query( 'update duckmate.member set irebaseToken = ?, today_alarm = ?, 0_flag = ?, 1_flag = ?, 2_flag = ?, 3_flag = ?  where member_id = ?;', [ req.body.firebaseToken, req.body.today_alarm, req.body['0_flag'],req.body['1_flag'],req.body['2_flag'],req.body['3_flag'], req.body.member_id] , function( err, results ) {
+    pool.query( 'update duckmate.member set firebaseToken = ?, today_alarm = ?, 0_flag = ?, 1_flag = ?, 2_flag = ?, 3_flag = ?  where member_id = ?;', [ req.body.firebaseToken, req.body.today_alarm, req.body['0_flag'],req.body['1_flag'],req.body['2_flag'],req.body['3_flag'], req.body.member_id] , function( err, results ) {
         if (err){
-            res.json({
+		console.log(err);
+		res.json({
                 result: false,
                 msg: "db 접속 에러"
             });
