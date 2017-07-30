@@ -85,7 +85,7 @@ router.post('/',function(req, res, next){
 
 
     const uid = req.body.uid;
-
+    console.log(uid);
     if( !req.body.uid ){
         res.json({
             result: false,
