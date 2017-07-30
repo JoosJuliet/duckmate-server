@@ -56,6 +56,7 @@ router.route('/')
     }
     pool.query( 'select 0_flag,1_flag,2_flag,3_flag,4_flag,today_alarm FROM duckmate.member where member_id = ?  ;', [ req.body.member_id ] , function( err, rows ) {
         if (err){
+            console.log("여기서 에러"+this.sql);
             res.json({
                 result: false,
                 qry: this.sql,
@@ -63,11 +64,13 @@ router.route('/')
             });
             return;
         }
+        console.log(rows);
         rows = JSON.stringify(rows);
-        if( rows.length ){
+        if( rows ){
             res.status(201).json({
                 result: true,
-                msg: rows
+                msg: "가져오기 성공",
+                data : rows
             });
         }else{
             res.status(201).json({
