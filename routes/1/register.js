@@ -106,14 +106,16 @@ router.post('/',function(req, res, next){
 	admin.auth().createCustomToken(uid)
 	.then(function(customToken) {
 		FirebaseToken = customToken;
+        console.log(FirebaseToken);
 	})
   	.catch(function(error) {
 		console.log(error+Date.now());
-		res.json({
-			result: false,
-			msg: "토큰이 발급을 실패했습니다.",
-			data: error
-		});
+		// res.json({
+		// 	result: false,
+		// 	msg: "토큰이 발급을 실패했습니다.",
+		// 	data: error
+		// });
+        return;
 	});
 
     res.json({
