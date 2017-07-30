@@ -116,71 +116,77 @@ router.post('/',function(req, res, next){
 		});
 	});
 
+    res.json({
+        result: false,
+        msg: "req.body.uid이 없습니다.",
+        data :FirebaseToken
+    });
 
-    if( req.body.notSns ){
-        if( !req.body.member_email ){
-            res.json({
-                result: false,
-                msg: "req.body.member_email이 없습니다."
-            });
-            return;
-        }else if ( !req.body.member_passwd ) {
-            res.json({
-                result: false,
-                msg: "req.body.member_passwd이 없습니다."
-            });
-            return;
-        }
-
-        pool.query( 'insert into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?)', [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
-            if (err){
-                res.json({
-                    result: false,
-                    msg: "db 접속 에러",
-                    qry: this.sql
-                });
-                return;
-            }
-            if( results.affectedRows === 1 ){
-                res.status(201).json({
-                    result: true,
-                    msg: "업데이트가 완료되었습니다.",
-                    data : FirebaseToken
-                });
-            }else{
-                res.status(201).json({
-                    result: false,
-                    msg: "업데이트를 실패했습니다.",
-                });
-            }
-        });
-
-    }else{
-
-        pool.query( 'insert into duckmate.member( firebaseToken, member_name ) values(?,?)', [ FirebaseToken ,  req.body.member_name ] , function( err, results ) {
-            if (err){
-                res.json({
-                    result: false,
-                    msg: "db 접속 에러",
-                    qry: this.sql
-                });
-                return;
-            }
-
-            if( results.affectedRows === 1 ){
-                res.status(201).json({
-                    result: true,
-                    msg: "업데이트가 완료되었습니다.",
-                    data : FirebaseToken
-                });
-            }else{
-                res.status(201).json({
-                    result: false,
-                    msg: "업데이트를 실패했습니다.",
-                });
-            }
-        });
-    }
+    //
+    // if( req.body.notSns ){
+    //     if( !req.body.member_email ){
+    //         res.json({
+    //             result: false,
+    //             msg: "req.body.member_email이 없습니다."
+    //         });
+    //         return;
+    //     }else if ( !req.body.member_passwd ) {
+    //         res.json({
+    //             result: false,
+    //             msg: "req.body.member_passwd이 없습니다."
+    //         });
+    //         return;
+    //     }
+    //
+    //     pool.query( 'insert into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?)', [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
+    //         if (err){
+    //             res.json({
+    //                 result: false,
+    //                 msg: "db 접속 에러",
+    //                 qry: this.sql
+    //             });
+    //             return;
+    //         }
+    //         if( results.affectedRows === 1 ){
+    //             res.status(201).json({
+    //                 result: true,
+    //                 msg: "업데이트가 완료되었습니다.",
+    //                 data : FirebaseToken
+    //             });
+    //         }else{
+    //             res.status(201).json({
+    //                 result: false,
+    //                 msg: "업데이트를 실패했습니다.",
+    //             });
+    //         }
+    //     });
+    //
+    // }else{
+    //
+    //     pool.query( 'insert into duckmate.member( firebaseToken, member_name ) values(?,?)', [ FirebaseToken ,  req.body.member_name ] , function( err, results ) {
+    //         if (err){
+    //             res.json({
+    //                 result: false,
+    //                 msg: "db 접속 에러",
+    //                 qry: this.sql
+    //             });
+    //             return;
+    //         }
+    //
+    //         if( results.affectedRows === 1 ){
+    //             res.status(201).json({
+    //                 result: true,
+    //                 msg: "업데이트가 완료되었습니다.",
+    //                 data : FirebaseToken
+    //             });
+    //         }else{
+    //             res.status(201).json({
+    //                 result: false,
+    //                 msg: "업데이트를 실패했습니다.",
+    //             });
+    //         }
+    //     });
+    // }
 });
 
 // TODO 비밀번호 찾고싶은 사람 표시해주기
