@@ -64,28 +64,30 @@ router.route('/')
             });
             return;
         }
-        console.log(rows);
-        rows = JSON.parse(JSON.stringify(rows));
+        rows = JSON.parse( JSON.stringify(rows));
+		rows = rows[0];
         if( rows ){
+
+			let dataObject = {
+
+				"0_flag" : rows.today_alarm
+			};
+			console.log(dataObject);
             res.status(201).json({
                 result: true,
                 msg: "가져오기 성공",
-                data : rows,
-                data : rows.today_alarm
+                data : dataObject,
             });
         }else{
             res.status(201).json({
                 result: false,
                 msg: "해당 member_id가 등록되있지 않습니다.",
             });
+			return;
         }
     });
 });
 
-router.get('/', function(req, res, next) {
-    console.log("time" + Date.now());
-    res.send('depromeet');
-});
 
 
 module.exports = router;
