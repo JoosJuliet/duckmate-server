@@ -54,7 +54,7 @@ router.route('/')
         });
         return;
     }
-    pool.query( 'select 0_flag,1_flag,2_flag,3_flag,4_flag,today_alarm FROM duckmate.member where member_id = ?  ;', [ req.query.member_id ] , function( err, rows ) {
+    pool.query( 'select 0_flag,1_flag,2_flag,3_flag,today_alarm FROM duckmate.member where member_id = ?  ;', [ req.query.member_id ] , function( err, rows ) {
         if (err){
             console.log("여기서 에러"+this.sql);
             res.json({
@@ -69,9 +69,13 @@ router.route('/')
         if( rows ){
 
 			let dataObject = {
+				"0_flag" : rows["0_flag"],
+                "1_flag" : rows["1_flag"],
+                "2_flag" : rows["2_flag"],
+                "3_flag" : rows["3_flag"],
+                "today_alarm" : rows.today_alarm
 
-				"0_flag" : rows.today_alarm
-			};
+            };
 			console.log(dataObject);
             res.status(201).json({
                 result: true,
