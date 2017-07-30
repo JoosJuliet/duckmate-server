@@ -9,7 +9,7 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var db_config = require('./config/db_config.json');
 // MySQL 연동
-var connectionLimit = 50;
+var connectionLimit = 10;
 //db connection 몇개 남았는 지 알려줘서 보내는 코드
 
 global.pool = mysql.createPool({
@@ -24,10 +24,10 @@ global.pool = mysql.createPool({
 
 var LeftConnections = connectionLimit;
 pool.on('acquire', function (connection) {
-    LeftConnections--;
-    if( LeftConnections < 5 ){
-        console.log("DB Connections이 5개 밖에 남지 않았습니다!");
+    if( LeftConnections-1 < 10 ){
+        console.log("DB Connections이 "+LeftConnections+"개 밖에 남지 않았습니다!");
     }
+	LeftConnections--;
 });
 
 pool.on('enqueue', function () {
@@ -71,6 +71,7 @@ var notice = require('./routes/notice');
 
 var alarm = require('./routes/alarm');
 var program = require('./routes/program');
+var firstpage = require('./routes/firstpage');
 
 var app = express();
 
@@ -119,6 +120,7 @@ app.use('/duckmate/notice', notice);
 
 app.use('/duckmate/alarm',alarm);
 app.use('/duckmate/program',program);
+app.use('/duckmate/firstpage',firstpage);
 
 //app.use('/duckmate/test', test);
 

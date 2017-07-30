@@ -196,24 +196,31 @@ router.post('/singerAdd', function(req, res, next) {
         if (error) {
             console.log("getConnection Error" + error);
             res.sendStatus(500);
+
         }
+
         var SingerId = "singer" + SingerIdArr[BodyNum] + "_id";
 
-        var InsertValueQry = 'update duckmate.mylist SET ' + SingerId + '= ? where (member_id = ?);';
+        var InsertValueQry = "update duckmate.mylist SET " + SingerId + " = ? where member_id = ?;";
         connection.query(InsertValueQry, [
             BodySingerId, BodyMemberId
         ], function(error, rows) {
             if (error) {
+				console.log(req.body.singerNum);
+				console.log(req.body.singer_id);
+				console.log(req.body.member_id);
                 console.log("InsertValueQry Connection Error" + error);
                 res.sendStatus(500).send({result: "db error"});
+				connection.release();
             }
 
             if (rows.length == 0) {
                 res.status(201).send({data: "member data", message: "success", result: false});
+				connection.release();
                 return
             }
             res.status(200).send({data: "member data", message: "success", result: true});
-
+			connection.release();
         });
     }); // pool
 }); //post
@@ -225,7 +232,8 @@ router.get('/tabpage/:member_id', function(req, res, next) {
         if (error) {
             console.log("getConnection Error" + error);
             res.sendStatus(500).send({result: "db pool error"});;
-            return
+            connection.release();
+			return
         }
 
         var InsertValueQry = 'SELECT member_img,member_name,member_level FROM duckmate.member where member_id = ?;';
@@ -233,7 +241,8 @@ router.get('/tabpage/:member_id', function(req, res, next) {
             if (error) {
                 console.log("InsertValueQry Connection Error" + error);
                 res.sendStatus(500).send({result: "db connection error"});
-                return
+                connection.release();
+				return
             } // error
 
             if (result.length == 0) {
@@ -246,6 +255,7 @@ router.get('/tabpage/:member_id', function(req, res, next) {
                 if (error) {
                     console.log("SingerValueQry Connection Error" + error);
                     res.sendStatus(500).send({result: "db connection error"});
+					connection.release();
                     return
                 } // error
 
@@ -279,6 +289,7 @@ router.get('/tabpage/:member_id', function(req, res, next) {
                         if (error) {
                             console.log("SingerValueQry Connection Error" + error);
                             res.sendStatus(500).send({result: "db connection error"});
+							connection.release();
                         } // error
 
                         if (result1.length == 0) {
@@ -300,6 +311,7 @@ router.get('/tabpage/:member_id', function(req, res, next) {
                     }
                 }
 
+				connection.release();
                 return
 
             }); //SingerValueQry connection
