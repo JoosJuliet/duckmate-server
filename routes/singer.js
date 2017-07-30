@@ -187,42 +187,33 @@ router.get('/singer_rank', function(req, res, next) {
 
 //where에서 member_id 에다가 singerb_id넣는다.
 
-var SingerIdArr = ["b", "0", "1", "2", "3"];
+var SingerIdArr = ["b", "0", "1", "2"];
 router.post('/singerAdd', function(req, res, next) {
-    var BodySingerId = req.body.singer_id;
-    var BodyMemberId = req.body.member_id;
-    var BodyNum = req.body.singerNum;
-    pool.getConnection(function(error, connection) {
-        if (error) {
-            console.log("getConnection Error" + error);
-            res.sendStatus(500);
+    let SingerId = "singer" + SingerIdArr[req.body.singerNum] + "_id";
 
+    pool.query('update duckmate.mylist SET' + SingerId + ' = ? where member_id = ?;', [ req.body.singer_id, req.body.member_id] , function( err, results ) {
+        if (err){
+		console.log(err);
+		res.json({
+                result: false,
+                msg: "db 접속 에러",
+                qry: this.sql
+            });
+            return;
         }
+        if( results.affectedRows === 1 ){
+            res.status(201).json({
+                result: true,
+                msg: "업데이트가 완료되었습니다.",
+            });
+        }else{
+            res.status(201).json({
+                result: false,
+                msg: "업데이트를 실패했습니다.",
+            });
+        }
+    });
 
-        var SingerId = "singer" + SingerIdArr[BodyNum] + "_id";
-
-        var InsertValueQry = "update duckmate.mylist SET " + SingerId + " = ? where member_id = ?;";
-        connection.query(InsertValueQry, [
-            BodySingerId, BodyMemberId
-        ], function(error, rows) {
-            if (error) {
-				console.log(req.body.singerNum);
-				console.log(req.body.singer_id);
-				console.log(req.body.member_id);
-                console.log("InsertValueQry Connection Error" + error);
-                res.sendStatus(500).send({result: "db error"});
-				connection.release();
-            }
-
-            if (rows.length == 0) {
-                res.status(201).send({data: "member data", message: "success", result: false});
-				connection.release();
-                return
-            }
-            res.status(200).send({data: "member data", message: "success", result: true});
-			connection.release();
-        });
-    }); // pool
 }); //post
 
 router.get('/tabpage/:member_id', function(req, res, next) {
