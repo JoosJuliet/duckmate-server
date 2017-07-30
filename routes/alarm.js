@@ -47,10 +47,10 @@ router.route('/')
     });
 })
 .get((req,res)=>{
-    if( !req.body.member_id ){
+    if( !req.query.member_id ){
         res.json({
             result: false,
-            msg: "req.body.firebaseToken이 없습니다."
+            msg: "req.body.member_id가 없습니다."
         });
         return;
     }
