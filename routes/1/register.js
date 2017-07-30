@@ -132,7 +132,7 @@ router.post('/',function(req, res, next){
             return;
         }
 
-        pool.query( 'insert into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?)', [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
+        pool.query( 'insert into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?,?)', [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
             if (err){
                 res.json({
                     result: false,
