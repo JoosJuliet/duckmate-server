@@ -54,7 +54,8 @@ router.route('/')
 		console.log(err);
 		res.json({
                 result: false,
-                msg: "db 접속 에러"
+                msg: "db 접속 에러",
+                qry: this.sql
             });
             return;
         }
