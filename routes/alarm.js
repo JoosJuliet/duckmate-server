@@ -65,12 +65,13 @@ router.route('/')
             return;
         }
         console.log(rows);
-        rows = JSON.stringify(rows);
+        rows = JSON.parse(JSON.stringify(rows));
         if( rows ){
             res.status(201).json({
                 result: true,
                 msg: "가져오기 성공",
-                data : rows
+                data : rows,
+                data : rows.today_alarm
             });
         }else{
             res.status(201).json({
