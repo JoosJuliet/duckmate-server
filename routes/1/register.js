@@ -21,12 +21,10 @@ var gcs = require('@google-cloud/storage')({
 var mybucket = gcs.bucket('duckmate');
 
 /************************************/
-// https://storage.googleapis.com/duckmate/image.png
 
 
 var upload = function (req, res) {
     console.log("req.params.filename",req.params.filename); //test
-
     var deferred = Q.defer();
     var storage = multer.diskStorage({
         // 서버에 저장할 폴더
@@ -119,9 +117,6 @@ router.get('/:member_email', function(req, res, next) {
               console.log("register에서 get /:member_email Connection Error" + error);
               res.sendStatus(500);
             }
-
-            console.log("rows는",rows[0]);
-
 
             if( rows[0] === undefined ){
                 res.status(201).send(

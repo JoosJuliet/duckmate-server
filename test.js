@@ -9,19 +9,6 @@ var gcs = require('@google-cloud/storage')({
     keyFilename : './config/keyfile.json'
 });
 var myBucket = gcs.bucket('duckmate');
-var file = myBucket.file('image.png');
-
-var options = {
-      entity: 'allUsers',
-              role: gcs.acl.READER_ROLE
-};
-
-file.acl.add(options, function(err, aclObject) {
-        if(err){ console.log(err); return;}else{
-    console.log("1");
-
-        }
-        });
 
 
 //gsutil defacl set public-read gs://{bucket-name}
@@ -30,13 +17,17 @@ file.acl.add(options, function(err, aclObject) {
 
 
 
-myBucket.upload('./public/image.png', function(err, file) {
-    if (!err) {
-        console.log("success");
-    }else{
-        console.log(err);
-    }
-});
+const uploadgcs = (d) => {
+    myBucket.upload('./public/'+d+'.png', function(err, file) {
+        if (!err) {
+            console.log("success");
+        }else{
+            console.log(err);
+        }
+    });
+}
+
+uploadgcs("image");
 /*
 var gcs = gcloud({
 	projectId: 'defflee-162207',
