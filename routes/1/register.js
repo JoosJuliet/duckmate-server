@@ -84,6 +84,7 @@ admin.initializeApp({
 router.post('/',function(req, res, next){
 
 
+    const uid = req.body.uid;
 
     if( !req.body.uid ){
         res.json({
@@ -101,7 +102,7 @@ router.post('/',function(req, res, next){
 
 
     let FirebaseToken;
-    const uid = req.body.uid;
+
 	admin.auth().createCustomToken(uid)
 	.then(function(customToken) {
 		FirebaseToken = customToken;
