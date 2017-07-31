@@ -146,7 +146,7 @@ router.post('/',function(req, res, next){
                     msg: "업데이트가 완료되었습니다.",
                     data : {
                         firebasToken : FirebaseToken,
-                        member_id : result.insertId
+                        member_id : results.insertId
                     }
                 });
             }else{
