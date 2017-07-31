@@ -13,9 +13,6 @@ router.get('/singertest/:id', function(req, res, next) {
     res.send(req.params.id);
 });
 
-
-
-//
 // (mylist table) 해당가수의 투표count
 //member_id로 찾고 거기에서 해당 singer_id에 맞는 id를 찾아서 그것의 vote_count를 잡느다.
 
