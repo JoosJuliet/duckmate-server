@@ -82,8 +82,6 @@ admin.initializeApp({
 // 닉네임은 무조건 받고
 
 router.post('/',function(req, res, next){
-
-
     const uid = req.body.uid;
     if( !req.body.uid ){
         res.json({
@@ -98,7 +96,6 @@ router.post('/',function(req, res, next){
         });
         return;
     }
-
 
     let FirebaseToken;
 
@@ -132,7 +129,8 @@ router.post('/',function(req, res, next){
             return;
         }
 
-        pool.query( 'insert into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?,?)', [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
+        pool.query( 'insert into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?,?)',
+        [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
             if (err){
                 res.json({
                     result: false,
@@ -141,6 +139,7 @@ router.post('/',function(req, res, next){
                 });
                 return;
             }
+            console.log('results',results);
             if( results.affectedRows === 1 ){
                 res.status(201).json({
                     result: true,
