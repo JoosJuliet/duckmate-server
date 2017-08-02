@@ -115,26 +115,25 @@ router.get('/singerbase/:member_id', function(req, res, next) {
                     connection.release();
                 }
                 console.log(rows);
-                return ;
-                // if ( rows.length ) {
-                //     res.status(200).send({result: "false"});
-                //     return
-                //     connection.release();
-                // } else {
-                //     res.status(200).send({
-                //         result: "success",
-                //         data: {
-                //             singerb_id: rows[0].singerb_id,
-                //             singer0_id: rows[0].singer0_id,
-                //             singer1_id: rows[0].singer1_id,
-                //             singer2_id: rows[0].singer2_id,
 
-                //         }
-                //
-                //     });
-                //     connection.release();
-                //     return
-                // }
+                if ( rows[0].length ) {
+                    res.status(200).send({result: "false"});
+                    connection.release();
+                    return;
+                } else {
+                    res.status(200).send({
+                        result: "success",
+                        data: {
+                            singerb_id: rows[0].singerb_id,
+                            singer0_id: rows[0].singer0_id,
+                            singer1_id: rows[0].singer1_id,
+                            singer2_id: rows[0].singer2_id
+                        }
+
+                    });
+                    connection.release();
+                    return;
+                }
 
             });
         }
