@@ -5,6 +5,16 @@ var router = express.Router();
 
 router.route('/')
 .post((req, res)=>{
+
+		if( typeof req.body.firebaseToken !== 'string') {
+			res.json({
+	result: false,
+	msg : "token is string"
+					});
+
+			return ;
+
+		}
     if( !req.body.firebaseToken ){
         res.json({
             result: false,
@@ -59,7 +69,9 @@ router.route('/')
             });
             return;
         }
-        if( results.affectedRows === 1 ){
+
+		console.log(results,this.sql);
+        if( results.affectedRows == 1|| 2 ){
             res.status(201).json({
                 result: true,
                 msg: "업데이트가 완료되었습니다.",
@@ -67,7 +79,7 @@ router.route('/')
         }else{
             res.status(201).json({
                 result: false,
-                msg: "업데이트를 실패했습니다.",
+                msg: " 실패했습니다.",
             });
         }
     });
@@ -91,7 +103,11 @@ router.route('/')
             return;
         }
         rows = JSON.parse( JSON.stringify(rows));
-		rows = rows[0];
+//		rows = rows[0];
+
+		console.log(rows);
+
+		return;
         if( rows ){
 
 			let dataObject = {
