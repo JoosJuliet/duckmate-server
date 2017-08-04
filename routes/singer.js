@@ -84,12 +84,57 @@ router.route('/')
             };
             console.log("data",data);
 
-
-            return;
-
+            detectSingerInfo(data);
 
         }
     });
+
+    const detectSingerInfo = (singer) =>{
+        let arr = [];
+        for(let i = 0 ; i < 3; i++)
+            arr.push(selectSingerDB(singer["singer"+i+"_id"]));
+
+
+        console.log(arr);
+
+        const selectSingerDB = (id) =>{
+
+            return id;
+            // pool.query('SELECT * FROM duckmate.singer where singer_id = ? ;', [singer.singer0_id] , function( err, rows ) {
+            //     if (err){
+            // 		console.log(err);
+            // 		res.status(500).json({
+            //                 result: false,
+            //                 msg: "db 접속 에러",
+            //                 qry: this.sql
+            //         });
+            //         return;
+            //     }
+            //     console.log("rows[0]",rows[0]);
+            //     if( !rows[0].length ){
+            //         res.status(200).json({
+            //             result: false,
+            //             msg: "singer가 들어있는게 없네요;",
+            //         });
+            //     }else{
+            //         let data = {
+            //             singer0_id: rows[0].singer0_id,
+            //             singer1_id: rows[0].singer1_id,
+            //             singer2_id: rows[0].singer2_id,
+            //             singer3_id: rows[0].singer3_id
+            //         };
+            //         console.log("data",data);
+            //
+            //
+            //         return;
+            //
+            //
+            //     }
+            // });
+        };
+
+    };
+
 
     //내 가수들에 대한  singer_id,singer_name,singer_img,choice_count
 
