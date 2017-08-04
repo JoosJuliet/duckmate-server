@@ -18,12 +18,12 @@ router.get('/', function(req, res, next) {
         }
         rows =JSON.parse(JSON.stringify(rows));
         console.log(rows[0]);
-        return;
         
         if( rows.length ){
             res.status(200).json({
                 result: false,
-                msg: rows[0]
+       			msg: "공지입니다"
+				data: rows[0]
             });
         }else{
             res.status(200).json({
