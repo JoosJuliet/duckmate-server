@@ -8,7 +8,7 @@ var app = express();
 //UPDATE 테이블명 SET 바꿀것  WHERE 조건 Class=10
 // 서브가수삭제
 
-var SingerIdArr = ["b", "0", "1", "2", "3"];
+var SingerIdArr = ["b", "0", "1", "2"];
 router.delete('/singerDelete', function(req, res, next) {
 
     var MemberId = req.body.member_id;

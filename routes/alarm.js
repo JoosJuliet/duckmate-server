@@ -5,61 +5,29 @@ var router = express.Router();
 
 router.route('/')
 .post((req, res)=>{
-    if( !req.body.firebaseToken ){
-        res.json({
-            result: false,
-            msg: "req.body.firebaseToken이 없습니다."
-        });
-        return;
-    }else if( !req.body.today_alarm ){
-        res.json({
-            result: false,
-            msg: "req.body.today_alarm이 없습니다."
-        });
-        return;
-    }else if( !req.body.member_id ){
-        res.json({
-            result: false,
-            msg: "req.body.member_id이 없습니다."
-        });
-        return;
-    }else if( !req.body['0_flag']){
-        res.json({
-            result: false,
-            msg: "req.body.0_flag이 없습니다."
-        });
-        return;
-    }else if( !req.body['1_flag'] ){
-        res.json({
-            result: false,
-            msg: "req.body.1_flag이 없습니다."
-        });
-        return;
-    }else if( !req.body['2_flag'] ){
-        res.json({
-            result: false,
-            msg: "req.body.2_flag이 없습니다."
-        });
-        return;
-    }else if( !req.body['3_flag'] ){
-        res.json({
-            result: false,
-            msg: "req.body.3_flag이 없습니다."
-        });
-        return;
+
+    const properties = ['firebaseToken','today_alarm','member_id',body['0_flag'],body['1_flag'],body['2_flag'],body['3_flag']];
+    for(var i=0; i< properties.length;i++){
+        if(!req.body.hasOwnProperty(properties[i])){
+            res.json({
+                result: false,
+                msg: "req.body."+properties[i]+"이 없습니다."
+            });
+            return;
+        }
     }
 
     pool.query( 'update duckmate.member set firebaseToken = ?, today_alarm = ?, 0_flag = ?, 1_flag = ?, 2_flag = ?, 3_flag = ?  where member_id = ?;', [ req.body.firebaseToken, req.body.today_alarm, req.body['0_flag'],req.body['1_flag'],req.body['2_flag'],req.body['3_flag'], req.body.member_id] , function( err, results ) {
         if (err){
-		console.log(err);
-		res.json({
-                result: false,
-                msg: "db 접속 에러",
-                qry: this.sql
-            });
-            return;
+    		console.log(err);
+    		res.json({
+                    result: false,
+                    msg: "db 접속 에러",
+                    qry: this.sql
+                });
+                return;
         }
-        if( results.affectedRows === 1 ){
+        if( results.affectedRows ){
             res.status(201).json({
                 result: true,
                 msg: "업데이트가 완료되었습니다.",
