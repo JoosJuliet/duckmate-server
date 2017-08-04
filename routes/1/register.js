@@ -1,25 +1,22 @@
-
-
-
 /*******img올리기 위해 필요한 것들 ********/
- var fs = require('fs');
-var imagePath = "./public";
-var multer  = require('multer');
-var Q = require("q");
+const fs = require('fs');
+const imagePath = "./public";
+const multer  = require('multer');
+const Q = require("q");
 /************************************/
 
 // var upload = multer({ dest: './uploads/'});
 
-var express = require('express');
-var router = express.Router();
-var app = express();
+const express = require('express');
+const router = express.Router();
+const app = express();
 
 /*******img 보내기 위해 필요한 것들 ********/
-var gcs = require('@google-cloud/storage')({
+const gcs = require('@google-cloud/storage')({
 	projectId: 'defflee-162207',
 	keyFilename : './config/keyfile.json'
 });
-var mybucket = gcs.bucket('duckmate');
+const mybucket = gcs.bucket('duckmate');
 
 /************************************/
 
@@ -80,30 +77,24 @@ admin.initializeApp({
 // sns면 없다.
 // sns가 아니면 notSns :true
 // 닉네임은 무조건 받고
-
-router.post('/',function(req, res, next){
+router.route('/')
+.post((req, res)=>{
     const uid = req.body.uid;
-    if( !req.body.uid ){
-        res.json({
-            result: false,
-            msg: "req.body.uid이 없습니다."
-        });
-        return;
-    } else if( !req.body.member_name ){
-        res.json({
-            result: false,
-            msg: "req.body.member_name이 없습니다."
-        });
-        return;
+    let properties = ['uid','member_name'];
+    for(let i=0; i< properties.length;i++){
+        if(!req.body.hasOwnProperty(properties[i])){
+            res.json({
+                result: false,
+                msg: "req.body."+properties[i]+"이 없습니다."
+            });
+            return;
+        }
     }
 
     let FirebaseToken;
-
 	admin.auth().createCustomToken(uid)
-	.then(function(customToken) {
-			tmp(customToken);
-	})
-  	.catch(function(error) {
+	.then( customToken =>  tmp(customToken) )
+  	.catch((error) => {
 		console.log(error+Date.now());
 		res.json({
 			result: false,
@@ -114,124 +105,118 @@ router.post('/',function(req, res, next){
 	});
 
     const tmp = (FirebaseToken) => {
-        if( req.body.notSns ){
-            if( !req.body.member_email ){
-                res.json({
-                    result: false,
-                    msg: "req.body.member_email이 없습니다."
-                });
-                return;
-            }else if ( !req.body.member_passwd ) {
-                res.json({
-                    result: false,
-                    msg: "req.body.member_passwd이 없습니다."
-                });
-                return;
+        if( !req.body.notSns )
+            SnsQry();
+        else
+        {
+            let properties = ['member_email','member_passwd'];
+            for(let i=0; i< properties.length;i++){
+                if(!req.body.hasOwnProperty(properties[i])){
+                    res.json({
+                        result: false,
+                        msg: "req.body."+properties[i]+"이 없습니다."
+                    });
+                    return;
+                }
             }
-
             let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
         	if(!regEmail.test(req.body.email)) {
-
-        		 res.json({
+        		res.json({
                     result: false,
                     msg: "email 형식이 틀렸습니다."
                 });
         		return;
         	}
-
-            pool.query( 'insert ignore into duckmate.member(firebaseToken,member_email, member_passwd, member_name,member_id) values(?,?,?,?,1);',
-            [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
-                if (err){
-    				console.log(err);
-                    res.json({
-                        result: false,
-                        msg: "db 접속 에러",
-                        qry: this.sql
-                    });
-                    return;
-                }
-                console.log('results',results);
-                if( results.affectedRows === 1 ){
-                    res.status(201).json({
-                        result: true,
-                        msg: "업데이트가 완료되었습니다.",
-                        data : {
-                            firebasToken : FirebaseToken,
-                            member_id : results.insertId
-                        }
-                    });
-                }else{
-                    res.status(201).json({
-                        result: false,
-                        msg: "업데이트를 실패했습니다.",
-                    });
-                }
-            });
-
-        }else{
-
-            pool.query( 'insert ignore into duckmate.member( firebaseToken, member_name ) values(?,?)', [ FirebaseToken ,  req.body.member_name ] , function( err, results ) {
-                if (err){
-                    res.json({
-                        result: false,
-                        msg: "db 접속 에러",
-                        qry: this.sql
-                    });
-                    return;
-                }
-
-                if( results.affectedRows === 1 ){
-                    res.status(201).json({
-                        result: true,
-                        msg: "업데이트가 완료되었습니다.",
-                        data : FirebaseToken
-                    });
-                }else{
-                    res.status(201).json({
-                        result: false,
-                        msg: "업데이트를 실패했습니다.",
-                    });
-                }
-            });
+            notSnsQry();
         }
-
     };
-});
 
-// TODO 비밀번호 찾고싶은 사람 표시해주기
-
-router.get('/:member_email', function(req, res, next) {
-    pool.getConnection(function(error, connection){
-        if (error){
-            console.log("getConnection Error" + error);
-            res.sendStatus(500);
-        }
-        let CheckMemberName = "SELECT * FROM duckmate.member where member_email = ? ;"
-        connection.query(CheckMemberName,[ req.params.member_email ], function(error, rows){
-            connection.release();
-            if (error){
-              console.log("register에서 get /:member_email Connection Error" + error);
-              res.sendStatus(500);
-            }
-
-            if( rows[0] === undefined ){
-                res.status(201).send(
-                    { result: false }
-                );
+    const SnsQry = () =>{
+        pool.query( 'insert ignore into duckmate.member( firebaseToken, member_name ) values(?,?)', [ FirebaseToken ,  req.body.member_name ] , function( err, results ) {
+            if (err){
+                res.json({
+                    result: false,
+                    msg: "db 접속 에러",
+                    qry: this.sql
+                });
                 return;
             }
+            if( results.affectedRows === 1 ){
+                res.status(201).json({
+                    result: true,
+                    msg: "업데이트가 완료되었습니다.",
+                    data : FirebaseToken
+                });
+            }else{
+                res.status(201).json({
+                    result: false,
+                    msg: "업데이트를 실패했습니다.",
+                });
+                return;
+            }
+        });
+    };
 
-            res.status(201).send(
-                { result: true }
-            );
+    const notSnsQry = () => {
+        pool.query( 'insert ignore into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?,?);', [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
+            if (err){
+                console.log(err);
+                res.json({
+                    result: false,
+                    msg: "db 접속 에러",
+                    qry: this.sql
+                });
+                return;
+            }
+            console.log('results',results);
+            if( results.affectedRows === 1 ){
+                res.status(201).json({
+                    result: true,
+                    msg: "업데이트가 완료되었습니다.",
+                    data : {
+                        firebasToken : FirebaseToken
+                    }
+                });
+            }else{
+                res.status(201).json({
+                    result: false,
+                    msg: "업데이트를 실패했습니다.",
+                });
+                return;
+            }
+        });
+    };
+})
+.get((req, res)=>{
+    if(!req.params.member_name){
+        res.status(500).json({
+            result: false,
+            msg: "req.params.member_name이 없습니다."
+        });
+        return;
+    }
+    pool.query('SELECT * FROM duckmate.member where member_name = ?;', [ req.params.member_name ] , function( err, rows ) {
+        if (err){
+    		console.log(err);
+    		res.status(500).json({
+                result: false,
+                msg: "db 접속 에러",
+                qry: this.sql
+            });
             return;
-
-
-        });// connection
-    });// pool
+        }
+	    console.log(rows,this.sql);
+        if( rows ){
+            res.status(200).json({
+                result: false,
+                msg: "member_name이 있습니다.",
+            });
+        }else{
+            res.status(200).json({
+                result: true,
+                msg: "member_name이 없습니다.",
+            });
+        }
+    });
 }); // :member_name
-
-
-
 module.exports = router;
