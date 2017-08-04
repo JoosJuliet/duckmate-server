@@ -9,6 +9,7 @@ router.get('/:member_id', function(req, res, next) {
     if (error){
       console.log("getConnection Error" + error);
       res.sendStatus(500);
+      return;
     }
      connection.query('select singerb_id, singer0_id, singer1_id, singer2_id, singer3_id from mylist where member_id=?',[req.params.member_id], function(error, rows){
         if (error){

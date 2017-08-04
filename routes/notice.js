@@ -5,20 +5,34 @@ var fs = require('fs');
 
 
 router.get('/', function(req, res, next) {
-  pool.getConnection(function(error, connection){
-    if (error){
-      console.log("getConnection Error" + error);
-      res.sendStatus(500);
-    }
-     connection.query('select * from notice order by notice_id', function(error, rows){
-        if (error){
-          console.log("Connection Error" + error);
-          res.sendStatus(500);
+
+    pool.query( 'select * from notice order by notice_id' , function( err, rows ) {
+        if (err){
+    		console.log(err);
+    		res.status(500).json({
+                result: false,
+                msg: "db 접속 에러",
+                qry: this.sql
+            });
+            return;
         }
-          res.status(200).send({result : rows});
-          connection.release();
-      });//connection query
-  }); //pool
+        rows =JSON.parse(JSON.stringify(rows));
+        console.log(rows[0]);
+        return;
+        
+        if( rows.length ){
+            res.status(200).json({
+                result: false,
+                msg: rows[0]
+            });
+        }else{
+            res.status(200).json({
+                result: false,
+                msg: "공지가 없습니다.",
+            });
+        }
+    });
+
 });
 
 
