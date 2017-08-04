@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
         if( rows.length ){
             res.status(200).json({
                 result: false,
-       			msg: "공지입니다"
+       			msg: "공지입니다",
 				data: rows[0]
             });
         }else{
