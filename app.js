@@ -59,8 +59,6 @@ var duckmate = require('./routes/duckmate');
 var users = require('./routes/users');
 var singer = require('./routes/singer');
 var mainpage = require('./routes/mainpage');
-var mypage = require('./routes/mypage');
-
 
 var login = require('./routes/1/login');
 var register = require('./routes/1/register');
@@ -103,8 +101,6 @@ app.use('/duckmate', duckmate);
 app.use('/duckmate/users', users);
 app.use('/duckmate/singer', singer);
 app.use('/duckmate/mainpage', mainpage);
-app.use('/duckmate/mypage', mypage);
-
 
 // cd ./routes/1
 app.use('/duckmate/login', login);
@@ -114,8 +110,7 @@ app.use('/duckmate/findpassword',FindPassWord);
 
 
 
-// cd ./routes/2
-
+//바깥
 app.use('/duckmate/question', question);
 app.use('/duckmate/notice', notice);
 
