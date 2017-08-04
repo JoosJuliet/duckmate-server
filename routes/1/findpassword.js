@@ -22,7 +22,7 @@ router.route('/')
 		}else{
 			res.status(200).json({
 				result: false,
-				msg: "해당 member_id가 등록되있지 않습니다.",
+				msg: "해당 member_email이 등록되있지 않습니다.",
 			});
 			return;
 		}
