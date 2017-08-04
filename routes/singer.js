@@ -16,7 +16,7 @@ router.route('/')
 .post((req, res)=>{
     // 가수들 처음 추가할 때 추가
 
-    const properties = ['singerNum','firebaseToken'];
+    const properties = ['singer_id','singerNum','firebaseToken'];
     for(var i=0; i< properties.length;i++){
         if(!req.body.hasOwnProperty(properties[i])){
             res.json({
@@ -26,25 +26,23 @@ router.route('/')
             return;
         }
     }
-    var SingerIdArr = ["b", "0", "1", "2"];
-    let SingerId = "singer" + SingerIdArr[req.body.singerNum] + "_id";
-    pool.query('update duckmate.mylist SET' + SingerId + ' = ? where member_id = ?;', [ req.body.singer_id, req.body.firebaseToken] , function( err, results ) {
+    pool.query('update duckmate.member SET singer' + req.body.singerNum + '_id = ? where member_id = ?;', [ req.body.singer_id, req.body.firebaseToken] , function( err, results ) {
         if (err){
-		console.log(err);
-		res.json({
-                result: false,
-                msg: "db 접속 에러",
-                qry: this.sql
+    		console.log(err);
+    		res.status(500).json({
+                    result: false,
+                    msg: "db 접속 에러",
+                    qry: this.sql
             });
             return;
         }
-        if( results.affectedRows === 1 ){
+        if( results.affectedRows ){
             res.status(201).json({
                 result: true,
                 msg: "업데이트가 완료되었습니다.",
             });
         }else{
-            res.status(201).json({
+            res.status(200).json({
                 result: false,
                 msg: "업데이트를 실패했습니다.",
             });
