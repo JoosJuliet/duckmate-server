@@ -100,14 +100,13 @@ router.route('/')
                 qry: this.sql,
                 msg: "db 접속 에러",
             });
-            return;
         }
         rows = JSON.parse( JSON.stringify(rows));
-//		rows = rows[0];
+		rows = rows[0];
 
 		console.log(rows);
 
-		return;
+		
         if( rows ){
 
 			let dataObject = {

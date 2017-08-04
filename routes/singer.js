@@ -146,7 +146,7 @@ router.get('/singercheck/:member_id', function(req, res, next) {
             console.log("getConnection Error" + error);
             res.sendStatus(500);
         } else {
-            connection.query('select singer.singer_id, singer.singer_name, singer.singer_img, singer.choice_count from (select mylist.singerb_id, mylist.singer0_id, mylist.singer1_id, mylist.singer2_id, mylist.singer3_id from mylist where mylist.member_id=?)as A, singer where A.singerb_id=singer.singer_id or A.singer0_id=singer.singer_id or A.singer1_id=singer.singer_id or A.singer2_id=singer.singer_id or A.singer3_id=singer.singer_id', [req.params.member_id], function(error, rows) {
+            connection.query('select singer.singer_id, singer.singer_name, singer.singer_img, singer.choice_count from (select mylist.singerb_id, mylist.singer0_id, mylist.singer1_id, mylist.singer2_id from mylist where mylist.member_id=?)as A, singer where A.singerb_id=singer.singer_id or A.singer0_id=singer.singer_id or A.singer1_id=singer.singer_id or A.singer2_id=singer.singer_id', [req.params.member_id], function(error, rows) {
                 if (error) {
                     console.log("Connection Error" + error);
                     res.sendStatus(500);
@@ -238,7 +238,7 @@ router.get('/tabpage/:member_id', function(req, res, next) {
                 return
             } //없는 것 확인
 
-            var SingerValueQry = 'SELECT singerb_id,singer0_id, singer1_id,singer2_id,singer3_id FROM duckmate.mylist where member_id = ? ;';
+            var SingerValueQry = 'SELECT singerb_id,singer0_id, singer1_id,singer2_id FROM duckmate.mylist where member_id = ? ;';
             connection.query(SingerValueQry, [ParamsMemberId], function(error, result0) {
                 if (error) {
                     console.log("SingerValueQry Connection Error" + error);
@@ -254,7 +254,7 @@ router.get('/tabpage/:member_id', function(req, res, next) {
 
                 var NotUndefinedSigner = [];
 
-                var singerArr = ["singerb_id", "singer0_id", "singer1_id", "singer2_id", "singer3_id"];
+                var singerArr = ["singerb_id", "singer0_id", "singer1_id", "singer2_id"];
                 for (var x = 0; x < singerArr.length; x++) {
                     var Singerb_id = result0[0][singerArr[x]];
                     if (Singerb_id) {
