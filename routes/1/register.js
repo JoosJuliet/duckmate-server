@@ -142,6 +142,7 @@ router.route('/')
                 return;
             }
             if( results.affectedRows === 1 ){
+                console.log("!!!!!");
                 console.log("FirebaseToken",FirebaseToken);
                 res.status(201).json({
                     result: true,
