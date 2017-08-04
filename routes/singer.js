@@ -59,11 +59,39 @@ router.route('/')
         return;
     }
 
-    //내 가수들에 대한  singer_id,singer_name,singer_img,choice_count
+    pool.query('SELECT singer0_id, singer1_id, singer2_id , singer3_id FROM duckmate.member where firebaseToken = ? ;', [req.params.firebaseToken] , function( err, rows ) {
+        if (err){
+    		console.log(err);
+    		res.status(500).json({
+                    result: false,
+                    msg: "db 접속 에러",
+                    qry: this.sql
+            });
+            return;
+        }
+        console.log("rows[0]",rows[0]);
+        if( !rows[0].length ){
+            res.status(200).json({
+                result: false,
+                msg: "singer가 들어있는게 없네요;",
+            });
+        }else{
+            let data = {
+                singer0_id: rows[0].singer0_id,
+                singer1_id: rows[0].singer1_id,
+                singer2_id: rows[0].singer2_id,
+                singer3_id: rows[0].singer3_id
+            };
+            console.log("data",data);
 
-})
-.put((req,res)=>{
-    //member_id와 몇번째 가수인지와 가수 id로
+
+            return;
+
+
+        }
+    });
+
+    //내 가수들에 대한  singer_id,singer_name,singer_img,choice_count
 
 });
 
