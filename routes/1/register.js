@@ -101,7 +101,10 @@ router.post('/',function(req, res, next){
 
 	admin.auth().createCustomToken(uid)
 	.then(function(customToken) {
-		FirebaseToken = customToken;
+	
+			console.log(customToken);
+			tmp(customToken);
+			FirebaseToken = customToken;
 	})
   	.catch(function(error) {
 		console.log(error+Date.now());
@@ -113,7 +116,7 @@ router.post('/',function(req, res, next){
         return;
 	});
 
-
+const tmp = (FirebaseToken) => {
     if( req.body.notSns ){
         if( !req.body.member_email ){
             res.json({
@@ -129,9 +132,10 @@ router.post('/',function(req, res, next){
             return;
         }
 
-        pool.query( 'insert into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?,?)',
+        pool.query( 'insert into duckmate.member(firebaseToken,member_email, member_passwd, member_name,member_id) values(?,?,?,?,1);',
         [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
-            if (err){
+            if (err){ 
+				console.log(err);
                 res.json({
                     result: false,
                     msg: "db 접속 에러",
@@ -183,6 +187,8 @@ router.post('/',function(req, res, next){
             }
         });
     }
+
+};
 });
 
 // TODO 비밀번호 찾고싶은 사람 표시해주기
