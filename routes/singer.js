@@ -26,7 +26,7 @@ router.route('/')
             return;
         }
     }
-    pool.query('update duckmate.member SET singer' + req.body.singerNum + '_id = ? where firebaseToken = ?;', [ req.body.singer_id, req.body.firebaseToken] , function( err, results ) {
+    pool.query('update duckmate.member SET singer' + req.body.singerNum + '_id = ? where firebaseTokenㄷ = ?;', [ req.body.singer_id, req.body.firebaseToken] , function( err, results ) {
         if (err){
     		console.log(err);
     		res.status(500).json({
@@ -67,13 +67,31 @@ router.route('/')
 
 });
 
+router.get('/singer_rank', function(req, res, next) {
+    pool.getConnection(function(error, connection) {
+        if (error) {
+            console.log("getConnection Error" + error);
+            res.sendStatus(500);
+        } else {
+            connection.query('select singer_id, singer_name, singer_img from singer order by choice_count desc', function(error, rows) {
+                if (error) {
+                    console.log("Connection Error" + error);
+                    res.sendStatus(500);
+                    connection.release();
+                } else {
+                    res.status(200).send({result: rows});
+                    connection.release();
+                }
+            });
+        }
+    });
+});
 
 
 
 
 
 
-/*
 
 router.get('/singerbase/:member_id', function(req, res, next) {
     // 그냥 싱어 id
@@ -114,7 +132,7 @@ router.get('/singerbase/:member_id', function(req, res, next) {
     });
 });
 
-*/
+
 
 router.get('/singercheck/:member_id', function(req, res, next) {
 
@@ -137,31 +155,6 @@ router.get('/singercheck/:member_id', function(req, res, next) {
         }
     });
 });
-
-router.get('/singer_rank', function(req, res, next) {
-    pool.getConnection(function(error, connection) {
-        if (error) {
-            console.log("getConnection Error" + error);
-            res.sendStatus(500);
-        } else {
-            connection.query('select singer_id, singer_name, singer_img from singer order by choice_count desc', function(error, rows) {
-                if (error) {
-                    console.log("Connection Error" + error);
-                    res.sendStatus(500);
-                    connection.release();
-                } else {
-                    res.status(200).send({result: rows});
-                    connection.release();
-                }
-            });
-        }
-    });
-});
-//UPDATE [테이블] SET [열] = '변경할값' WHERE [조건]
-//            /singer/singerAdd   -> 자신의 가수 추가시      singer_id, member_id,num
-
-//where에서 member_id 에다가 singerb_id넣는다.
-
 
 
 module.exports = router;
