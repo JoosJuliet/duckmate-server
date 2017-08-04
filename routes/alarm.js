@@ -5,62 +5,6 @@ var router = express.Router();
 
 router.route('/')
 .post((req, res)=>{
-<<<<<<< HEAD
-=======
-
-		if( typeof req.body.firebaseToken !== 'string') {
-			res.json({
-	result: false,
-	msg : "token is string"
-					});
-
-			return ;
-
-		}
-    if( !req.body.firebaseToken ){
-        res.json({
-            result: false,
-            msg: "req.body.firebaseToken이 없습니다."
-        });
-        return;
-    }else if( !req.body.today_alarm ){
-        res.json({
-            result: false,
-            msg: "req.body.today_alarm이 없습니다."
-        });
-        return;
-    }else if( !req.body.member_id ){
-        res.json({
-            result: false,
-            msg: "req.body.member_id이 없습니다."
-        });
-        return;
-    }else if( !req.body['0_flag']){
-        res.json({
-            result: false,
-            msg: "req.body.0_flag이 없습니다."
-        });
-        return;
-    }else if( !req.body['1_flag'] ){
-        res.json({
-            result: false,
-            msg: "req.body.1_flag이 없습니다."
-        });
-        return;
-    }else if( !req.body['2_flag'] ){
-        res.json({
-            result: false,
-            msg: "req.body.2_flag이 없습니다."
-        });
-        return;
-    }else if( !req.body['3_flag'] ){
-        res.json({
-            result: false,
-            msg: "req.body.3_flag이 없습니다."
-        });
-        return;
-    }
->>>>>>> 3070adf79f63bc41e8125ee7b3787ae07213a1b4
 
     const properties = ['firebaseToken','today_alarm','member_id',body['0_flag'],body['1_flag'],body['2_flag'],body['3_flag']];
     for(var i=0; i< properties.length;i++){
@@ -71,7 +15,6 @@ router.route('/')
             });
             return;
         }
-<<<<<<< HEAD
     }
 
     pool.query( 'update duckmate.member set firebaseToken = ?, today_alarm = ?, 0_flag = ?, 1_flag = ?, 2_flag = ?, 3_flag = ?  where member_id = ?;', [ req.body.firebaseToken, req.body.today_alarm, req.body['0_flag'],req.body['1_flag'],req.body['2_flag'],req.body['3_flag'], req.body.member_id] , function( err, results ) {
@@ -85,11 +28,6 @@ router.route('/')
                 return;
         }
         if( results.affectedRows ){
-=======
-
-		console.log(results,this.sql);
-        if( results.affectedRows == 1|| 2 ){
->>>>>>> 3070adf79f63bc41e8125ee7b3787ae07213a1b4
             res.status(201).json({
                 result: true,
                 msg: "업데이트가 완료되었습니다.",
@@ -97,7 +35,7 @@ router.route('/')
         }else{
             res.status(201).json({
                 result: false,
-                msg: " 실패했습니다.",
+                msg: "업데이트가 실패되었습니다.",
             });
         }
     });
