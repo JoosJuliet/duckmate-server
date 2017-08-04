@@ -88,27 +88,35 @@ router.route('/')
     });
 
     const detectSingerInfo = (singer) =>{
-        let arr = [];
-        for(let i = 0 ; i < 3; i++)
-            arr.push(selectSingerDB(singer["singer"+i+"_id"]));
+        
+		let arr = [];
+		let arrr = [];
+		const selectSingerDB = (id) =>{
 
+             pool.query('SELECT * FROM duckmate.singer where singer_id = ? ;', [id] , function( err, rows ) {
+                 if (err){
+             		console.log(err);
+            		res.status(500).json({
+                             result: false,
+                             msg: "db 접속 에러",
+                             qry: this.sql
+                     });
+                     return;
+                 }
+				rows = JSON.parse( JSON.stringify(rows[0]) );
 
-        console.log(arr);
+				console.log("rows",rows );
+				arrr.push(rows);
 
-        const selectSingerDB = (id) =>{
-
-            return id;
-            // pool.query('SELECT * FROM duckmate.singer where singer_id = ? ;', [singer.singer0_id] , function( err, rows ) {
-            //     if (err){
-            // 		console.log(err);
-            // 		res.status(500).json({
-            //                 result: false,
-            //                 msg: "db 접속 에러",
-            //                 qry: this.sql
-            //         });
-            //         return;
-            //     }
-            //     console.log("rows[0]",rows[0]);
+				if(arrr.length == '4' ) {
+					res.status(200).json({
+							                  result: true,
+							                   msg: "각 가수정보를 가져왔습니다.",
+											   data : arrr
+							                });
+				}else{
+					return;
+				}
             //     if( !rows[0].length ){
             //         res.status(200).json({
             //             result: false,
@@ -128,10 +136,22 @@ router.route('/')
             //
             //
             //     }
-            // });
+             });
         };
 
-    };
+        for(let i = 0 ; i < 4; i++)
+            arr.push(selectSingerDB(singer["singer"+i+"_id"]));
+	
+		const checkArray = () =>{
+			if( arrr.length ==4 ){
+
+        console.log(arr);
+		}
+
+		}
+
+ 		return;
+	};
 
 
     //내 가수들에 대한  singer_id,singer_name,singer_img,choice_count
