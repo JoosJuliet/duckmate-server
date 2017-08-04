@@ -11,28 +11,42 @@ var router = express.Router();
 // ( singer table )choice_count,singer_img,singer_name
 //singer_id에서 choice_count,singer_img,singer_name
 
+var SingerIdArr = ["b", "0", "1", "2"];
+router.post('/singerAdd', function(req, res, next) {
+    let SingerId = "singer" + SingerIdArr[req.body.singerNum] + "_id";
 
-router.get('/singerinfo/:singer_id', function(req, res, next) {
-    pool.getConnection(function(error, connection) {
-        if (error) {
-            console.log("getConnection Error" + error);
-            res.sendStatus(500);
-        } else {
-            connection.query('select * from singer where singer_id = ?', [req.params.singer_id], function(error, rows) {
-                if (error) {
-                    console.log("Connection Error" + error);
-                    res.sendStatus(500);
-                    connection.release();
-                } else {
-                    res.status(200).send({result: rows[0]});
-                    connection.release();
-                }
+    pool.query('update duckmate.mylist SET' + SingerId + ' = ? where member_id = ?;', [ req.body.singer_id, req.body.member_id] , function( err, results ) {
+        if (err){
+		console.log(err);
+		res.json({
+                result: false,
+                msg: "db 접속 에러",
+                qry: this.sql
+            });
+            return;
+        }
+        if( results.affectedRows === 1 ){
+            res.status(201).json({
+                result: true,
+                msg: "업데이트가 완료되었습니다.",
+            });
+        }else{
+            res.status(201).json({
+                result: false,
+                msg: "업데이트를 실패했습니다.",
             });
         }
     });
-});
+
+}); //post
+
+
+
+
+/*
 
 router.get('/singerbase/:member_id', function(req, res, next) {
+    // 그냥 싱어 id
     pool.getConnection(function(error, connection) {
         if (error) {
             console.log("getConnection Error" + error);
@@ -70,13 +84,18 @@ router.get('/singerbase/:member_id', function(req, res, next) {
     });
 });
 
+*/
+
 router.get('/singercheck/:member_id', function(req, res, next) {
+    //내 가수들에 대한  singer_id,singer_name,singer_img,choice_count
     pool.getConnection(function(error, connection) {
         if (error) {
             console.log("getConnection Error" + error);
             res.sendStatus(500);
         } else {
-            connection.query('select singer.singer_id, singer.singer_name, singer.singer_img, singer.choice_count from (select mylist.singerb_id, mylist.singer0_id, mylist.singer1_id, mylist.singer2_id from mylist where mylist.member_id=?)as A, singer where A.singerb_id=singer.singer_id or A.singer0_id=singer.singer_id or A.singer1_id=singer.singer_id or A.singer2_id=singer.singer_id', [req.params.member_id], function(error, rows) {
+            connection.query('select singer_id, singer_name, singer_img, choice_count
+            from (select mylist.singerb_id, mylist.singer0_id, mylist.singer1_id, mylist.singer2_id from mylist where mylist.member_id=?)as A,
+            singer where A.singerb_id=singer.singer_id or A.singer0_id=singer.singer_id or A.singer1_id=singer.singer_id or A.singer2_id=singer.singer_id', [req.params.member_id], function(error, rows) {
                 if (error) {
                     console.log("Connection Error" + error);
                     res.sendStatus(500);
@@ -114,39 +133,6 @@ router.get('/singer_rank', function(req, res, next) {
 
 //where에서 member_id 에다가 singerb_id넣는다.
 
-var SingerIdArr = ["b", "0", "1", "2"];
-router.post('/singerAdd', function(req, res, next) {
-    let SingerId = "singer" + SingerIdArr[req.body.singerNum] + "_id";
 
-    pool.query('update duckmate.mylist SET' + SingerId + ' = ? where member_id = ?;', [ req.body.singer_id, req.body.member_id] , function( err, results ) {
-        if (err){
-		console.log(err);
-		res.json({
-                result: false,
-                msg: "db 접속 에러",
-                qry: this.sql
-            });
-            return;
-        }
-        if( results.affectedRows === 1 ){
-            res.status(201).json({
-                result: true,
-                msg: "업데이트가 완료되었습니다.",
-            });
-        }else{
-            res.status(201).json({
-                result: false,
-                msg: "업데이트를 실패했습니다.",
-            });
-        }
-    });
-
-}); //post
-
-
-//tappage에서 하는일
-// member_id로 - member table에서 member_img,member_name,member_level 그리고
-// member_id로 -  mylist table에서 singerb_id,singer0_id, singer1_id,singer2_id,singer3_id 가져와서
-// s_id이용해서 singer table에서 {singer_name,new_flag}
 
 module.exports = router;
