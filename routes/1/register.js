@@ -120,7 +120,7 @@ router.route('/')
                 }
             }
             let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        	if(!regEmail.test(req.body.email)) {
+        	if(!regEmail.test(req.body.member_email)) {
         		res.json({
                     result: false,
                     msg: "email 형식이 틀렸습니다."
