@@ -101,10 +101,7 @@ router.post('/',function(req, res, next){
 
 	admin.auth().createCustomToken(uid)
 	.then(function(customToken) {
-
-			console.log(customToken);
 			tmp(customToken);
-			FirebaseToken = customToken;
 	})
   	.catch(function(error) {
 		console.log(error+Date.now());
@@ -116,90 +113,90 @@ router.post('/',function(req, res, next){
         return;
 	});
 
-const tmp = (FirebaseToken) => {
-    if( req.body.notSns ){
-        if( !req.body.member_email ){
-            res.json({
-                result: false,
-                msg: "req.body.member_email이 없습니다."
+    const tmp = (FirebaseToken) => {
+        if( req.body.notSns ){
+            if( !req.body.member_email ){
+                res.json({
+                    result: false,
+                    msg: "req.body.member_email이 없습니다."
+                });
+                return;
+            }else if ( !req.body.member_passwd ) {
+                res.json({
+                    result: false,
+                    msg: "req.body.member_passwd이 없습니다."
+                });
+                return;
+            }
+
+            let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        	if(!regEmail.test(req.body.email)) {
+
+        		 res.json({
+                    result: false,
+                    msg: "email 형식이 틀렸습니다."
+                });
+        		return;
+        	}
+
+            pool.query( 'insert ignore into duckmate.member(firebaseToken,member_email, member_passwd, member_name,member_id) values(?,?,?,?,1);',
+            [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
+                if (err){
+    				console.log(err);
+                    res.json({
+                        result: false,
+                        msg: "db 접속 에러",
+                        qry: this.sql
+                    });
+                    return;
+                }
+                console.log('results',results);
+                if( results.affectedRows === 1 ){
+                    res.status(201).json({
+                        result: true,
+                        msg: "업데이트가 완료되었습니다.",
+                        data : {
+                            firebasToken : FirebaseToken,
+                            member_id : results.insertId
+                        }
+                    });
+                }else{
+                    res.status(201).json({
+                        result: false,
+                        msg: "업데이트를 실패했습니다.",
+                    });
+                }
             });
-            return;
-        }else if ( !req.body.member_passwd ) {
-            res.json({
-                result: false,
-                msg: "req.body.member_passwd이 없습니다."
+
+        }else{
+
+            pool.query( 'insert ignore into duckmate.member( firebaseToken, member_name ) values(?,?)', [ FirebaseToken ,  req.body.member_name ] , function( err, results ) {
+                if (err){
+                    res.json({
+                        result: false,
+                        msg: "db 접속 에러",
+                        qry: this.sql
+                    });
+                    return;
+                }
+
+                if( results.affectedRows === 1 ){
+                    res.status(201).json({
+                        result: true,
+                        msg: "업데이트가 완료되었습니다.",
+                        data : FirebaseToken
+                    });
+                }else{
+                    res.status(201).json({
+                        result: false,
+                        msg: "업데이트를 실패했습니다.",
+                    });
+                }
             });
-            return;
         }
 
-        let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    	if(!regEmail.test(req.body.email)) {
-
-    		 res.json({
-                result: false,
-                msg: "email 형식이 틀렸습니다."
-            });
-    		return;
-    	}
-
-        pool.query( 'insert into duckmate.member(firebaseToken,member_email, member_passwd, member_name,member_id) values(?,?,?,?,1);',
-        [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
-            if (err){
-				console.log(err);
-                res.json({
-                    result: false,
-                    msg: "db 접속 에러",
-                    qry: this.sql
-                });
-                return;
-            }
-            console.log('results',results);
-            if( results.affectedRows === 1 ){
-                res.status(201).json({
-                    result: true,
-                    msg: "업데이트가 완료되었습니다.",
-                    data : {
-                        firebasToken : FirebaseToken,
-                        member_id : results.insertId
-                    }
-                });
-            }else{
-                res.status(201).json({
-                    result: false,
-                    msg: "업데이트를 실패했습니다.",
-                });
-            }
-        });
-
-    }else{
-
-        pool.query( 'insert into duckmate.member( firebaseToken, member_name ) values(?,?)', [ FirebaseToken ,  req.body.member_name ] , function( err, results ) {
-            if (err){
-                res.json({
-                    result: false,
-                    msg: "db 접속 에러",
-                    qry: this.sql
-                });
-                return;
-            }
-
-            if( results.affectedRows === 1 ){
-                res.status(201).json({
-                    result: true,
-                    msg: "업데이트가 완료되었습니다.",
-                    data : FirebaseToken
-                });
-            }else{
-                res.status(201).json({
-                    result: false,
-                    msg: "업데이트를 실패했습니다.",
-                });
-            }
-        });
-    }
-
-};
+    };
 });
 
 // TODO 비밀번호 찾고싶은 사람 표시해주기
