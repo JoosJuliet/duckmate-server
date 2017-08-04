@@ -59,7 +59,7 @@ router.route('/')
         return;
     }
 
-    pool.query('SELECT singer0_id, singer1_id, singer2_id , singer3_id FROM duckmate.member where firebaseToken = ? ;', [req.params.firebaseToken] , function( err, rows ) {
+    pool.query('SELECT singer0_id, singer1_id, singer2_id , singer3_id FROM duckmate.member where firebaseToken = ? ;', [req.query.firebaseToken] , function( err, rows ) {
         if (err){
     		console.log(err);
     		res.status(500).json({
@@ -69,8 +69,7 @@ router.route('/')
             });
             return;
         }
-        console.log("rows[0]",rows[0]);
-        if( !rows[0].length ){
+        if( !rows.length ){
             res.status(200).json({
                 result: false,
                 msg: "singer가 들어있는게 없네요;",
@@ -82,14 +81,18 @@ router.route('/')
                 singer2_id: rows[0].singer2_id,
                 singer3_id: rows[0].singer3_id
             };
-            console.log("data",data);
 
+			var Length = Object.keys(data).length;
 
-            return;
+			console.log(data,Length);
 
 
         }
     });
+
+
+
+
 
     //내 가수들에 대한  singer_id,singer_name,singer_img,choice_count
 
