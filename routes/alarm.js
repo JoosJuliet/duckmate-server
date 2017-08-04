@@ -62,14 +62,14 @@ router.route('/')
 
 		console.log(rows);
 
-		
+
         if( rows ){
 
 			let dataObject = {
-				"0_flag" : rows["0_flag"],
-                "1_flag" : rows["1_flag"],
-                "2_flag" : rows["2_flag"],
-                "3_flag" : rows["3_flag"],
+				"zero_flag" : rows["0_flag"],
+                "one_flag" : rows["1_flag"],
+                "two_flag" : rows["2_flag"],
+                "three_flag" : rows["3_flag"],
                 "today_alarm" : rows.today_alarm
 
             };
