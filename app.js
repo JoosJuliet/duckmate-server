@@ -62,7 +62,6 @@ var mainpage = require('./routes/mainpage');
 
 var login = require('./routes/1/login');
 var register = require('./routes/1/register');
-var sns = require('./routes/1/sns');
 var FindPassWord = require('./routes/1/findpassword');
 
 var question = require('./routes/question');
@@ -104,7 +103,6 @@ app.use('/duckmate/mainpage', mainpage);
 
 // cd ./routes/1
 app.use('/duckmate/login', login);
-app.use('/duckmate/sns', sns);
 app.use('/duckmate/register', register);
 app.use('/duckmate/findpassword',FindPassWord);
 

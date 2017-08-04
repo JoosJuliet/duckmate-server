@@ -4,7 +4,8 @@ var app = express();
 var fs = require('fs');
 
 
-router.get('/', function(req, res, next) {
+router.route('/')
+.get((req, res)=>{
 
     pool.query( 'select * from notice order by notice_id' , function( err, rows ) {
         if (err){
@@ -18,7 +19,7 @@ router.get('/', function(req, res, next) {
         }
         rows =JSON.parse(JSON.stringify(rows));
         console.log(rows[0]);
-        
+
         if( rows.length ){
             res.status(200).json({
                 result: false,
