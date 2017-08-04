@@ -58,7 +58,6 @@ var duckmate = require('./routes/duckmate');
 
 var users = require('./routes/users');
 var singer = require('./routes/singer');
-var mainpage = require('./routes/mainpage');
 
 var login = require('./routes/1/login');
 var register = require('./routes/1/register');
@@ -99,7 +98,6 @@ console.log("app.js time",Date.now());
 app.use('/duckmate', duckmate);
 app.use('/duckmate/users', users);
 app.use('/duckmate/singer', singer);
-app.use('/duckmate/mainpage', mainpage);
 
 // cd ./routes/1
 app.use('/duckmate/login', login);
