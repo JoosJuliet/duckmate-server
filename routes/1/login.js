@@ -15,6 +15,16 @@ router.post('/', function(req, res, next){
             return;
         }
     }
+
+    let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	if(!regEmail.test(req.body.email)) {
+		 res.json({
+            result: false,
+            msg: "email 형식이 틀렸습니다."
+        });
+		return;
+	}
+
     pool.query( 'select firebaseToken from duckmate.member where member_email =? and member_passwd =?', [ req.body.email, req.body.passwd] , function( err, rows ) {
         if (err){
     		console.log(err);
