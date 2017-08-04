@@ -4,7 +4,8 @@ var router = express.Router();
 var app = express();
 var fs = require('fs');
 
-router.post('/', function(req, res, next){
+router.route('/')
+.post((req, res)=>{
     const properties = ['email','passwd'];
     for(var i=0; i< properties.length;i++){
         if(!req.body.hasOwnProperty(properties[i])){
