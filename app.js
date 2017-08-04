@@ -54,9 +54,6 @@ pool.getConnection(function(err, connection) {
 // TEST
 var duckmate = require('./routes/duckmate');
 
-
-
-var users = require('./routes/users');
 var singer = require('./routes/singer');
 
 var login = require('./routes/1/login');
@@ -96,7 +93,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 console.log("app.js time",Date.now());
 app.use('/duckmate', duckmate);
-app.use('/duckmate/users', users);
 app.use('/duckmate/singer', singer);
 
 // cd ./routes/1
