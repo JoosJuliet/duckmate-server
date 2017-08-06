@@ -43,7 +43,9 @@ router.route('/')
     });
 })
 .get((req,res)=>{
-    if(!req.params.firebaseToken){
+   
+		console.log(req.query.firebaseToken);
+		if(!req.query.firebaseToken){
         res.status(500).json({
             result: false,
             msg: "req.params.firebaseToken이 없습니다."
@@ -51,7 +53,7 @@ router.route('/')
         return;
     }
 
-    pool.query( 'select * from questions where firebaseToken = ?;', [ req.params.firebaseToken ] , function( err, rows ) {
+    pool.query( 'select * from questions where firebaseToken = ?;', [ req.query.firebaseToken ] , function( err, rows ) {
         if (err){
             console.log(err);
             res.json({
@@ -62,11 +64,11 @@ router.route('/')
                 return;
         }
         console.log(rows);
-        if( results.affectedRows ){
+        if( rows.length ){
             res.status(200).json({
                 result: true,
                 msg: "업데이트가 완료되었습니다.",
-                data: rows
+                data: rows[0]
             });
         }else{
             res.status(201).json({
