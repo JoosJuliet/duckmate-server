@@ -5,13 +5,6 @@ var fs = require('fs');
 var db_config = require('../config/db_config.json');
 var router = express.Router();
 
-// (mylist table) 해당가수의 투표count
-//member_id로 찾고 거기에서 해당 singer_id에 맞는 id를 찾아서 그것의 vote_count를 잡느다.
-
-// ( singer table )choice_count,singer_img,singer_name
-//singer_id에서 choice_count,singer_img,singer_name
-
-
 router.route('/')
 .post((req, res)=>{
     // 가수들 처음 추가할 때 추가
@@ -51,6 +44,7 @@ router.route('/')
 })
 .get((req,res)=>{
 
+//TODO 에러처리 부족
     if(!req.query.firebaseToken){
         res.json({
             result: false,
@@ -139,75 +133,6 @@ router.get('/singer_rank', function(req, res, next) {
             res.sendStatus(500);
         } else {
             connection.query('select singer_id, singer_name, singer_img from singer order by choice_count desc', function(error, rows) {
-                if (error) {
-                    console.log("Connection Error" + error);
-                    res.sendStatus(500);
-                    connection.release();
-                } else {
-                    res.status(200).send({result: rows});
-                    connection.release();
-                }
-            });
-        }
-    });
-});
-
-
-
-
-
-
-
-router.get('/singerbase/:member_id', function(req, res, next) {
-    // 그냥 싱어 id
-    pool.getConnection(function(error, connection) {
-        if (error) {
-            console.log("getConnection Error" + error);
-            res.sendStatus(500);
-        } else {
-            connection.query('SELECT singerb_id, singer0_id, singer1_id, singer2_id FROM duckmate.mylist where member_id = ? ;', [req.params.member_id], function(error, rows) {
-                if (error) {
-                    console.log("Connection Error" + error);
-                    res.sendStatus(500);
-                    connection.release();
-                }
-                console.log(rows);
-
-                if ( rows[0].length ) {
-                    res.status(200).send({result: "false"});
-                    connection.release();
-                    return;
-                } else {
-                    res.status(200).send({
-                        result: "success",
-                        data: {
-                            singerb_id: rows[0].singerb_id,
-                            singer0_id: rows[0].singer0_id,
-                            singer1_id: rows[0].singer1_id,
-                            singer2_id: rows[0].singer2_id
-                        }
-
-                    });
-                    connection.release();
-                    return;
-                }
-
-            });
-        }
-    });
-});
-
-
-
-router.get('/singercheck/:member_id', function(req, res, next) {
-
-    pool.getConnection(function(error, connection) {
-        if (error) {
-            console.log("getConnection Error" + error);
-            res.sendStatus(500);
-        } else {
-            // 내 가수의 singer의 순서와 , singer정보들
-            connection.query('select singer_id, singer_name, singer_img, choice_count from (select mylist.singerb_id, mylist.singer0_id, mylist.singer1_id, mylist.singer2_id from mylist where mylist.member_id=?)as A, singer where A.singerb_id=singer.singer_id or A.singer0_id=singer.singer_id or A.singer1_id=singer.singer_id or A.singer2_id=singer.singer_id', [req.params.member_id], function(error, rows) {
                 if (error) {
                     console.log("Connection Error" + error);
                     res.sendStatus(500);
