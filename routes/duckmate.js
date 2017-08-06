@@ -3,32 +3,31 @@ var router = express.Router();
 var app = express();
 
 
-
-//member_id로
-//UPDATE 테이블명 SET 바꿀것  WHERE 조건 Class=10
-// 서브가수삭제
-
-
-
-
+//TODO member관리도 해야함
 router.delete('/memberDelete', function(req, res, next) {
 
-    var MemberId = req.body.member_id;
-    pool.query('delete from duckmate.member where member_id=?;', [MemberId], function(error, results, fields) {
+    pool.query('delete from duckmate.member where firebaseToken=?;', [req.body.firebaseToken], function(error, results, fields) {
         if (error) {
             console.log("/memberDelete Error" + error);
             res.sendStatus(500).send({
-                data: {},
-                result: "/memberDelete에서 db pool error"
+                result: false,
+                msg : "/memberDelete에서 db pool error",
+                sql : this.sql
             });
             return;
         } // error
-        res.status(201).send({
-            data: {},
-            result: "success"
-        });
+        if( results.affectedRows ){
+            res.status(201).send({
+                result: true,
+                msg : "성공적으로 탈퇴되었습니다."
+            });
+        }else{
+            res.status(201).send({
+                result: false,
+                msg : "탈퇴 실패!"
+            });
+        }
 
-        return;
     });
 
 }); // :member_name
