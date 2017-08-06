@@ -5,7 +5,13 @@ var app = express();
 
 //TODO member관리도 해야함
 router.delete('/memberDelete', function(req, res, next) {
-
+    if( !req.body.firebaseToken ){
+        res.json({
+            result: false,
+            msg: "req.body.firebaseToken이 없습니다."
+        });
+        return;
+    }
     pool.query('delete from duckmate.member where firebaseToken=?;', [req.body.firebaseToken], function(error, results, fields) {
         if (error) {
             console.log("/memberDelete Error" + error);
