@@ -4,54 +4,77 @@ var router = express.Router();
 var app = express();
 var fs = require('fs');
 
-
-
-
-router.post('/send', function(req, res, next){
-
-    pool.getConnection(function(error, connection){
-    if (error){
-            console.log("getConnection Error" + error);
-            res.sendStatus(500);
-    }
-
-            var sql, inserts;
-            sql = 'insert into questions(member_id, questions_title, questions_main, questions_mail) values(?,?,?,?)';
-            inserts = [ req.body.member_id, req.body.questions_title, req.body.questions_main, req.body.questions_mail];
-
-            connection.query(sql, inserts, function(error, rows){
-            if (error){
-              console.log("Connection Error" + error);
-              res.sendStatus(500);
-            }
-              res.status(201).send({result : 'success'});
-              connection.release();
-             });//connection query
-
-  });
-});
-
-router.get('/list/:member_id', function(req, res, next) {
-  pool.getConnection(function(error, connection){
-    if (error){
-      console.log("getConnection Error" + error);
-      res.sendStatus(500);
-    }
-    else{
-      connection.query('select * from questions where member_id = ?',
-       [req.params.member_id], function(error, rows){
-        if (error){
-          console.log("Connection Error" + error);
-          res.sendStatus(500);
-          connection.release();
+router.route('/')
+.post((req, res)=>{
+    const properties = [ member_id, questions_title, questions_main, questions_mail];
+    for(var i=0; i< properties.length;i++){
+        if(!req.body.hasOwnProperty(properties[i])){
+            res.json({
+                result: false,
+                msg: "req.body."+properties[i]+"이 없습니다."
+            });
+            return;
         }
-        else {
-          res.status(200).send({result : rows[0]});
-          connection.release();
-        }
-      });
     }
-  });
+
+    pool.query( 'insert into questions( firebaseToken, questions_title, questions_main, questions_mail) values(?,?,?,?)',
+    [ req.body.firebaseToken, req.body.questions_title, req.body.questions_main, req.body.questions_mail] , function( err, results ) {
+        if (err){
+    		console.log(err);
+    		res.status(500).json({
+                    result: false,
+                    msg: "db 접속 에러",
+                    qry: this.sql
+                });
+                return;
+        }
+	    console.log(results,this.sql);
+        if( results.affectedRows ){
+            res.status(201).json({
+                result: true,
+                msg: "업데이트가 완료되었습니다.",
+            });
+        }else{
+            res.status(201).json({
+                result: false,
+                msg: "업데이트가 실패되었습니다.",
+            });
+        }
+    });
+})
+.get((req,res)=>{
+    if(!req.params.firebaseToken){
+        res.status(500).json({
+            result: false,
+            msg: "req.params.firebaseToken이 없습니다."
+        });
+        return;
+    }
+
+    pool.query( 'select * from questions where firebaseToken = ?;', [ req.params.firebaseToken ] , function( err, rows ) {
+        if (err){
+            console.log(err);
+            res.json({
+                    result: false,
+                    msg: "db 접속 에러",
+                    qry: this.sql
+                });
+                return;
+        }
+        console.log(rows);
+        if( results.affectedRows ){
+            res.status(200).json({
+                result: true,
+                msg: "업데이트가 완료되었습니다.",
+                data: rows
+            });
+        }else{
+            res.status(201).json({
+                result: false,
+                msg: "업데이트가 실패되었습니다.",
+            });
+        }
+    });
 });
 
 
