@@ -105,8 +105,12 @@ router.route('/')
 	});
 
     const tmp = (FirebaseToken) => {
-        if( !req.body.notSns )
-            SnsQry();
+        
+		console.log("$",FirebaseToken);
+		
+		
+		if( !req.body.notSns )
+            SnsQry(FirebaseToken);
         else
         {
             let properties = ['member_email','member_passwd'];
@@ -127,11 +131,11 @@ router.route('/')
                 });
         		return;
         	}
-            notSnsQry();
+            notSnsQry(FirebaseToken);
         }
     };
 
-    const SnsQry = () =>{
+    const SnsQry = (FirebaseToken) =>{
         pool.query( 'insert ignore into duckmate.member( firebaseToken, member_name ) values(?,?)', [ FirebaseToken ,  req.body.member_name ] , function( err, results ) {
             if (err){
                 res.json({
@@ -159,7 +163,7 @@ router.route('/')
         });
     };
 
-    const notSnsQry = () => {
+    const notSnsQry = (FirebaseToken) => {
         pool.query( 'insert ignore into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?,?);', [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
             if (err){
                 console.log(err);
