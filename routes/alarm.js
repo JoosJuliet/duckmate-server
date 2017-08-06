@@ -6,7 +6,7 @@ var router = express.Router();
 router.route('/')
 .post((req, res)=>{
 
-    const properties = ['firebaseToken','today_alarm','member_id','zero_flag','one_flag','two_flag','three_flag'];
+    const properties = ['firebaseToken','fcm_token','today_alarm','zero_flag','one_flag','two_flag','three_flag'];
     for(var i=0; i< properties.length;i++){
         if(!req.body.hasOwnProperty(properties[i])){
             res.json({
@@ -17,7 +17,7 @@ router.route('/')
         }
     }
 
-    pool.query( 'update duckmate.member set firebaseToken = ?, today_alarm = ?, 0_flag = ?, 1_flag = ?, 2_flag = ?, 3_flag = ?  where member_id = ?;', [ req.body.firebaseToken, req.body.today_alarm, req.body['zero_flag'],req.body['one_flag'],req.body['two_flag'],req.body['three_flag'], req.body.member_id] , function( err, results ) {
+    pool.query( 'update duckmate.member set fcm_token = ?, today_alarm = ?, 0_flag = ?, 1_flag = ?, 2_flag = ?, 3_flag = ?  where firebaseToken = ?;', [ req.body.fcm_token, req.body.today_alarm, req.body.zero_flag ,req.body.one_flag, req.body.two_flag ,req.body.three_flag, req.body.firebaseToken] , function( err, results ) {
         if (err){
     		console.log(err);
     		res.json({
@@ -27,9 +27,7 @@ router.route('/')
                 });
                 return;
         }
-
-
-	console.log(results,this.sql);
+	    console.log(results,this.sql);
         if( results.affectedRows ){
             res.status(201).json({
                 result: true,
@@ -44,14 +42,14 @@ router.route('/')
     });
 })
 .get((req,res)=>{
-    if( !req.query.member_id ){
+    if( !req.query.firebaseToken ){
         res.json({
             result: false,
-            msg: "req.body.member_id가 없습니다."
+            msg: "req.body.firebaseToken가 없습니다."
         });
         return;
     }
-    pool.query( 'select 0_flag,1_flag,2_flag,3_flag,today_alarm FROM duckmate.member where member_id = ?  ;', [ req.query.member_id ] , function( err, rows ) {
+    pool.query( 'select 0_flag,1_flag,2_flag,3_flag,today_alarm FROM duckmate.member where firebaseToken =?   ;', [ req.query.firebaseToken ] , function( err, rows ) {
         if (err){
             console.log("여기서 에러"+this.sql);
             res.status(200).json({
@@ -85,7 +83,7 @@ router.route('/')
         }else{
             res.status(200).json({
                 result: false,
-                msg: "해당 member_id가 등록되있지 않습니다.",
+                msg: "해당 firebaseToken이 등록되있지 않습니다.",
             });
 			return;
         }
