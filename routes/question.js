@@ -6,7 +6,7 @@ var fs = require('fs');
 
 router.route('/')
 .post((req, res)=>{
-    const properties = [ member_id, questions_title, questions_main, questions_mail];
+    const properties = [ "firebaseToken", "questions_title", "questions_main", "questions_mail"];
     for(var i=0; i< properties.length;i++){
         if(!req.body.hasOwnProperty(properties[i])){
             res.json({
