@@ -76,7 +76,6 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `member`;
 
 CREATE TABLE `member` (
-  `member_id` int(11) NOT NULL COMMENT '회원인덱스',
   `member_name` varchar(45) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '회원 닉네임',
   `member_img` varchar(100) CHARACTER SET utf8 DEFAULT '' COMMENT '회원 사진',
   `member_level` int(11) DEFAULT NULL COMMENT '회원 레벨',
@@ -117,46 +116,6 @@ VALUES
 	(0,'hi','',NULL,NULL,NULL,NULL,NULL,'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJoaWhpIiwiaWF0IjoxNTAyMDE5ODIwLCJleHAiOjE1MDIwMjM0MjAsImF1ZCI6Imh0dHBzOi8vaWRlbnRpdHl0b29sa2l0Lmdvb2dsZWFwaXMuY29tL2dvb2dsZS5pZGVudGl0eS5pZGVudGl0eXRvb2xraXQudjEuSWRlbnRpdHlUb29sa2l0IiwiaXNzIjoiZmlyZWJhc2UtYWRtaW5zZGstdXlnY3VAZGVva2ppbG1hdGUtOTRjODcuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJzdWIiOiJmaXJlYmFzZS1hZG1pbnNkay11eWdjdUBkZW9ramlsbWF0ZS05NGM4Ny5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSJ9.waxHybq5Lmy3bsPqth_R3uP1f-U8L52hlf-SCGfbUIUfTGY3WVh5vIsWAh5y0S22IRdao3JEJ8d3xfpbR4cVWU6NbdFVMcGhmmM1Er6Jbmdg5lhJgwZgp9VFZxaU2DJjPnBu1pwepcHz_oJk24tpOxr7kG5KeHz3Efr_HKXBNvVWcWqz0tLAOspyM_rhSzCuoZKkez8_oLW-yJYy_j_ngtbgvkzBPutCUm2pi8SszKKMMSJkbUcwztSTq3KDUo9gFDWauxUeTNsv2zjyTez6QBE5BPmimE7yIRUCE4EI9mRauF5i8AlFYCpdj5JPxbvLggPLL-j0bN5_skxDAbYHBA',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table mylist
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `mylist`;
-
-CREATE TABLE `mylist` (
-  `mylist_id` int(11) NOT NULL COMMENT '리스트 인덱스',
-  `member_id` int(11) NOT NULL COMMENT '회원 인덱스',
-  `singerb_id` int(11) NOT NULL DEFAULT '0' COMMENT '등록할 때 가수',
-  `b_flag` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '등록시 설정했을 가수의 flg',
-  `b_vote_count` int(11) DEFAULT NULL COMMENT '등록시 설정했을 가수의 count[투표된 수]',
-  `singer0_id` int(11) DEFAULT '0' COMMENT 'singer0 가수',
-  `0_flag` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'singer0 가수의 실시간알람[0: 엠카, 1:음악중심, 2:더쇼]',
-  `0_vote_count` int(11) DEFAULT NULL COMMENT 'singer0 가수의 투표 count',
-  `singer1_id` int(11) DEFAULT '0' COMMENT 'singer1 가수',
-  `1_flag` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'singer1 가수의 실시간알람',
-  `1_vote_count` int(11) DEFAULT NULL COMMENT 'singer1 가수의 count',
-  `singer2_id` int(11) DEFAULT '0' COMMENT 'singer2 가수',
-  `2_flag` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'singer2 가수의 실시간알람',
-  `2_vote_count` int(11) DEFAULT NULL COMMENT 'singer2 가수의 count',
-  PRIMARY KEY (`mylist_id`),
-  KEY `member_id2_fk_idx` (`member_id`),
-  KEY `singer_idb_fk_idx` (`singerb_id`),
-  KEY `singer_id0_fk_idx` (`singer0_id`),
-  KEY `singer_id1_fk_idx` (`singer1_id`),
-  KEY `singer_id2_fk_idx` (`singer2_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-LOCK TABLES `mylist` WRITE;
-/*!40000 ALTER TABLE `mylist` DISABLE KEYS */;
-
-INSERT INTO `mylist` (`mylist_id`, `member_id`, `singerb_id`, `b_flag`, `b_vote_count`, `singer0_id`, `0_flag`, `0_vote_count`, `singer1_id`, `1_flag`, `1_vote_count`, `singer2_id`, `2_flag`, `2_vote_count`)
-VALUES
-	(1,1,2,'t',1,3,NULL,2,4,'t',3,1,'t',4),
-	(2,2,2,'t',5,4,'t',4,3,'t',3,2,'t',2);
-
-/*!40000 ALTER TABLE `mylist` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
