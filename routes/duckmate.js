@@ -39,9 +39,11 @@ router.delete('/memberDelete', function(req, res, next) {
 }); // :member_name
 
 
-router.get('/', function(req, res, next) {
+router.get('/membercheck', function(req, res, next) {
     console.log("time" + Date.now());
-    res.send('depromeet');
+ 	pool.query('select * from duckmate.member', function(error, result){
+		res.status(201).send(result);
+	});
 });
 
 
