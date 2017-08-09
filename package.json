@@ -24,7 +24,9 @@
         "q": "^1.5.0",
         "selenium-webdriver": "^3.5.0",
         "serve-favicon": "~2.3.2",
-        "sha256": "^0.2.0"
+        "sha256": "^0.2.0",
+        "tinyreq": "^3.2.4",
+        "webdriverio": "^4.8.0"
     },
     "author": "",
     "license": "ISC",
