@@ -10,7 +10,7 @@ console.log(__dirname);
 console.log( 
 process.cwd() );
 
-const db_config       = require(''+process.cwd()+'/config/db_config.json');
+const db_config       = require('../config/db_config.json');
 console.log(db_config);
 const connectionLimit = 50;
 //db connection 몇개 남았는 지 알려줘서 보내는 코드
