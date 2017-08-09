@@ -23,7 +23,15 @@ router.use('/register', register);
 router.use('/findpassword',FindPassWord);
 router.use('/memberDelete',memberDelete);
 
+router.use((req, res, next)=>{
 
+            req.fbpage = {
+
+                m : "hi"
+            };
+            next();
+
+        });
 router.use('/question', question);
 router.use('/notice', notice);
 
