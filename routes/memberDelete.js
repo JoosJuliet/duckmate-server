@@ -4,7 +4,7 @@ var app = express();
 
 
 //TODO member관리도 해야함
-router.delete('/memberDelete', function(req, res, next) {
+router.delete('/', function(req, res, next) {
     if( !req.body.firebaseToken ){
         res.json({
             result: false,
