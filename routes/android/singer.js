@@ -126,6 +126,8 @@ router.route('/')
 });
 
 router.get('/singer_rank', function(req, res, next) {
+    // TODO rank/singer로 바꾸자
+    // rank/member도 해야하니까
     pool.getConnection(function(error, connection) {
         if (error) {
             console.log("getConnection Error" + error);

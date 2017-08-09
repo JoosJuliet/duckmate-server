@@ -1,73 +1,10 @@
 var express = require('express');
-var mysql = require('mysql');
 
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var fs = require('fs');
-var db_config = require('./config/db_config.json');
-// MySQL 연동
-var connectionLimit = 50;
-//db connection 몇개 남았는 지 알려줘서 보내는 코드
-
-global.pool = mysql.createPool({
-    host : db_config.host,
-    port : db_config.port,
-    user : db_config.user,
-	password : db_config.password,
-    database : db_config.database,
-    connectionLimit : db_config.connectionLimit
-});
-
-
-var LeftConnections = connectionLimit;
-pool.on('acquire', function (connection) {
-    LeftConnections--;
-    if( LeftConnections < 5 ){
-        console.log("DB Connections이 5개 밖에 남지 않았습니다!");
-    }
-	LeftConnections--;
-});
-
-pool.on('enqueue', function () {
-    console.log("DB Connections이 고갈됨");
-
-});
-
-pool.on('release', function (connection) {
-    LeftConnections++;
-});
-
-pool.getConnection(function(err, connection) {
-    if( err ){
-        console.log("error 처리",err);
-        return;
-    }
-
-    connection.ping(function (err) {
-        if (err) throw err;
-        console.log('Server responded to ping');
-    });
-});
-// TEST
-/*
-var duckmate = require('./routes/duckmate');
-
-var singer = require('./routes/singer');
-
-var login = require('./routes/1/login');
-var register = require('./routes/1/register');
-var FindPassWord = require('./routes/1/findpassword');
-
-var question = require('./routes/question');
-var notice = require('./routes/notice');
-
-var alarm = require('./routes/alarm');
-var program = require('./routes/program');
-var firstpage = require('./routes/firstpage');
-*/
 
 var app = express();
 
@@ -96,26 +33,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const route = require('./routes');
 app.use("/duckmate",route);
-
-/*
-app.use('/duckmate', duckmate);
-app.use('/duckmate/singer', singer);
-
-// cd ./routes/1
-app.use('/duckmate/login', login);
-app.use('/duckmate/register', register);
-app.use('/duckmate/findpassword',FindPassWord);
-
-
-
-//바깥
-app.use('/duckmate/question', question);
-app.use('/duckmate/notice', notice);
-
-app.use('/duckmate/alarm',alarm);
-app.use('/duckmate/program',program);
-app.use('/duckmate/firstpage',firstpage);
-*/
 
 
 // catch 404 and forward to error handler

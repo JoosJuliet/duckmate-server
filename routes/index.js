@@ -1,34 +1,76 @@
-const express = require('express');
-const router = express.Router();
+
+const express         = require('express');
+const router          = express.Router();
+
+/**********************
+        MySQL 연동
+**********************/
+const mysql           = require('mysql');
+const db_config       = require('../config/db_config.json');
+const connectionLimit = 50;
+//db connection 몇개 남았는 지 알려줘서 보내는 코드
+
+global.pool = mysql.createPool({
+    host : db_config.host,
+    port : db_config.port,
+    user : db_config.user,
+	password : db_config.password,
+    database : db_config.database,
+    connectionLimit : db_config.connectionLimit
+});
+
+let LeftConnections = connectionLimit;
+pool.on('acquire', function (connection) {
+    LeftConnections--;
+    if( LeftConnections < 5 ){
+        console.log("DB Connections이 5개 밖에 남지 않았습니다!");
+    }
+	LeftConnections--;
+});
+
+pool.on('enqueue', function () {
+    console.log("DB Connections이 고갈됨");
+
+});
+
+pool.on('release', function (connection) {
+    LeftConnections++;
+});
+
+pool.getConnection(function(err, connection) {
+    if( err ){
+        console.log("error 처리",err);
+        return;
+    }
+
+    connection.ping(function (err) {
+        if (err) throw err;
+        console.log('Server responded to ping');
+    });
+});
 
 
-const memberDelete = require('./memberDelete');
 
-const singer = require('./singer');
-
-const login = require('./1/login');
-const register = require('./1/register');
-const FindPassWord = require('./1/findpassword');
-
-const question = require('./question');
-const notice = require('./notice');
-
-const alarm = require('./alarm');
-const program = require('./program');
-const firstpage = require('./firstpage');
-
-router.use('/singer', singer);
-router.use('/login', login);
-router.use('/register', register);
-router.use('/findpassword',FindPassWord);
-router.use('/memberDelete',memberDelete);
+/**********************
+        Mongo 연동
+**********************/
 
 
-router.use('/question', question);
-router.use('/notice', notice);
 
-router.use('/alarm',alarm);
-router.use('/program',program);
-router.use('/firstpage',firstpage);
 
-module.exports = router;
+
+
+// android 관리
+const android = require('./android');
+router.use("/android",android);
+
+/*
+    admin 관리
+    const admin = require('./admin');
+    router.use("/admin",admin);
+*/
+/*
+    ios 관리
+    const ios = require('./ios');
+    router.use("/ios",ios);
+*/
