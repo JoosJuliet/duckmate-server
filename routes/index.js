@@ -6,7 +6,12 @@ const router          = express.Router();
         MySQL 연동
 **********************/
 const mysql           = require('mysql');
-const db_config       = require('../config/db_config.json');
+console.log(__dirname);
+console.log( 
+process.cwd() );
+
+const db_config       = require(''+process.cwd()+'/config/db_config.json');
+console.log(db_config);
 const connectionLimit = 50;
 //db connection 몇개 남았는 지 알려줘서 보내는 코드
 
@@ -74,3 +79,5 @@ router.use("/android",android);
     const ios = require('./ios');
     router.use("/ios",ios);
 */
+
+module.exports = router;

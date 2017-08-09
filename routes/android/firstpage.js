@@ -2,7 +2,6 @@ var express = require('express');
 var mysql = require('mysql');
 
 var fs = require('fs');
-var db_config = require('../config/db_config.json');
 var router = express.Router();
 
 router.get('/:Firebase/:singer_id', function(req, res, next) {
