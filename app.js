@@ -52,6 +52,7 @@ pool.getConnection(function(err, connection) {
     });
 });
 // TEST
+/*
 var duckmate = require('./routes/duckmate');
 
 var singer = require('./routes/singer');
@@ -66,6 +67,7 @@ var notice = require('./routes/notice');
 var alarm = require('./routes/alarm');
 var program = require('./routes/program');
 var firstpage = require('./routes/firstpage');
+*/
 
 var app = express();
 
@@ -91,7 +93,11 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-console.log("app.js time",Date.now());
+
+const route = require('./routes');
+app.use("/duckmate",route);
+
+/*
 app.use('/duckmate', duckmate);
 app.use('/duckmate/singer', singer);
 
@@ -109,8 +115,8 @@ app.use('/duckmate/notice', notice);
 app.use('/duckmate/alarm',alarm);
 app.use('/duckmate/program',program);
 app.use('/duckmate/firstpage',firstpage);
+*/
 
-//app.use('/duckmate/test', test);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
