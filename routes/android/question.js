@@ -44,7 +44,6 @@ router.route('/')
 })
 .get((req,res)=>{
 
-   console.log( "1",req.fbpage.m);
 		console.log(req.query.firebaseToken);
 		if(!req.query.firebaseToken){
         res.status(500).json({
