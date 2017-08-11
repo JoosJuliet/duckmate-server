@@ -1,25 +1,36 @@
 var express = require('express');
 var router = express.Router();
 var app = express();
-var fs = require('fs');
 
-
-router.get('/', function(req, res, next) {
-  pool.getConnection(function(error, connection){
-    if (error){
-      console.log("getConnection Error" + error);
-      res.sendStatus(500);
-    }
-     connection.query('select * from program', function(error, rows){
-        if (error){
-          console.log("Connection Error" + error);
-          res.sendStatus(500);
+router.route('/')
+.get((req, res)=>{
+    pool.query('select * from program', function(error, rows){
+        if (err){
+    		console.log(err);
+    		res.status(500).json({
+                    result: false,
+                    msg: "db 접속 에러",
+                    qry: this.sql
+            });
+            return;
         }
-          res.status(200).send({result : rows});
-          connection.release();
-      });//connection query
-  }); //pool
+        if( results.affectedRows ){
+            res.status(200).json({
+                result: true,
+                msg: "프로그램들 입니다.",
+                data : results
+            });
+        }else{
+            res.status(200).json({
+                result: false,
+                msg: "프로그램이 없네요.",
+            });
+        }
+
+    });
 });
+
+
 
 
 module.exports = router;

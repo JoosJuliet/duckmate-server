@@ -26,6 +26,9 @@ router.use('/memberDelete',memberDelete);
 router.use((req, res, next)=>{
     pool.query( 'select 1' , (err)=>{
         // TODO 뒷 api들은 여기를 거치고 가니 여기서 routing을 하면 될듯
+        // 은행업무중에서 헤리슨님한테 -10 나 +10해야하는데
+        // 헤리슨님 -10하고 죽음 안되니까 transaction을 써야한다
+        
         if (err){
 
 
