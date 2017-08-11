@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 
-const memberDelete = require('./memberDelete');
+const memberDelete = require('./member/memberDelete');
 
 const singer = require('./singer');
 
-const login = require('./1/login');
-const register = require('./1/register');
-const FindPassWord = require('./1/findpassword');
+const login = require('./user/login');
+const register = require('./user/register');
+const FindPassWord = require('./user/findpassword');
 
 const question = require('./question');
 const notice = require('./notice');
@@ -17,11 +17,10 @@ const alarm = require('./alarm');
 const program = require('./program');
 const firstpage = require('./firstpage');
 
-
+/* user folder */
 router.use('/login', login);
 router.use('/register', register);
 router.use('/findpassword',FindPassWord);
-router.use('/memberDelete',memberDelete);
 
 router.use('/firstpage',firstpage);
 
@@ -33,7 +32,8 @@ router.use('/singer', singer);
 
 
 router.use((req, res, next)=>{
-    let firebaseToken ;
+
+    let firebaseToken;
     let rqstMethodCheck = (req.method == 'GET') ? req.query : req.body;
     if( !rqstMethodCheck.firebaseToken ){
         res.json({
@@ -44,6 +44,7 @@ router.use((req, res, next)=>{
     } else {
         firebaseToken = rqstMethodCheck.firebaseToken ;
     }
+
 	pool.query( 'select 1 from duckmate.member where firebaseToken = ?;' ,[ firebaseToken ] , (err,rows)=>{
         // TODO 은행업무중에서 헤리슨님한테 -10 나 +10해야하는데
         // 헤리슨님 -10하고 죽음 안되니까 transaction을 써야한다
@@ -67,6 +68,7 @@ router.use((req, res, next)=>{
 
     });
 });
+router.use('/memberDelete',memberDelete);
 router.use('/question', question);
 router.use('/alarm',alarm);
 

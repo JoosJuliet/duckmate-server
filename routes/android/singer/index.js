@@ -4,6 +4,111 @@ var mysql = require('mysql');
 var fs = require('fs');
 var router = express.Router();
 
+
+router.route('/singer_rank')
+.get((req, res)=>{
+    // TODO rank/singer로 바꾸자
+    // rank/member도 해야하니까
+
+    pool.query('select singer_id, singer_name, singer_img from singer order by choice_count desc', [req.query.firebaseToken] , function( err, rows ) {
+        if (err){
+            console.log(err);
+            res.status(500).json({
+                result: false,
+                msg: "db 접속 에러",
+                qry: this.sql
+            });
+            return;
+        }
+        if( !rows.length ){
+            res.status(200).json({
+                result: false,
+                msg: "singer들이 없네요",
+            });
+        }else{
+            res.status(200).json({
+                result: false,
+                msg: "singer 들 목록입니다.",
+                data : rows
+            });
+        }
+    });
+});
+
+router.route('/')
+.delete((req,res)=>{
+    if( !req.body.singer_id ){
+        res.json({
+            result: false,
+            msg: "req.body.singer_id이 없습니다."
+        });
+        return;
+    }
+    pool.query('delete from duckmate.singer where singer_id=?;', [req.body.singer_id], function(error, results, fields) {
+        if (error) {
+            console.log("delete /singer Error" + error);
+            res.sendStatus(500).send({
+                result: false,
+                msg : "delete /singer에서 db pool error",
+                sql : this.sql
+            });
+            return;
+        } // error
+        if( results.affectedRows ){
+            res.status(201).send({
+                result: true,
+                msg : "성공적으로 삭제되었습니다."
+            });
+        }else{
+            res.status(201).send({
+                result: false,
+                msg : "삭제 실패!"
+            });
+        }
+
+    });
+
+});
+
+router.use((req, res, next)=>{
+    let firebaseToken;
+    let rqstMethodCheck = (req.method == 'GET') ? req.query : req.body;
+    if( !rqstMethodCheck.firebaseToken ){
+        res.json({
+            result: false,
+            msg: "[ firebaseToken ]이 필요함"
+        });
+        return;
+    } else {
+        firebaseToken = rqstMethodCheck.firebaseToken ;
+    }
+    pool.query( 'select 1 from duckmate.member where firebaseToken = ?;' ,[ firebaseToken ] , (err,rows)=>{
+        // TODO 은행업무중에서 헤리슨님한테 -10 나 +10해야하는데
+        // 헤리슨님 -10하고 죽음 안되니까 transaction을 써야한다
+        if (err){
+            res.status(500).json({
+                result: false,
+                msg: "db 접속 에러",
+                qry: this.sql
+            });
+            return;
+        }
+
+        if( rows.length ) next();
+        else
+        {
+            res.status(200).json({
+                result: false,
+                msg: "프로그램이 없네요.",
+            });
+        }
+
+    });
+
+});
+
+
+
 router.route('/')
 .post((req, res)=>{
     // 가수들 처음 추가할 때 추가
@@ -122,67 +227,6 @@ router.route('/')
 
     //내 가수들에 대한  singer_id,singer_name,singer_img,choice_count
 
-})
-.delete((req,res)=>{
-    if( !req.body.singer_id ){
-        res.json({
-            result: false,
-            msg: "req.body.singer_id이 없습니다."
-        });
-        return;
-    }
-    pool.query('delete from duckmate.singer where singer_id=?;', [req.body.singer_id], function(error, results, fields) {
-        if (error) {
-            console.log("delete /singer Error" + error);
-            res.sendStatus(500).send({
-                result: false,
-                msg : "delete /singer에서 db pool error",
-                sql : this.sql
-            });
-            return;
-        } // error
-        if( results.affectedRows ){
-            res.status(201).send({
-                result: true,
-                msg : "성공적으로 삭제되었습니다."
-            });
-        }else{
-            res.status(201).send({
-                result: false,
-                msg : "삭제 실패!"
-            });
-        }
-
-    });
-
 });
-
-
-
-
-
-
-router.get('/singer_rank', function(req, res, next) {
-    // TODO rank/singer로 바꾸자
-    // rank/member도 해야하니까
-    pool.getConnection(function(error, connection) {
-        if (error) {
-            console.log("getConnection Error" + error);
-            res.sendStatus(500);
-        } else {
-            connection.query('select singer_id, singer_name, singer_img from singer order by choice_count desc', function(error, rows) {
-                if (error) {
-                    console.log("Connection Error" + error);
-                    res.sendStatus(500);
-                    connection.release();
-                } else {
-                    res.status(200).send({result: rows});
-                    connection.release();
-                }
-            });
-        }
-    });
-});
-
 
 module.exports = router;
