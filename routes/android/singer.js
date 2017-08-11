@@ -42,7 +42,6 @@ router.route('/')
     });
 })
 .get((req,res)=>{
-    // console.log( "1",req.fbpage.m); 
 //TODO 에러처리 부족
     if(!req.query.firebaseToken){
         res.json({

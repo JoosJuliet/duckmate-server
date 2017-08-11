@@ -24,14 +24,22 @@ router.use('/findpassword',FindPassWord);
 router.use('/memberDelete',memberDelete);
 
 router.use((req, res, next)=>{
+    pool.query( 'select 1' , (err)=>{
+        // TODO 뒷 api들은 여기를 거치고 가니 여기서 routing을 하면 될듯
+        if (err){
 
-            req.fbpage = {
 
-                m : "hi"
-            };
+                        // 알수 없는 에러 로그만 남기자
+            console.log(err.stack,err);
+            return;
+        }else{
             next();
+        }
+    });
 
-        });
+
+
+});
 router.use('/question', question);
 router.use('/notice', notice);
 
