@@ -123,7 +123,7 @@ router.route('/')
             return;
         }
     }
-    pool.query('update duckmate.member SET singer' + req.body.singerNum + '_id = ? where firebaseTokenㄷ = ?;', [ req.body.singer_id, req.body.firebaseToken] , function( err, results ) {
+    pool.query('update duckmate.member SET singer' + req.body.singerNum + '_id = ? where firebaseToken = ?;', [ req.body.singer_id, req.body.firebaseToken] , function( err, results ) {
         if (err){
     		console.log(err);
     		res.status(500).json({
