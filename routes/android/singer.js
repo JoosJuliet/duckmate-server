@@ -122,7 +122,45 @@ router.route('/')
 
     //내 가수들에 대한  singer_id,singer_name,singer_img,choice_count
 
+})
+.delete((req,res)=>{
+    if( !req.body.singer_id ){
+        res.json({
+            result: false,
+            msg: "req.body.singer_id이 없습니다."
+        });
+        return;
+    }
+    pool.query('delete from duckmate.singer where singer_id=?;', [req.body.singer_id], function(error, results, fields) {
+        if (error) {
+            console.log("delete /singer Error" + error);
+            res.sendStatus(500).send({
+                result: false,
+                msg : "delete /singer에서 db pool error",
+                sql : this.sql
+            });
+            return;
+        } // error
+        if( results.affectedRows ){
+            res.status(201).send({
+                result: true,
+                msg : "성공적으로 삭제되었습니다."
+            });
+        }else{
+            res.status(201).send({
+                result: false,
+                msg : "삭제 실패!"
+            });
+        }
+
+    });
+
 });
+
+
+
+
+
 
 router.get('/singer_rank', function(req, res, next) {
     // TODO rank/singer로 바꾸자

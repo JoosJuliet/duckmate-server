@@ -44,8 +44,8 @@ router.route('/')
 })
 .get((req,res)=>{
 
-		console.log(req.query.firebaseToken);
-		if(!req.query.firebaseToken){
+	console.log(req.query.firebaseToken);
+	if(!req.query.firebaseToken){
         res.status(500).json({
             result: false,
             msg: "req.params.firebaseToken이 없습니다."
