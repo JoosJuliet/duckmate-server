@@ -194,14 +194,15 @@ router.route('/')
     };
 })
 .get((req, res)=>{
-    if(!req.params.member_name){
+
+    if(!req.query.member_name){
         res.status(500).json({
             result: false,
-            msg: "req.params.member_name이 없습니다."
+            msg: "req.query.member_name이 없습니다."
         });
         return;
     }
-    pool.query('SELECT * FROM duckmate.member where member_name = ?;', [ req.params.member_name ] , function( err, rows ) {
+    pool.query('SELECT * FROM duckmate.member where member_name = ?;', [ req.query.member_name ] , function( err, rows ) {
         if (err){
     		console.log(err);
     		res.status(500).json({
@@ -212,7 +213,7 @@ router.route('/')
             return;
         }
 	    console.log(rows,this.sql);
-        if( rows ){
+        if( rows.length ){
             res.status(200).json({
                 result: false,
                 msg: "member_name이 있습니다.",
