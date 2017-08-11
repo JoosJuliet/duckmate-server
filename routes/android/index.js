@@ -31,10 +31,19 @@ router.use('/program',program);
 
 router.use('/singer', singer);
 
-router.use((req, res, next)=>{
-    let firebaseToken = req.body.firebaseToken || req.query.firebaseToken ;
 
-	console.log(firebaseToken);
+router.use((req, res, next)=>{
+    let firebaseToken ;
+    let rqstMethodCheck = (req.method == 'GET') ? req.query : req.body;
+    if( !rqstMethodCheck.firebaseToken ){
+        res.json({
+            result: false,
+            msg: "[ firebaseToken ]이 필요함"
+        });
+        return;
+    } else {
+        firebaseToken = rqstMethodCheck.firebaseToken ;
+    }
 	pool.query( 'select 1 from duckmate.member where firebaseToken = ?;' ,[ firebaseToken ] , (err,rows)=>{
         // TODO 은행업무중에서 헤리슨님한테 -10 나 +10해야하는데
         // 헤리슨님 -10하고 죽음 안되니까 transaction을 써야한다
