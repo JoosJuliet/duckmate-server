@@ -45,14 +45,16 @@ router.get('/:Firebase/:singer_id', function(req, res, next) {
 							connection.query(chartQry2, [singerb_name], function(error, chartresult2) {
 								
 
-								var prevoteQry = "select program_name, program_data from duckmate.program where pre_flag='1'";
-								var curevoteQry = "select program_name, program_data from duckmate.program where cure_flag='1'";
+								var prevoteQry = "select program_name, program_data from duckmate.program_pre where singer1=? or singer2=? or singer3=? or singer4=? or singer5=?";
+								var curevoteQry = "select program_name, program_data from duckmate.program_cure where singer1=? or singer2=? or singer3=? or singer4=? or singer5=?";
 
-								connection.query(prevoteQry, function(error, prevoteresult) {
+								connection.query(prevoteQry,[singerb_name, singerb_name, singerb_name, singerb_name, singerb_name],function(error, prevoteresult) {
 									
-									connection.query(curevoteQry, function(error, curevoteQry) {
+									connection.query(curevoteQry,[singerb_name, singerb_name, singerb_name, singerb_name, singerb_name],function(error, curevoteresult) {
 									
 
+										console.log(prevoteresult);
+										console.log(curevoteresult);
 										var chartData = {
 											song_name : chartresult1[0].song_name,
 											album_name : chartresult1[0].album_name,
@@ -67,14 +69,10 @@ router.get('/:Firebase/:singer_id', function(req, res, next) {
 											singer: []
 										}
 
-										var voteData = {
-											singer_name : voteresult[0].singer_name,
-											singer_img : voteresult[0].singer_img,
-											choice_count : voteresult[0].choice_count,
-											0_vote_count : voteresult[0].0_vote_count
-											pre_vote : prevoteresult,
-											cure_vote : curevoteQry[0].program_name,
-											cure_vote_data : curevoteQry[0].program_data
+										var proData = {
+											pre_data : prevoteresult,
+											cure_data : curevoteresult[0]
+										
 										}
 
 										var check = [];
@@ -94,7 +92,7 @@ router.get('/:Firebase/:singer_id', function(req, res, next) {
 
 										var Check = () => {
 											if (check.length == NotUndefinedSigner.length) {
-												res.status(200).send({result : true, message : true, vote_data : voteData, chart_data : chartData, nevi_data : sendData});
+												res.status(200).send({result : true, message : true, vote_data : voteresult[0], program_data : proData, chart_data : chartData, nevi_data : sendData});
 											}
 										}
 
