@@ -33,7 +33,9 @@ router.use('/singer', singer);
 
 router.use((req, res, next)=>{
     let firebaseToken = req.body.firebaseToken || req.query.firebaseToken ;
-    pool.query( 'select 1 from duckmate.member where firebaseToken = ?;' ,[ firebaseToken ] , (err,rows)=>{
+
+	console.log(firebaseToken);
+	pool.query( 'select 1 from duckmate.member where firebaseToken = ?;' ,[ firebaseToken ] , (err,rows)=>{
         // TODO 은행업무중에서 헤리슨님한테 -10 나 +10해야하는데
         // 헤리슨님 -10하고 죽음 안되니까 transaction을 써야한다
         if (err){
@@ -45,7 +47,7 @@ router.use((req, res, next)=>{
             return;
         }
 
-        if( rows.affectedRows ) next();
+        if( rows.length ) next();
         else
         {
             res.status(200).json({
