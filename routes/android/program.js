@@ -8,9 +8,9 @@ router.route('/')
         if (err){
     		console.log(err);
     		res.status(500).json({
-                    result: false,
-                    msg: "db 접속 에러",
-                    qry: this.sql
+                result: false,
+                msg: "db 접속 에러",
+                qry: this.sql
             });
             return;
         }
