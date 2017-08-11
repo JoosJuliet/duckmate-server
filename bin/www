@@ -1,21 +1,25 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
 
+process.on('uncaughtException', function (error = {}) {
+	if (error.message !== null) {
+		console.log(error.message);
+		return;
+	}
 
-
-
-
-process.on('uncaughtException', function (err) {
-	//예상치 못한 예외 처리
-	console.log('uncaughtException 발생 : ' + err);
+	if (error.stack !== null) {
+		console.log(error.stack);
+		return;
+	}
 });
 
 
 
 
+
+/**
+ * Module dependencies.
+ */
 
 var app = require('../app');
 var debug = require('debug')('test01:server');
@@ -67,6 +71,8 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
+
+
 
 function onError(error) {
   if (error.syscall !== 'listen') {
