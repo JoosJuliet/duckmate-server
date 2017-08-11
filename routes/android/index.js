@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-const memberDelete = require('./member/memberDelete');
+const memberDelete = require('./user/memberDelete');
 
 const singer = require('./singer');
 
