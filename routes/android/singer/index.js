@@ -147,6 +147,7 @@ router.route('/')
     });
 })
 .get((req,res)=>{
+    console.log("req.query.firebaseToken",req.query.firebaseToken);
 //TODO 에러처리 부족
     if(!req.query.firebaseToken){
         res.json({
