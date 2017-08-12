@@ -147,7 +147,6 @@ router.route('/')
     });
 })
 .get((req,res)=>{
-    console.log("req.query.firebaseToken",req.query.firebaseToken);
 //TODO 에러처리 부족
     if(!req.query.firebaseToken){
         res.json({
@@ -168,7 +167,7 @@ router.route('/')
             return;
         }
 
-        console.log(rows.length);
+        console.log("rows[0]",rows[0]);
         if( rows.length === 0 || rows.length === 1 ){
             res.status(200).json({
                 result: false,
@@ -181,6 +180,7 @@ router.route('/')
                 singer2_id: rows[0].singer2_id,
                 singer3_id: rows[0].singer3_id
             };
+            console.log("data",data);
             detectSingerInfo(data);
 
         }
@@ -205,7 +205,7 @@ router.route('/')
 				rows = JSON.parse( JSON.stringify(rows[0]) );
 				console.log("rows",rows );
 				arrr.push(rows);
-
+                console.log("1",arrr);
 				if( arrr.length == '4' ) {
 					res.status(200).json({
                         result: true,
