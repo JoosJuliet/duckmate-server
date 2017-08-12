@@ -180,7 +180,6 @@ router.route('/')
                 singer3_id: rows[0].singer3_id
             };
             detectSingerInfo(data);
-            let Length = Object.keys(data).length;
 
         }
     });
@@ -219,7 +218,6 @@ router.route('/')
 
         for(let i = 0 ; i < 4; i++)
             arr.push(selectSingerDB(singer["singer"+i+"_id"]));
-
 
  		return;
 	};
