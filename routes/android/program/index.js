@@ -14,17 +14,18 @@ router.route('/')
             });
             return;
         }
-        if( results.affectedRows ){
+        if( rows.length === 0 || rows.length === 1 ){
+            res.status(200).json({
+                result: false,
+                msg: "프로그램이 없네요.",
+            });
+        }else{
             res.status(200).json({
                 result: true,
                 msg: "프로그램들 입니다.",
                 data : results
             });
-        }else{
-            res.status(200).json({
-                result: false,
-                msg: "프로그램이 없네요.",
-            });
+
         }
 
     });

@@ -62,17 +62,18 @@ router.route('/')
                 return;
         }
         console.log(rows);
-        if( rows.length ){
+        if( rows.length === 0 || rows.length === 1 ){
+            res.status(201).json({
+                result: false,
+                msg: "업데이트가 실패되었습니다.",
+            });
+        }else{
             res.status(200).json({
                 result: true,
                 msg: "업데이트가 완료되었습니다.",
                 data: rows[0]
             });
-        }else{
-            res.status(201).json({
-                result: false,
-                msg: "업데이트가 실패되었습니다.",
-            });
+
         }
     });
 });

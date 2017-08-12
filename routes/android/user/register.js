@@ -105,10 +105,10 @@ router.route('/')
 	});
 
     const tmp = (FirebaseToken) => {
-        
+
 		console.log("$",FirebaseToken);
-		
-		
+
+
 		if( !req.body.notSns )
             SnsQry(FirebaseToken);
         else
@@ -213,15 +213,15 @@ router.route('/')
             return;
         }
 	    console.log(rows,this.sql);
-        if( rows.length ){
-            res.status(200).json({
-                result: false,
-                msg: "member_name이 있습니다.",
-            });
-        }else{
-            res.status(200).json({
+        if( rows.length === 0 || rows.length === 1 ){
+			res.status(200).json({
                 result: true,
                 msg: "member_name이 없습니다.",
+            });
+        }else{
+			res.status(200).json({
+                result: false,
+                msg: "member_name이 있습니다.",
             });
         }
     });

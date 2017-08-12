@@ -57,14 +57,14 @@ router.use((req, res, next)=>{
             return;
         }
 
-        if( rows.length ) next();
-        else
+        if( rows.length === 0 || rows.length === 1 )
         {
             res.status(200).json({
                 result: false,
                 msg: "프로그램이 없네요.",
             });
         }
+        else next();
 
     });
 });

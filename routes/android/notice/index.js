@@ -20,17 +20,18 @@ router.route('/')
         rows =JSON.parse(JSON.stringify(rows));
         console.log(rows[0]);
 
-        if( rows.length ){
+        if( rows.length === 0 || rows.length === 1 ){
+            res.status(200).json({
+                result: false,
+                msg: "공지가 없습니다.",
+            });
+        }else{
             res.status(200).json({
                 result: false,
        			msg: "공지입니다",
 				data: rows[0]
             });
-        }else{
-            res.status(200).json({
-                result: false,
-                msg: "공지가 없습니다.",
-            });
+
         }
     });
 

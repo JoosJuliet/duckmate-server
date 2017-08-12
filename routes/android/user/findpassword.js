@@ -17,15 +17,14 @@ router.route('/')
 		}
 		rows = JSON.parse( JSON.stringify(rows));
 		rows = rows[0];
-		if( rows ){
-			updateHelpFlag(rows);
-		}else{
+		if( rows.length === 0 || rows.length === 1 ){
 			res.status(200).json({
 				result: false,
 				msg: "해당 member_email이 등록되있지 않습니다.",
 			});
 			return;
 		}
+		else updateHelpFlag(rows);
 	});
 
 	const updateHelpFlag = (r) =>{

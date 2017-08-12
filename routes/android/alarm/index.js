@@ -64,9 +64,14 @@ router.route('/')
 		console.log(rows);
 
 
-        if( rows ){
-
-			let dataObject = {
+        if( rows.length == 0 || rows.length == 1 ){
+            res.status(200).json({
+                result: false,
+                msg: "해당 firebaseToken이 등록되있지 않습니다.",
+            });
+			return;
+        }else{
+            let dataObject = {
 				"zero_flag" : rows["0_flag"],
                 "one_flag" : rows["1_flag"],
                 "two_flag" : rows["2_flag"],
@@ -80,12 +85,7 @@ router.route('/')
                 msg: "가져오기 성공",
                 data : dataObject,
             });
-        }else{
-            res.status(200).json({
-                result: false,
-                msg: "해당 firebaseToken이 등록되있지 않습니다.",
-            });
-			return;
+
         }
     });
 });

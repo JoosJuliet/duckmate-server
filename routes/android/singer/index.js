@@ -20,7 +20,7 @@ router.route('/rank')
             });
             return;
         }
-        if( !rows.length ){
+        if( rows.length === 0 || rows.length === 1 ){
             res.status(200).json({
                 result: false,
                 msg: "singer들이 없네요",
@@ -94,15 +94,15 @@ router.use((req, res, next)=>{
             return;
         }
 
-        if( rows.length ) next();
-        else
+        if( rows.length === 0 || rows.length === 1 )
         {
+            next();
             res.status(200).json({
                 result: false,
                 msg: "프로그램이 없네요.",
             });
         }
-
+        else next();
     });
 
 });
@@ -169,7 +169,7 @@ router.route('/')
         }
 
         console.log(rows.length);
-        if( rows.length == 0 || rows.length == 1 ){
+        if( rows.length === 0 || rows.length === 1 ){
             res.status(200).json({
                 result: false,
                 msg: "singer가 들어있는게 없네요;",
@@ -206,7 +206,7 @@ router.route('/')
 				console.log("rows",rows );
 				arrr.push(rows);
 
-				if(arrr.length == '4' ) {
+				if( arrr.length == '4' ) {
 					res.status(200).json({
                         result: true,
                         msg: "각 가수정보를 가져왔습니다.",
