@@ -5,7 +5,7 @@ var fs = require('fs');
 var router = express.Router();
 
 
-router.route('/singer/rank')
+router.route('/rank')
 .get((req, res)=>{
     // TODO rank/singer로 바꾸자
     // rank/member도 해야하니까
