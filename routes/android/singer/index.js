@@ -93,13 +93,12 @@ router.use((req, res, next)=>{
             });
             return;
         }
-
-        if( rows.length === 0 || rows.length === 1 )
+		console.log(rows);
+        if( rows.length === 0 )
         {
-            next();
             res.status(200).json({
                 result: false,
-                msg: "프로그램이 없네요.",
+                msg: "해당 맴버가 디비에 없네요.",
             });
         }
         else next();
@@ -167,26 +166,35 @@ router.route('/')
             return;
         }
 
-        console.log("rows[0]",rows[0]);
-        if( rows.length === 0 || rows.length === 1 ){
+       // console.log("rows[0]",rows[0], rows.length);
+        if( rows.length === 0  ){
             res.status(200).json({
                 result: false,
                 msg: "singer가 들어있는게 없네요;",
             });
         }else{
+			
             let data = {
                 singer0_id: rows[0].singer0_id,
                 singer1_id: rows[0].singer1_id,
                 singer2_id: rows[0].singer2_id,
                 singer3_id: rows[0].singer3_id
             };
-            console.log("data",data);
-            detectSingerInfo(data);
+        	if( !rows[0].singer0_id ) delete data.singer0_id
+			if( !rows[0].singer1_id ) delete data.singer1_id
+	if( !rows[0].singer2_id ) delete data.singer2_id
+	if( !rows[0].singer3_id ) delete data.singer3_id
+
+			
+			console.log("data",data);
+			 let Length = Object.keys(data).length;
+			 console.log("길이",Length);
+            detectSingerInfo(data,Length);
 
         }
     });
 
-    const detectSingerInfo = (singer) =>{
+    const detectSingerInfo = (singer,length) =>{
 
 		let arr = [];
 		let arrr = [];
@@ -206,7 +214,7 @@ router.route('/')
 				console.log("rows",rows );
 				arrr.push(rows);
                 console.log("1",arrr);
-				if( arrr.length == '4' ) {
+				if( arrr.length === length ) {
 					res.status(200).json({
                         result: true,
                         msg: "각 가수정보를 가져왔습니다.",
