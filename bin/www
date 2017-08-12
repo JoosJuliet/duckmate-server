@@ -12,6 +12,9 @@ process.on('uncaughtException', function (error = {}) {
 		return;
 	}
 });
+// syntax error시 무한 에러... index를 넣어서 하나씩 추가한다음에 열번 재시작하면 멈추게 [git rollback]
+
+// kill signal ->처리 다하고 process exit꼭 해야한다. process .pwd로 죽이거나
 
 
 
