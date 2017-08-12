@@ -169,13 +169,12 @@ router.route('/')
         }
 
         console.log(rows.length);
-        if( !rows.length ){
+        if( rows.length == 0 || rows.length == 1 ){
             res.status(200).json({
                 result: false,
                 msg: "singer가 들어있는게 없네요;",
             });
         }else{
-            console.log("1");
             let data = {
                 singer0_id: rows[0].singer0_id,
                 singer1_id: rows[0].singer1_id,
