@@ -5,7 +5,7 @@ var fs = require('fs');
 var router = express.Router();
 
 
-router.route('/singer_rank')
+router.route('/singer/rank')
 .get((req, res)=>{
     // TODO rank/singer로 바꾸자
     // rank/member도 해야하니까
@@ -27,7 +27,7 @@ router.route('/singer_rank')
             });
         }else{
             res.status(200).json({
-                result: false,
+                result: true,
                 msg: "singer 들 목록입니다.",
                 data : rows
             });
@@ -201,7 +201,6 @@ router.route('/')
                     return;
                 }
 				rows = JSON.parse( JSON.stringify(rows[0]) );
-
 				console.log("rows",rows );
 				arrr.push(rows);
 
