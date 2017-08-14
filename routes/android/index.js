@@ -61,7 +61,7 @@ router.use((req, res, next)=>{
         {
             res.status(200).json({
                 result: false,
-                msg: "프로그램이 없네요.",
+                msg: "등록된 토큰이 없네요.",
             });
         }
         else next();

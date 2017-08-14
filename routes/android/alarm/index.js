@@ -64,7 +64,7 @@ router.route('/')
 		console.log(rows);
 
 
-        if( rows.length == 0 || rows.length == 1 ){
+        if( rows.length === 0 || rows.length === 1 ){
             res.status(200).json({
                 result: false,
                 msg: "해당 firebaseToken이 등록되있지 않습니다.",
