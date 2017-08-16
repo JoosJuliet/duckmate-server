@@ -210,8 +210,10 @@ router.route('/')
                     });
                     return;
                 }
-				rows = JSON.parse( JSON.stringify(rows[0]) );
-				console.log("rows",rows );
+				console.log("rows",rows);
+
+				try {rows = JSON.parse( JSON.stringify(rows[0]) ); }
+				catch(e) {console.log("e"+e);}
 				arrr.push(rows);
                 console.log("1",arrr);
 				if( arrr.length === length ) {

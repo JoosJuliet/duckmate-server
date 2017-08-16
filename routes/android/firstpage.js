@@ -4,29 +4,30 @@ var mysql = require('mysql');
 var fs = require('fs');
 var router = express.Router();
 
-/*
-router.get('/score/:Firebase' function(req, res, next){
-	
-	var ParamsFirebase = req.params.Firebase;
 
+router.get('/scoreup/:firebaseToken', function(req, res, next) {
 	pool.getConnection(function(error, connection){
-	
-		var ScoreQry = 'update member set member_score=member_score+1 where firebaseToken = ? ';
-		
-		connection.query(ScoreQry, [ParamsFirebase], function(error, result){
-		
-			res.status(200).send(result : true);		
-		
-				
-				
-		});
-			
-			
-	});	
-		
+	    if (error){
+	        console.log("getConnection Error" + error);
+		    res.sendStatus(500);
+		}
+		else{
+		    connection.query('update member set member_score = member_score+1 where firebaseToken = ?', [req.params.firebaseToken], function(error, rows){
+				if (error){
+	        		   console.log("Connection Error" + error);
+					   res.sendStatus(500);
+					   connection.release();
+				}
+				else {
+				       res.status(201).send({result : 'success'});
+				       connection.release();
+				}
+			});
+		 }
+	});
 });
 
-*/
+
 
 router.get('/:Firebase/:singer_id', function(req, res, next) {
     var ParamsFirebase = req.params.Firebase;
