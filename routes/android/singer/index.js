@@ -29,8 +29,7 @@ Object.defineProperty(global, '__line', {
 
 
 
-console.log("라인찍기 ",global.__line);
-console.log("stack확인 ",global.__stack);
+
 
 router.route('/rank')
 .get((req, res)=>{
@@ -274,7 +273,11 @@ router.route('/')
 				console.log("rows",rows);
 
 				try {rows = JSON.parse( JSON.stringify(rows[0]) ); }
-				catch(e) {console.log("e"+e);}
+				catch(e) {
+                    console.log("에러야 에러",e);
+                    console.log("라인찍기 ",global.__line);
+                    console.log("stack확인 ",global.__stack);
+                }
 				arrr.push(rows);
                 console.log("1",arrr);
 				if( arrr.length === length ) {
