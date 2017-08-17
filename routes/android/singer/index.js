@@ -179,7 +179,7 @@ router.route('/')
     });
 })
 .get((req,res)=>{
-     "use strict";
+
 //TODO 에러처리 부족
     if(!req.query.firebaseToken){
         res.json({
@@ -244,6 +244,7 @@ router.route('/')
                     });
                     return;
                 }
+                 "use strict";
 				console.log("rows",rows);
 
 				try {rows = JSON.parse( JSON.stringify(rows[0]) ); }
