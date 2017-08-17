@@ -29,8 +29,11 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 38cffa3b370161cfc125995d86876a1a0f8bd258
 const route = require('./routes');
 app.use("/duckmate",route);
 
