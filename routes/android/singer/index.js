@@ -22,8 +22,9 @@ Object.defineProperty(global, '__stack', {
 
 Object.defineProperty(global, '__line', {
     get: function(){
-       console.log("__line에서의 __stack",__stack);
-		return __stack[1].getLineNumber();
+       console.log("__line에서의 __stack",__stack[1]);
+		//return __stack[1].getLineNumber();
+	   return __stack[1]
     }
 });
 
@@ -274,11 +275,15 @@ router.route('/')
 
 				try {rows = JSON.parse( JSON.stringify(rows[0]) ); }
 				catch(e) {
-                    console.log("에러야 에러",e);
-                    console.log("라인찍기 ",global.__line);
-                    console.log("stack확인 ",global.__stack);
-                    console.log("__line정체",__line() );
-                    
+				let line = ( new Error() ).stack.toString().split("\n")[ 3 ].split(" ").pop().split(":")[ 1 ];
+				    let filename = ( new Error() ).stack.toString().split("\n")[ 3 ].split("(").pop().split(" ").pop().split(":")[ 0 ];
+					console.log("line은???",line);
+					console.log("filename은???",line);
+				console.log("parse 에러",e);
+                	console.log("흠 ", __line);
+					console.log("뭐야 이거");
+					console.trace();
+					console.log("directory 이다다ㅏㅇ아ㅏ앙");
                 }
 				arrr.push(rows);
                 console.log("1",arrr);
