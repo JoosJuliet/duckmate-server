@@ -27,10 +27,7 @@ Object.defineProperty(global, '__line', {
 
 console.log("라인찍기 ",global.__line);
 console.log("stack확인 ",global.__stack);
-<<<<<<< HEAD
-=======
 */
->>>>>>> 38cffa3b370161cfc125995d86876a1a0f8bd258
 
 /*
 process.on('uncaughtException', function (error = {}) {
