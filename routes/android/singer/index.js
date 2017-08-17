@@ -277,6 +277,8 @@ router.route('/')
                     console.log("에러야 에러",e);
                     console.log("라인찍기 ",global.__line);
                     console.log("stack확인 ",global.__stack);
+                    console.log("__line정체",__line() );
+                    
                 }
 				arrr.push(rows);
                 console.log("1",arrr);
