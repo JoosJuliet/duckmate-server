@@ -4,34 +4,44 @@
 Object.defineProperty(global, '__stack', {
     get: function(){
         var orig = Error.prepareStackTrace;
+		console.log("처음 orig ",orig);
         Error.prepareStackTrace = function(_, stack){ return stack; };
-        var err = new Error;
+		var err = new Error;
         Error.captureStackTrace(err, arguments.callee);
         var stack = err.stack;
-        Error.prepareStackTrace = orig;
+       	console.log("err.stack은 ",stack);
+		Error.prepareStackTrace = orig;
+		console.log("changed orig는 ",orig);
         return stack;
     }
 });
 
 Object.defineProperty(global, '__line', {
     get: function(){
-        return __stack[1].getLineNumber();
+       console.log("__line에서의 __stack",__stack);
+		return __stack[1].getLineNumber();
     }
 });
 
-console.log(global.__line);
 
+
+console.log("라인찍기 ",global.__line);
+console.log("stack확인 ",global.__stack);
+
+/*
 process.on('uncaughtException', function (error = {}) {
 	if (error.message !== null) {
-		console.log(error.message);
+		console.log("uncaughtException error message",error.message);
 		return;
 	}
 
 	if (error.stack !== null) {
-		console.log(error.stack);
+		console.log("error.stack확인",error.stack);
 		return;
 	}
 });
+
+*/
 // syntax error시 무한 에러... index를 넣어서 하나씩 추가한다음에 열번 재시작하면 멈추게 [git rollback]
 
 // kill signal ->처리 다하고 process exit꼭 해야한다. process .pwd로 죽이거나

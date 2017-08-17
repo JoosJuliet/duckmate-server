@@ -7,6 +7,9 @@ var fs = require('fs');
 router.route('/')
 .get((req, res)=>{
 
+
+			console.log("req.headers['user-agent']"+req.headers['user-agent']);
+
     pool.query( 'select * from notice order by notice_id' , function( err, rows ) {
         if (err){
     		console.log(err);

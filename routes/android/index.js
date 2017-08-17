@@ -17,6 +17,16 @@ const alarm = require('./alarm');
 const program = require('./program');
 const firstpage = require('./firstpage');
 
+
+
+router.use((req, res, next) => {
+
+
+		console.log("req.headers['user-agent']"+req.headers['user-agent'])
+
+		next();
+		});
+
 /* user folder */
 router.use('/login', login);
 router.use('/register', register);
@@ -32,7 +42,6 @@ router.use('/singer', singer);
 
 
 router.use((req, res, next)=>{
-
     let firebaseToken;
     let rqstMethodCheck = (req.method == 'GET') ? req.query : req.body;
     if( !rqstMethodCheck.firebaseToken ){

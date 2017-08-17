@@ -1,6 +1,12 @@
 const assert = require('assert');
 //nodejs에서 제공하는 aseert 모듈
 
+
+var argv = require('yargs').argv;  
+console.log('%d + %d = %d', argv.x, argv.y, argv.x+argv.y);
+
+
+/*
 const calc = require('./calc.js');
 
 describe('Calculator Tests', function() {
@@ -84,3 +90,5 @@ describe('다양한 hooks 방법', function() {
   // test cases 이 안에 써야함
 });
 // mocha --reporter [opt] 을 통해 여러가지 출력 결과 포맷을 결정할 수 있다.
+
+*/
