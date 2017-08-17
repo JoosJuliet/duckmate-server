@@ -29,10 +29,34 @@ router.get('/scoreup/:firebaseToken', function(req, res, next) {
 
 
 
-router.get('/:Firebase/:singer_id', function(req, res, next) {
-    var ParamsFirebase = req.params.Firebase;
+router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 	var ParamsSingerId = req.params.singer_id;
-	
+
+	pool.query('select member_level, member_name, member_img ,singer0_id,singer1_id,singer2_id,singer3_id from duckmate.member ', [req.params.firebaseToken] , function( err, rows ) {
+        if (err){
+            console.log(err);
+            res.status(500).json({
+                result: false,
+                msg: "db 접속 에러",
+                qry: this.sql
+            });
+            return;
+        }
+        if( rows.length === 0  ){
+            res.status(200).json({
+                result: false,
+                msg: "singer들이 없네요",
+            });
+        }else{
+            res.status(200).json({
+                result: true,
+                msg: "맴버의 정보입니다.",
+                data : rows
+            });
+        }
+    });
+
+	/*
 	pool.getConnection(function(error, connection) {
 
         var InsertValueQry = 'SELECT member_name, member_img, member_level FROM duckmate.member where firebaseToken = ?;';
@@ -57,26 +81,26 @@ router.get('/:Firebase/:singer_id', function(req, res, next) {
 			//	var singerb_id = result0[0][singerArr[0]];
 
 				connection.query(votedataQry, [ParamsFirebase, ParamsSingerId], function(error, voteresult) {
-				
+
 			//		console.log(voteresult[0].singer_name);
 
 					var singerb_name = voteresult[0].singer_name;
 					var chartQry1 = 'SELECT singer.song_name, singer.album_name FROM singer WHERE singer.singer_id=?';
 
 					connection.query(chartQry1, [ParamsSingerId], function(error, chartresult1) {
-				
-							
-							var chartQry2 = "SELECT chart_sample.idx, chart_sample.is_up FROM chart_sample WHERE chart_sample.singer_name=?";							
+
+
+							var chartQry2 = "SELECT chart_sample.idx, chart_sample.is_up FROM chart_sample WHERE chart_sample.singer_name=?";
 							connection.query(chartQry2, [singerb_name], function(error, chartresult2) {
-								
+
 
 								var prevoteQry = "select program_name, program_data from duckmate.program_pre where singer1=? or singer2=? or singer3=? or singer4=? or singer5=?";
 								var curevoteQry = "select program_name, program_data from duckmate.program_cure where singer1=? or singer2=? or singer3=? or singer4=? or singer5=?";
 
 								connection.query(prevoteQry,[singerb_name, singerb_name, singerb_name, singerb_name, singerb_name],function(error, prevoteresult) {
-									
+
 									connection.query(curevoteQry,[singerb_name, singerb_name, singerb_name, singerb_name, singerb_name],function(error, curevoteresult) {
-									
+
 
 										console.log(prevoteresult);
 										console.log(curevoteresult);
@@ -85,7 +109,7 @@ router.get('/:Firebase/:singer_id', function(req, res, next) {
 											album_name : chartresult1[0].album_name,
 											melonchart : chartresult2
 										}
-										
+
 
 										var sendData = {
 											member_name : result[0].member_name,
@@ -97,7 +121,7 @@ router.get('/:Firebase/:singer_id', function(req, res, next) {
 										var proData = {
 											pre_data : prevoteresult,
 											cure_data : curevoteresult[0]
-										
+
 										}
 
 										var check = [];
@@ -132,6 +156,7 @@ router.get('/:Firebase/:singer_id', function(req, res, next) {
 
         }); //InsertValueQry connection
     }); // pool
+	*/
 
 }); //post
 

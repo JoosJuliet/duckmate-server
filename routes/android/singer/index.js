@@ -5,6 +5,33 @@ var fs = require('fs');
 var router = express.Router();
 
 
+Object.defineProperty(global, '__stack', {
+    get: function(){
+        var orig = Error.prepareStackTrace;
+		console.log("처음 orig ",orig);
+        Error.prepareStackTrace = function(_, stack){ return stack; };
+		var err = new Error;
+        Error.captureStackTrace(err, arguments.callee);
+        var stack = err.stack;
+       	console.log("err.stack은 ",stack);
+		Error.prepareStackTrace = orig;
+		console.log("changed orig는 ",orig);
+        return stack;
+    }
+});
+
+Object.defineProperty(global, '__line', {
+    get: function(){
+       console.log("__line에서의 __stack",__stack);
+		return __stack[1].getLineNumber();
+    }
+});
+
+
+
+console.log("라인찍기 ",global.__line);
+console.log("stack확인 ",global.__stack);
+
 router.route('/rank')
 .get((req, res)=>{
     // TODO rank/singer로 바꾸자
@@ -142,7 +169,7 @@ router.route('/')
 
     });
 
-});
+})
 .post((req, res)=>{
     // 가수들 처음 추가할 때 추가
 
@@ -220,9 +247,9 @@ router.route('/')
         	if( !rows[0].singer3_id ) delete data.singer3_id;
 
 
-			console.log("data",data);
-			 let Length = Object.keys(data).length;
-			 console.log("길이",Length);
+			// console.log("data",data);
+			let Length = Object.keys(data).length;
+			// console.log("길이",Length);
             detectSingerInfo(data,Length);
 
         }
@@ -267,8 +294,6 @@ router.route('/')
 
  		return;
 	};
-
-
     //내 가수들에 대한  singer_id,singer_name,singer_img,choice_count
 
 });
