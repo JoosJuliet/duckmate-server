@@ -35,40 +35,7 @@ router.route('/rank')
     });
 });
 
-router.route('/')
-.delete((req,res)=>{
-    if( !req.body.singer_id ){
-        res.json({
-            result: false,
-            msg: "req.body.singer_id이 없습니다."
-        });
-        return;
-    }
-    pool.query('delete from duckmate.singer where singer_id=?;', [req.body.singer_id], function(error, results, fields) {
-        if (error) {
-            console.log("delete /singer Error" + error);
-            res.sendStatus(500).send({
-                result: false,
-                msg : "delete /singer에서 db pool error",
-                sql : this.sql
-            });
-            return;
-        } // error
-        if( results.affectedRows ){
-            res.status(201).send({
-                result: true,
-                msg : "성공적으로 삭제되었습니다."
-            });
-        }else{
-            res.status(201).send({
-                result: false,
-                msg : "삭제 실패!"
-            });
-        }
 
-    });
-
-});
 
 router.use((req, res, next)=>{
     let firebaseToken;
@@ -108,7 +75,74 @@ router.use((req, res, next)=>{
 
 
 
+/*
 router.route('/')
+.post((req, res)=>{
+
+    pool.query('select singer_id, singer_name, singer_img from singer order by choice_count desc', [req.query.firebaseToken] , function( err, rows ) {
+        if (err){
+            console.log(err);
+            res.status(500).json({
+                result: false,
+                msg: "db 접속 에러",
+                qry: this.sql
+            });
+            return;
+        }
+        if( rows.length === 0 || rows.length === 1 ){
+            res.status(200).json({
+                result: false,
+                msg: "singer들이 없네요",
+            });
+        }else{
+            res.status(200).json({
+                result: true,
+                msg: "singer 들 목록입니다.",
+                data : rows
+            });
+        }
+    });
+
+});
+*/
+router.route('/')
+.delete((req,res)=>{
+    if( !req.body.singer_id ){
+        res.json({
+            result: false,
+            msg: "req.body.singer_id이 없습니다."
+        });
+        return;
+    }
+
+// select * from 테이블명 where 필드명 not in ('제외할문자1','제외할문자2'...등); 인 으로 알아내야하나?
+
+
+    pool.query('update from duckmate.member SET singer_id = ? where firebaseToken=?;', [ req.body.singer_id, req.body.firebaseToken ], function(error, results, fields) {
+        if (error) {
+            console.log("delete /singer Error" + error);
+            res.sendStatus(500).send({
+                result: false,
+                msg : "delete /singer에서 db pool error",
+                sql : this.sql
+            });
+            return;
+        } // error
+        if( results.affectedRows ){
+            res.status(201).send({
+                result: true,
+                msg : "성공적으로 삭제되었습니다."
+            });
+        }else{
+            res.status(201).send({
+                result: false,
+                msg : "삭제 실패!"
+            });
+        }
+
+    });
+
+});
 .post((req, res)=>{
     // 가수들 처음 추가할 때 추가
 
@@ -173,19 +207,19 @@ router.route('/')
                 msg: "singer가 들어있는게 없네요;",
             });
         }else{
-			
+
             let data = {
                 singer0_id: rows[0].singer0_id,
                 singer1_id: rows[0].singer1_id,
                 singer2_id: rows[0].singer2_id,
                 singer3_id: rows[0].singer3_id
             };
-        	if( !rows[0].singer0_id ) delete data.singer0_id
-			if( !rows[0].singer1_id ) delete data.singer1_id
-	if( !rows[0].singer2_id ) delete data.singer2_id
-	if( !rows[0].singer3_id ) delete data.singer3_id
+        	if( !rows[0].singer0_id ) delete data.singer0_id;
+			if( !rows[0].singer1_id ) delete data.singer1_id;
+        	if( !rows[0].singer2_id ) delete data.singer2_id;
+        	if( !rows[0].singer3_id ) delete data.singer3_id;
 
-			
+
 			console.log("data",data);
 			 let Length = Object.keys(data).length;
 			 console.log("길이",Length);
