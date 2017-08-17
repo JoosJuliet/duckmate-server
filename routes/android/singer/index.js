@@ -244,28 +244,46 @@ router.route('/')
                     });
                     return;
                 }
-                 "use strict";
+
 				console.log("rows",rows);
+                global.Logger = {
+                    debug:( msg , callback )=>{
+                        __SendLogger( msg , 100 , callback );
+                    },
+                    log:( msg , callback )=>{
+                        __SendLogger( msg , 200 , callback );
+                    },
+                    notice:( msg , callback )=>{
+                        __SendLogger( msg , 300 , callback );
+                    },
+                    error:( msg , callback )=>{
+                        console.log("msg in Logger",msg);
+                        console.log("callback in Logger",callback);
+                        __SendLogger( msg , 500 , callback );
+                    },
+                    write:( severity , msg , callback )=>{
+                        __SendLogger( msg , __severity[ severity ] , callback );
+                    },
+                    stack:( msg , callback )=>{
+                        __SendLogger( msg , 500 , callback , true );
+                    }
+                };
+                const __SendLogger = ( msg , severity , callback , stack )=>{
+                    let line = ( new Error() ).stack.toString().split("\n")[ 3 ].split(" ").pop().split(":")[ 1 ];
+                    let filename = ( new Error() ).stack.toString().split("\n")[ 3 ].split("(").pop().split(" ").pop().split(":")[ 0 ];
+
+                    console.log("line알려줘",line);
+                    console.log("filename알려줘",filename);
+                };
 
 				try {rows = JSON.parse( JSON.stringify(rows[0]) ); }
 				catch(e) {
-                    console.log("error 일단 use strict전 ",new Error() );
-                    /*
-                    at Query._callback (/home/node/duckmate-server/routes/android/singer/index.js:250:57)
-    at Query.Sequence.end (/home/node/duckmate-server/node_modules/mysql/lib/protocol/sequences/Sequence.js:86:24)
-    at Query._handleFinalResultPacket (/home/node/duckmate-server/node_modules/mysql/lib/protocol/sequences/Query.js:137:8)
-    at Query.EofPacket (/home/node/duckmate-server/node_modules/mysql/lib/protocol/sequences/Query.js:121:8)
-    at Protocol._parsePacket (/home/node/duckmate-server/node_modules/mysql/lib/protocol/Protocol.js:280:23)
-    at Parser.write (/home/node/duckmate-server/node_modules/mysql/lib/protocol/Parser.js:75:12)
-    at Protocol.write (/home/node/duckmate-server/node_modules/mysql/lib/protocol/Protocol.js:39:16)
-    at Socket.<anonymous> (/home/node/duckmate-server/node_modules/mysql/lib/Connection.js:103:28)
-    at emitOne (events.js:115:13)
-    at Socket.emit (events.js:210:7)
-    */
-                    let line = ( new Error() ).stack.toString().split("\n")[ 3 ].split(" ").pop().split(":")[ 1 ];
-				    let filename = ( new Error() ).stack.toString().split("\n")[ 3 ].split("(").pop().split(" ").pop().split(":")[ 0 ];
-					console.log("line은???",line);
-					console.log("filename은???",filename);
+
+                    Logger.error({
+                        type:'DB ERROR - query',
+                        qry:"으앙",
+                        err:err
+                    });
                 }
 				arrr.push(rows);
                 console.log("1",arrr);
