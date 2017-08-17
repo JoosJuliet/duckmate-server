@@ -179,6 +179,7 @@ router.route('/')
     });
 })
 .get((req,res)=>{
+     "use strict";
 //TODO 에러처리 부족
     if(!req.query.firebaseToken){
         res.json({
@@ -248,12 +249,22 @@ router.route('/')
 				try {rows = JSON.parse( JSON.stringify(rows[0]) ); }
 				catch(e) {
                     console.log("error 일단 use strict전 ",new Error() );
+                    /*
+                    at Query._callback (/home/node/duckmate-server/routes/android/singer/index.js:250:57)
+    at Query.Sequence.end (/home/node/duckmate-server/node_modules/mysql/lib/protocol/sequences/Sequence.js:86:24)
+    at Query._handleFinalResultPacket (/home/node/duckmate-server/node_modules/mysql/lib/protocol/sequences/Query.js:137:8)
+    at Query.EofPacket (/home/node/duckmate-server/node_modules/mysql/lib/protocol/sequences/Query.js:121:8)
+    at Protocol._parsePacket (/home/node/duckmate-server/node_modules/mysql/lib/protocol/Protocol.js:280:23)
+    at Parser.write (/home/node/duckmate-server/node_modules/mysql/lib/protocol/Parser.js:75:12)
+    at Protocol.write (/home/node/duckmate-server/node_modules/mysql/lib/protocol/Protocol.js:39:16)
+    at Socket.<anonymous> (/home/node/duckmate-server/node_modules/mysql/lib/Connection.js:103:28)
+    at emitOne (events.js:115:13)
+    at Socket.emit (events.js:210:7)
+    */
                     let line = ( new Error() ).stack.toString().split("\n")[ 3 ].split(" ").pop().split(":")[ 1 ];
 				    let filename = ( new Error() ).stack.toString().split("\n")[ 3 ].split("(").pop().split(" ").pop().split(":")[ 0 ];
 					console.log("line은???",line);
-					console.log("filename은???",line);
-					console.trace();
-					console.log("directory 이다다ㅏㅇ아ㅏ앙");
+					console.log("filename은???",filename);
                 }
 				arrr.push(rows);
                 console.log("1",arrr);

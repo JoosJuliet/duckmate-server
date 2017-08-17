@@ -1,35 +1,6 @@
 #!/usr/bin/env node
 
 /*
-Object.defineProperty(global, '__stack', {
-    get: function(){
-        var orig = Error.prepareStackTrace;
-		console.log("처음 orig ",orig);
-        Error.prepareStackTrace = function(_, stack){ return stack; };
-		var err = new Error;
-        Error.captureStackTrace(err, arguments.callee);
-        var stack = err.stack;
-       	console.log("err.stack은 ",stack);
-		Error.prepareStackTrace = orig;
-		console.log("changed orig는 ",orig);
-        return stack;
-    }
-});
-
-Object.defineProperty(global, '__line', {
-    get: function(){
-       console.log("__line에서의 __stack",__stack);
-		return __stack[1].getLineNumber();
-    }
-});
-
-
-
-console.log("라인찍기 ",global.__line);
-console.log("stack확인 ",global.__stack);
-*/
-
-/*
 process.on('uncaughtException', function (error = {}) {
 	if (error.message !== null) {
 		console.log("uncaughtException error message",error.message);
