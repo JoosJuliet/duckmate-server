@@ -142,6 +142,7 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 										var Check = () => {
 											if (check.length == NotUndefinedSigner.length) {
 												res.status(200).send({result : true, message : true, vote_data : voteresult[0], program_data : proData, chart_data : chartData, nevi_data : sendData});
+												connection.release();
 											}
 										}
 
