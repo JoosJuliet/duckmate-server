@@ -4,34 +4,6 @@ var mysql = require('mysql');
 var fs = require('fs');
 var router = express.Router();
 
-
-Object.defineProperty(global, '__stack', {
-    get: function(){
-        var orig = Error.prepareStackTrace;
-		console.log("처음 orig ",orig);
-        Error.prepareStackTrace = function(_, stack){ return stack; };
-		var err = new Error;
-        Error.captureStackTrace(err, arguments.callee);
-        var stack = err.stack;
-       	console.log("err.stack은 ",stack);
-		Error.prepareStackTrace = orig;
-		console.log("changed orig는 ",orig);
-        return stack;
-    }
-});
-
-Object.defineProperty(global, '__line', {
-    get: function(){
-       console.log("__line에서의 __stack",__stack[1]);
-		//return __stack[1].getLineNumber();
-	   return __stack[1]
-    }
-});
-
-
-
-
-
 router.route('/rank')
 .get((req, res)=>{
     // TODO rank/singer로 바꾸자
@@ -275,13 +247,11 @@ router.route('/')
 
 				try {rows = JSON.parse( JSON.stringify(rows[0]) ); }
 				catch(e) {
-				let line = ( new Error() ).stack.toString().split("\n")[ 3 ].split(" ").pop().split(":")[ 1 ];
+                    console.log("error 일단 use strict전 ",new Error() );
+                    let line = ( new Error() ).stack.toString().split("\n")[ 3 ].split(" ").pop().split(":")[ 1 ];
 				    let filename = ( new Error() ).stack.toString().split("\n")[ 3 ].split("(").pop().split(" ").pop().split(":")[ 0 ];
 					console.log("line은???",line);
 					console.log("filename은???",line);
-				console.log("parse 에러",e);
-                	console.log("흠 ", __line);
-					console.log("뭐야 이거");
 					console.trace();
 					console.log("directory 이다다ㅏㅇ아ㅏ앙");
                 }
