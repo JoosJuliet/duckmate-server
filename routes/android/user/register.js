@@ -90,6 +90,23 @@ router.route('/')
             return;
         }
     }
+	pool.query( 'select 1 from duckmate.member where firebaseUid = ?', [ uid ] , function( err, rows ) {
+		if (err){
+			res.json({
+				result: false,
+				msg: "db 접속 에러",
+				qry: this.sql
+			});
+			return;
+		}
+		if( rows.length === 0 ){
+			res.status(201).json({
+				result: false,
+				msg: "이미 등록된 uid입니다.",
+			});
+			return;
+		}
+	});
 
     let FirebaseToken;
 	admin.auth().createCustomToken(uid)
