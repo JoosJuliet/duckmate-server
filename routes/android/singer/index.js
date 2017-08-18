@@ -276,15 +276,17 @@ router.route('/')
                     console.log("filename알려줘",filename);
                 };
 
-				try {rows = JSON.parse( JSON.stringify(rows[0]) ); }
+				try {
+                    rows = JSON.parse( JSON.stringify( rows[ 0 ] ) );
+                }
 				catch(e) {
-
                     Logger.error({
                         type:'DB ERROR - query',
                         qry:"으앙",
                         err:err
                     });
                 }
+
 				arrr.push(rows);
                 console.log("1",arrr);
 				if( arrr.length === length ) {
