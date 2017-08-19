@@ -112,12 +112,15 @@ router.route('/')
             msg: "req.body.singer_id이 없습니다."
         });
         return;
+    }else if( !req.body.singerNum ){
+        res.json({
+            result: false,
+            msg: "req.body.singerNum이 없습니다."
+        });
+        return;
     }
 
-// select * from 테이블명 where 필드명 not in ('제외할문자1','제외할문자2'...등); 인 으로 알아내야하나?
-
-
-    pool.query('update from duckmate.member SET singer_id = ? where firebaseToken=?;', [ req.body.singer_id, req.body.firebaseToken ], function(error, results, fields) {
+    pool.query('update duckmate.member SET singer' + req.body.singerNum + '_id = ? where firebaseToken = ?;', [ null, req.body.firebaseToken ], function(error, results, fields) {
         if (error) {
             console.log("delete /singer Error" + error);
             res.sendStatus(500).send({
@@ -276,15 +279,17 @@ router.route('/')
                     console.log("filename알려줘",filename);
                 };
 
-				try {rows = JSON.parse( JSON.stringify(rows[0]) ); }
+				try {
+                    rows = JSON.parse( JSON.stringify( rows[ 0 ] ) );
+                }
 				catch(e) {
-
                     Logger.error({
                         type:'DB ERROR - query',
                         qry:"으앙",
                         err:err
                     });
                 }
+
 				arrr.push(rows);
                 console.log("1",arrr);
 				if( arrr.length === length ) {
