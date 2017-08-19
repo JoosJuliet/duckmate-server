@@ -153,7 +153,7 @@ router.route('/')
     };
 
     const SnsQry = (FirebaseToken) =>{
-        pool.query( 'insert ignore into duckmate.member( firebaseToken, member_name ) values(?,?)', [ FirebaseToken ,  req.body.member_name ] , function( err, results ) {
+        pool.query( 'insert ignore into duckmate.member( firebaseToken, member_name, firebaseUid ) values(?,?,?)', [ FirebaseToken ,  req.body.member_name, uid ] , function( err, results ) {
             if (err){
                 res.json({
                     result: false,
