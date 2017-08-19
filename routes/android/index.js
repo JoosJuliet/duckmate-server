@@ -66,7 +66,7 @@ router.use((req, res, next)=>{
             return;
         }
 
-        if( rows.length === 0 || rows.length === 1 )
+        if( rows.length === 0 )
         {
             res.status(200).json({
                 result: false,

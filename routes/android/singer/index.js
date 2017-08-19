@@ -106,20 +106,13 @@ router.route('/')
 */
 router.route('/')
 .delete((req,res)=>{
-    if( !req.body.singer_id ){
-        res.json({
-            result: false,
-            msg: "req.body.singer_id이 없습니다."
-        });
-        return;
-    }else if( !req.body.singerNum ){
+    if( !req.body.singerNum ){
         res.json({
             result: false,
             msg: "req.body.singerNum이 없습니다."
         });
         return;
     }
-
     pool.query('update duckmate.member SET singer' + req.body.singerNum + '_id = ? where firebaseToken = ?;', [ null, req.body.firebaseToken ], function(error, results, fields) {
         if (error) {
             console.log("delete /singer Error" + error);
