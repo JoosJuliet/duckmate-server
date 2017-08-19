@@ -65,7 +65,7 @@ router.use((req, res, next)=>{
             });
             return;
         }
-
+		console.log(rows);
         if( rows.length === 0 )
         {
             res.status(200).json({
