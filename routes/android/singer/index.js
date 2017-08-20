@@ -242,6 +242,7 @@ router.route('/')
 				try { rows = JSON.parse( JSON.stringify( rows[ 0 ] ) ); }
 				catch(e) { console.log("json parse,stringify",e); }
 				rowArrays.push(rows);
+                return check();
             });
         };//selectSingerDB
 
@@ -249,16 +250,19 @@ router.route('/')
         for(let i in singer){
             console.log("for in 안의 singer[i]",singer[i]);
             selectSingerDB(singer[i]);
+
         }
 
+        const check = () =>{
+            if( rowArrays.length === length ) {
+                res.status(200).json({
+                    result: true,
+                    msg: "각 가수정보를 가져왔습니다.",
+                    data : rowArrays
+                });
+            }
+        };
 
-        if( rowArrays.length === length ) {
-            res.status(200).json({
-                result: true,
-                msg: "각 가수정보를 가져왔습니다.",
-                data : rowArrays
-            });
-        }
 
 
  		return;
