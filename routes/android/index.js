@@ -20,12 +20,9 @@ const firstpage = require('./firstpage');
 
 
 router.use((req, res, next) => {
-
-
-		console.log("req.headers['user-agent']"+req.headers['user-agent'])
-
-		next();
-		});
+	console.log("req.headers['user-agent']"+req.headers['user-agent']);
+	next();
+});
 
 /* user folder */
 router.use('/login', login);
