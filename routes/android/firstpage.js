@@ -61,13 +61,31 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 
 	pool.getConnection(function(error, connection) {
 
-        var InsertValueQry = 'SELECT member_name, member_img, member_level FROM duckmate.member where firebaseToken = ?;';
+		if (error){
+        	console.log("getConnection Error" + error);
+	    	res.sendStatus(500);
+			connection.release();
+		}
+
+
+        var InsertValueQry = 'SELECT member_name, member_img, member_level FROM duckmate.member where firebaseToken = ?';
         connection.query(InsertValueQry, [ParamsFirebase], function(error, result) {
 		 console.log(result);
+			
+			if( result.length === 0  ){
+				res.status(200).json({ result: false, msg: "InsertValueQry error"});
+				connection.release();
+			}	
 
-            var SingerValueQry = 'SELECT singer0_id,singer1_id, singer2_id,singer3_id FROM duckmate.member where firebaseToken = ? ;';
+            var SingerValueQry = 'SELECT singer0_id,singer1_id, singer2_id,singer3_id FROM duckmate.member where firebaseToken = ?';
             connection.query(SingerValueQry, [ParamsFirebase], function(error, result0) {
 				console.log(result0);
+				
+				if( result0.length === 0  ){
+					res.status(200).json({ result: false, msg: "SingerValueQry error"});
+					connection.release();
+				}
+
 				var votedataQry = 'SELECT singer.singer_name, singer.singer_img, singer.choice_count, A.0_vote_count from (select member.0_vote_count from duckmate.member where firebaseToken=?) as A, duckmate.singer  where singer.singer_id=?';
 
                 var NotUndefinedSigner = [];
@@ -85,24 +103,47 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 				connection.query(votedataQry, [ParamsFirebase, ParamsSingerId], function(error, voteresult) {
 
 			//		console.log(voteresult[0].singer_name);
+					
+					if( voteresult.length === 0  ){
+						res.status(200).json({ result: false, msg: "votedataQry error"});
+						connection.release();
+					}
 
 					var singerb_name = voteresult[0].singer_name;
 					var chartQry1 = 'SELECT singer.song_name, singer.album_name FROM singer WHERE singer.singer_id=?';
 
 					connection.query(chartQry1, [ParamsSingerId], function(error, chartresult1) {
 
+							if( chartresult1.length === 0  ){
+								res.status(200).json({ result: false, msg: "chartQry1 error"});
+								connection.release();
+							}
 
 							var chartQry2 = "SELECT chart_sample.idx, chart_sample.is_up FROM chart_sample WHERE chart_sample.singer_name=?";
 							connection.query(chartQry2, [singerb_name], function(error, chartresult2) {
 
+								if( chartresult2.length === 0  ){
+									res.status(200).json({ result: false, msg: "chartQry2 error"});
+									connection.release();
+								}
 
 								var prevoteQry = "select program_name, program_data from duckmate.program_pre where singer1=? or singer2=? or singer3=? or singer4=? or singer5=?";
 								var curevoteQry = "select program_name, program_data from duckmate.program_cure where singer1=? or singer2=? or singer3=? or singer4=? or singer5=?";
 
 								connection.query(prevoteQry,[singerb_name, singerb_name, singerb_name, singerb_name, singerb_name],function(error, prevoteresult) {
 
+									if( prevoteresult.length === 0  ){
+										res.status(200).json({ result: false, msg: "prevoteQry error"});
+										connection.release();
+									}
+
 									connection.query(curevoteQry,[singerb_name, singerb_name, singerb_name, singerb_name, singerb_name],function(error, curevoteresult) {
 
+										
+										if( curevoteresult.length === 0  ){
+											res.status(200).json({ result: false, msg: "curevoteQry error"});
+											connection.release();
+										}
 
 										console.log(prevoteresult);
 										console.log(curevoteresult);
@@ -127,7 +168,7 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 										}
 
 										var check = [];
-										var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ? ;';
+										var SingerNameFlagQry = 'SELECT singer_name,new_flag FROM duckmate.singer where singer_id = ?';
 
 										var SingerDb = (element, y) => {
 											connection.query(SingerNameFlagQry, [NotUndefinedSigner[y]], function(error, result1) {
