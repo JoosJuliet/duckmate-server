@@ -245,10 +245,16 @@ router.route('/')
             });
         };//selectSingerDB
 
-        for(let i = 0 ; i < length; i++){
+        console.log(" singer내용 ",singer);
+        for(let i in singer){
+            console.log("for in 안의 singer[i]",singer[i],i);
+        }
+
+        for(let i = 0 ; i < 4 ; i++){
             console.log("singer[i]",singer[i]);
-            let row = selectSingerDB(singer[i]);
-            rowArrays.push(row);
+            let row = selectSingerDB(singer["singer"+i+"_id"]);
+            if( rows !== [] ) rowArrays.push(row);
+
         }
 
 
