@@ -241,7 +241,8 @@ router.route('/')
 				console.log("rows",rows);
 				try { rows = JSON.parse( JSON.stringify( rows[ 0 ] ) ); }
 				catch(e) { console.log("json parse,stringify",e); }
-				return rows;
+				rowArrays.push(result);
+                return rows;
             });
         };//selectSingerDB
 
@@ -249,7 +250,7 @@ router.route('/')
         for(let i in singer){
             console.log("for in 안의 singer[i]",singer[i]);
             let result = selectSingerDB(singer[i]);
-            if( result !== [] ) rowArrays.push(result);
+            console.log(result);
         }
 
 
