@@ -241,7 +241,7 @@ router.route('/')
 				console.log("rows",rows);
 				try { rows = JSON.parse( JSON.stringify( rows[ 0 ] ) ); }
 				catch(e) { console.log("json parse,stringify",e); }
-				rowArrays.push(result);
+				rowArrays.push(rows);
             });
         };//selectSingerDB
 
