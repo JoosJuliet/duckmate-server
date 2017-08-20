@@ -9,6 +9,7 @@
     "dependencies": {
         "@google-cloud/storage": "^0.7.0",
         "body-parser": "~1.16.0",
+        "cheerio": "^1.0.0-rc.2",
         "cookie-parser": "~1.4.3",
         "debug": "~2.6.0",
         "ejs": "~2.5.5",
