@@ -216,7 +216,7 @@ router.route('/')
         	if( !rows[0].singer3_id ) delete data.singer3_id;
 
 
-			// console.log("data",data);
+			console.log("data",data);
 			let Length = Object.keys(data).length;
 			// console.log("길이",Length);
             detectSingerInfo(data,Length);
@@ -245,8 +245,9 @@ router.route('/')
             });
         };//selectSingerDB
 
-        for(let i = 0 ; i < 4; i++){
-            let row = selectSingerDB(singer["singer"+i+"_id"]);
+        for(let i = 0 ; i < length; i++){
+            console.log("singer[i]",singer[i]);
+            let row = selectSingerDB(singer[i]);
             rowArrays.push(row);
         }
 
