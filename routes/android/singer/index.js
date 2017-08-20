@@ -242,15 +242,13 @@ router.route('/')
 				try { rows = JSON.parse( JSON.stringify( rows[ 0 ] ) ); }
 				catch(e) { console.log("json parse,stringify",e); }
 				rowArrays.push(result);
-                return rows;
             });
         };//selectSingerDB
 
         console.log(" singer내용 ",singer,length);
         for(let i in singer){
             console.log("for in 안의 singer[i]",singer[i]);
-            let result = selectSingerDB(singer[i]);
-            console.log(result);
+            selectSingerDB(singer[i]);
         }
 
 
