@@ -1,24 +1,54 @@
 #!/usr/bin/env node
 
-/*
+
 process.on('uncaughtException', function (error = {}) {
 	if (error.message !== null) {
 		console.log("uncaughtException error message",error.message);
+        console.trace();
 		return;
 	}
 
 	if (error.stack !== null) {
 		console.log("error.stack확인",error.stack);
+        console.trace();
 		return;
 	}
 });
 
-*/
+
 // syntax error시 무한 에러... index를 넣어서 하나씩 추가한다음에 열번 재시작하면 멈추게 [git rollback]
 
 // kill signal ->처리 다하고 process exit꼭 해야한다. process .pwd로 죽이거나
 
+global.Logger = {
+    debug:( msg , callback )=>{
+        __SendLogger( msg , 100 , callback );
+    },
+    log:( msg , callback )=>{
+        __SendLogger( msg , 200 , callback );
+    },
+    notice:( msg , callback )=>{
+        __SendLogger( msg , 300 , callback );
+    },
+    error:( msg , callback )=>{
+        console.log("msg in Logger",msg);
+        console.log("callback in Logger",callback);
+        __SendLogger( msg , 500 , callback );
+    },
+    write:( severity , msg , callback )=>{
+        __SendLogger( msg , __severity[ severity ] , callback );
+    },
+    stack:( msg , callback )=>{
+        __SendLogger( msg , 500 , callback , true );
+    }
+};
+global.__SendLogger = ( msg , severity , callback , stack )=>{
+    let line = ( new Error() ).stack.toString().split("\n")[ 3 ].split(" ").pop().split(":")[ 1 ];
+    let filename = ( new Error() ).stack.toString().split("\n")[ 3 ].split("(").pop().split(" ").pop().split(":")[ 0 ];
 
+    console.log("line알려줘",line);
+    console.log("filename알려줘",filename);
+};
 
 
 

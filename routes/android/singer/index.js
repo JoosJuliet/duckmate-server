@@ -197,7 +197,7 @@ router.route('/')
         }
 
        // console.log("rows[0]",rows[0], rows.length);
-        if( rows.length === 0  ){
+        if( rows.length === 0 ){
             res.status(200).json({
                 result: false,
                 msg: "singer가 들어있는게 없네요;",
@@ -225,11 +225,9 @@ router.route('/')
     });
 
     const detectSingerInfo = (singer,length) =>{
-
-		let arr = [];
+        let rowArrays = [];
 		let arrr = [];
 		const selectSingerDB = (id) =>{
-
             pool.query('SELECT * FROM duckmate.singer where singer_id = ? ;', [id] , function( err, rows ) {
                 if (err){
              		console.log(err);
@@ -240,65 +238,27 @@ router.route('/')
                     });
                     return;
                 }
-
 				console.log("rows",rows);
-                global.Logger = {
-                    debug:( msg , callback )=>{
-                        __SendLogger( msg , 100 , callback );
-                    },
-                    log:( msg , callback )=>{
-                        __SendLogger( msg , 200 , callback );
-                    },
-                    notice:( msg , callback )=>{
-                        __SendLogger( msg , 300 , callback );
-                    },
-                    error:( msg , callback )=>{
-                        console.log("msg in Logger",msg);
-                        console.log("callback in Logger",callback);
-                        __SendLogger( msg , 500 , callback );
-                    },
-                    write:( severity , msg , callback )=>{
-                        __SendLogger( msg , __severity[ severity ] , callback );
-                    },
-                    stack:( msg , callback )=>{
-                        __SendLogger( msg , 500 , callback , true );
-                    }
-                };
-                const __SendLogger = ( msg , severity , callback , stack )=>{
-                    let line = ( new Error() ).stack.toString().split("\n")[ 3 ].split(" ").pop().split(":")[ 1 ];
-                    let filename = ( new Error() ).stack.toString().split("\n")[ 3 ].split("(").pop().split(" ").pop().split(":")[ 0 ];
-
-                    console.log("line알려줘",line);
-                    console.log("filename알려줘",filename);
-                };
-
-				try {
-                    rows = JSON.parse( JSON.stringify( rows[ 0 ] ) );
-                }
-				catch(e) {
-                    Logger.error({
-                        type:'DB ERROR - query',
-                        qry:"으앙",
-                        err:err
-                    });
-                }
-
-				arrr.push(rows);
-                console.log("1",arrr);
-				if( arrr.length === length ) {
-					res.status(200).json({
-                        result: true,
-                        msg: "각 가수정보를 가져왔습니다.",
-                        data : arrr
-                    });
-                }else{
-					return;
-				}
+				try { rows = JSON.parse( JSON.stringify( rows[ 0 ] ) ); }
+				catch(e) { console.log("json parse,stringify",e); }
+				return rows;
             });
-        };
+        };//selectSingerDB
 
-        for(let i = 0 ; i < 4; i++)
-            arr.push(selectSingerDB(singer["singer"+i+"_id"]));
+        for(let i = 0 ; i < 4; i++){
+            let row = selectSingerDB(singer["singer"+i+"_id"]);
+            rowArrays.push(row);
+        }
+
+
+        if( rowArrays.length === length ) {
+            res.status(200).json({
+                result: true,
+                msg: "각 가수정보를 가져왔습니다.",
+                data : rowArrays
+            });
+        }
+
 
  		return;
 	};
