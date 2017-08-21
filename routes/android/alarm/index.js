@@ -59,12 +59,11 @@ router.route('/')
             });
         }
         rows = JSON.parse( JSON.stringify(rows));
-		rows = rows[0];
-
 		console.log(rows);
 
-
-        if( rows.length === 0 || rows.length === 1 ){
+        return;
+        
+        if( rows.length === 0 ){
             res.status(200).json({
                 result: false,
                 msg: "해당 firebaseToken이 등록되있지 않습니다.",
@@ -77,7 +76,6 @@ router.route('/')
                 "two_flag" : rows["2_flag"],
                 "three_flag" : rows["3_flag"],
                 "today_alarm" : rows.today_alarm
-
             };
 			console.log(dataObject);
             res.status(200).json({
