@@ -33,7 +33,7 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 	var ParamsSingerId = req.params.singer_id;
 	var ParamsFirebase = req.params.firebaseToken;
 
-/*	
+/*
 	pool.query('select member_level, member_name, member_img ,singer0_id,singer1_id,singer2_id,singer3_id from duckmate.member ', [req.params.firebaseToken] , function( err, rows ) {
         if (err){
             console.log(err);
@@ -57,7 +57,7 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
             });
         }
     });
-*/
+
 
 	pool.getConnection(function(error, connection) {
 
@@ -71,16 +71,16 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
         var InsertValueQry = 'SELECT member_name, member_img, member_level FROM duckmate.member where firebaseToken = ?';
         connection.query(InsertValueQry, [ParamsFirebase], function(error, result) {
 		 console.log(result);
-			
+
 			if( result.length === 0  ){
 				res.status(200).json({ result: false, msg: "InsertValueQry error"});
 				connection.release();
-			}	
+			}
 
             var SingerValueQry = 'SELECT singer0_id,singer1_id, singer2_id,singer3_id FROM duckmate.member where firebaseToken = ?';
             connection.query(SingerValueQry, [ParamsFirebase], function(error, result0) {
 				console.log(result0);
-				
+
 				if( result0.length === 0  ){
 					res.status(200).json({ result: false, msg: "SingerValueQry error"});
 					connection.release();
@@ -103,7 +103,7 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 				connection.query(votedataQry, [ParamsFirebase, ParamsSingerId], function(error, voteresult) {
 
 			//		console.log(voteresult[0].singer_name);
-					
+
 					if( voteresult.length === 0  ){
 						res.status(200).json({ result: false, msg: "votedataQry error"});
 						connection.release();
@@ -139,7 +139,7 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 
 									connection.query(curevoteQry,[singerb_name, singerb_name, singerb_name, singerb_name, singerb_name],function(error, curevoteresult) {
 
-										
+
 										if( curevoteresult.length === 0  ){
 											res.status(200).json({ result: false, msg: "curevoteQry error"});
 											connection.release();
@@ -200,8 +200,8 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 
         }); //InsertValueQry connection
     }); // pool
-	
 
+*/
 }); //post
 
 module.exports = router;
