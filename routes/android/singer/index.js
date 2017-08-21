@@ -248,7 +248,7 @@ router.route('/')
 
         console.log(" singer내용 ",singer,length);
         for(let i in singer){
-            console.log("for in 안의 singer[i]",singer[i]);
+            console.log("for in 안의 singer[i]",singer[i],i);
             selectSingerDB(singer[i]);
 
         }
