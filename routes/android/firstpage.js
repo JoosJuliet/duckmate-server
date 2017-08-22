@@ -28,12 +28,12 @@ router.get('/scoreup/:firebaseToken', function(req, res, next) {
 });
 
 
-
+/*
 router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 	var ParamsSingerId = req.params.singer_id;
 	var ParamsFirebase = req.params.firebaseToken;
 
-/*
+
 	pool.query('select member_level, member_name, member_img ,singer0_id,singer1_id,singer2_id,singer3_id from duckmate.member ', [req.params.firebaseToken] , function( err, rows ) {
         if (err){
             console.log(err);
@@ -201,7 +201,6 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
         }); //InsertValueQry connection
     }); // pool
 
-*/
 }); //post
-
+*/
 module.exports = router;
