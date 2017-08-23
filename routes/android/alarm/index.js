@@ -65,16 +65,12 @@ router.route('/')
 
 	console.log("1",rows);
 	console.log("#",rows["0_flag"]);
-let d = JSON.parse( rows["0_flag"]);
+let d0 = JSON.parse( rows["0_flag"]);
+let d1 = JSON.parse( rows["1_flag"]);
+let d2 = JSON.parse( rows["2_flag"]);
+let d3 = JSON.parse( rows["3_flag"]);
 
-	let arr0 = [];
-	let arr1 = [];
-	let arr2 = [];
-	let arr3 = [];
-        arr0.push(rows["0_flag"]);
-    arr1.push(rows["1_flag"]);
-    arr2.push(rows["2_flag"]);
-    arr3.push(rows["3_flag"]);
+
 
 	console.log("#",rows["0_flag"]);
         console.log(typeof arr0[0]);
@@ -86,10 +82,10 @@ let d = JSON.parse( rows["0_flag"]);
             });
         }else{
             let dataObject = {
-				"zero_flag" : d,
-                "one_flag" : arr1,
-                "two_flag" : arr2,
-                "three_flag" : arr3,
+				"zero_flag" : d0,
+                "one_flag" : d1,
+                "two_flag" : d2,
+                "three_flag" : d3,
                 "today_alarm" : rows.today_alarm
             };
 			console.log(dataObject);
