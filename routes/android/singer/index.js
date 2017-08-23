@@ -19,7 +19,7 @@ router.route('/rank')
             });
             return;
         }
-        if( rows.length === 0 || rows.length === 1 ){
+        if( rows.length === 0 ){
             res.status(200).json({
                 result: false,
                 msg: "singer들이 없네요",
@@ -123,7 +123,7 @@ router.route('/')
             });
             return;
         } // error
-        if( results.affectedRows ){
+        if( results.affectedRows > 0 ){
             res.status(201).send({
                 result: true,
                 msg : "성공적으로 삭제되었습니다."
@@ -161,7 +161,7 @@ router.route('/')
             });
             return;
         }
-        if( results.affectedRows ){
+        if( results.affectedRows > 0){
             res.status(201).json({
                 result: true,
                 msg: "업데이트가 완료되었습니다.",

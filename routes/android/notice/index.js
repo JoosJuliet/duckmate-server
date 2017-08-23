@@ -6,7 +6,7 @@ var fs = require('fs');
 
 router.route('/')
 .get((req, res)=>{
-    pool.query( 'select * from notice order by notice_id' , function( err, rows ) {
+    pool.query( 'select * from duckmate.notice order by id' , function( err, rows ) {
         if (err){
     		console.log(err);
     		res.status(500).json({
