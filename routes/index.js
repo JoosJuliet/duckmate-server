@@ -28,9 +28,8 @@ let LeftConnections = connectionLimit;
 pool.on('acquire', function (connection) {
     LeftConnections--;
     if( LeftConnections < 5 ){
-        console.log("DB Connections이 5개 밖에 남지 않았습니다!");
+        console.log("DB Connections이 "+LeftConnections+"개 밖에 남지 않았습니다!");
     }
-	LeftConnections--;
 });
 
 pool.on('enqueue', function () {
