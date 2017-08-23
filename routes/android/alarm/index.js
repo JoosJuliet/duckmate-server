@@ -58,7 +58,7 @@ router.route('/')
                 msg: "db 접속 에러",
             });
         }
-	
+
         rows = JSON.parse( JSON.stringify(rows[0]));
 
 
@@ -70,7 +70,14 @@ router.route('/')
 	let arr0 = [];
 	let arr1 = [];
 	let arr2 = [];
-	let arr3 = [];  
+	let arr3 = [];
+        arr0.push(rows["0_flag"]);
+    arr1.push(rows["1_flag"]);
+    arr2.push(rows["2_flag"]);
+    arr3.push(rows["3_flag"]);
+
+
+
         if( rows.length === 0 ){
             res.status(200).json({
                 result: false,
@@ -78,10 +85,10 @@ router.route('/')
             });
         }else{
             let dataObject = {
-				"zero_flag" : arr0.push(rows["0_flag"]),
+				"zero_flag" : arr0[0],
                 "one_flag" : arr1[0],
-                "two_flag" : arr2.push( rows["2_flag"]),
-                "three_flag" : arr3.push(rows["3_flag"]),
+                "two_flag" : arr2[0],
+                "three_flag" : arr3[0],
                 "today_alarm" : rows.today_alarm
             };
 			console.log(dataObject);
