@@ -58,23 +58,30 @@ router.route('/')
                 msg: "db 접속 에러",
             });
         }
-        rows = JSON.parse( JSON.stringify(rows));
-		console.log(rows);
+	
+        rows = JSON.parse( JSON.stringify(rows[0]));
 
-        return;
-        
+
+
+	console.log("1",rows);
+	console.log("#",rows["0_flag"]);
+	console.log(typeof rows["1_flag"]);
+
+	let arr0 = [];
+	let arr1 = [];
+	let arr2 = [];
+	let arr3 = [];  
         if( rows.length === 0 ){
             res.status(200).json({
                 result: false,
                 msg: "해당 firebaseToken이 등록되있지 않습니다.",
             });
-			return;
         }else{
             let dataObject = {
-				"zero_flag" : rows["0_flag"],
-                "one_flag" : rows["1_flag"],
-                "two_flag" : rows["2_flag"],
-                "three_flag" : rows["3_flag"],
+				"zero_flag" : arr0.push(rows["0_flag"]),
+                "one_flag" : arr1[0],
+                "two_flag" : arr2.push( rows["2_flag"]),
+                "three_flag" : arr3.push(rows["3_flag"]),
                 "today_alarm" : rows.today_alarm
             };
 			console.log(dataObject);
