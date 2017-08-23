@@ -73,7 +73,6 @@ let d3 = JSON.parse( rows["3_flag"]);
 
 
 	console.log("#",rows["0_flag"]);
-        console.log(typeof arr0[0]);
 
         if( rows.length === 0 ){
             res.status(200).json({
