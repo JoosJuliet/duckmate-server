@@ -65,7 +65,7 @@ router.route('/')
 
 	console.log("1",rows);
 	console.log("#",rows["0_flag"]);
-	console.log(typeof rows["1_flag"]);
+let d = JSON.parse( rows["0_flag"]);
 
 	let arr0 = [];
 	let arr1 = [];
@@ -76,7 +76,8 @@ router.route('/')
     arr2.push(rows["2_flag"]);
     arr3.push(rows["3_flag"]);
 
-
+	console.log("#",rows["0_flag"]);
+        console.log(typeof arr0[0]);
 
         if( rows.length === 0 ){
             res.status(200).json({
@@ -85,10 +86,10 @@ router.route('/')
             });
         }else{
             let dataObject = {
-				"zero_flag" : arr0[0],
-                "one_flag" : arr1[0],
-                "two_flag" : arr2[0],
-                "three_flag" : arr3[0],
+				"zero_flag" : d,
+                "one_flag" : arr1,
+                "two_flag" : arr2,
+                "three_flag" : arr3,
                 "today_alarm" : rows.today_alarm
             };
 			console.log(dataObject);
