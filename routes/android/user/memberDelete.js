@@ -22,7 +22,7 @@ router.delete('/', function(req, res, next) {
             });
             return;
         } // error
-        if( results.affectedRows ){
+        if( results.affectedRows > 0){
             res.status(201).send({
                 result: true,
                 msg : "성공적으로 탈퇴되었습니다."

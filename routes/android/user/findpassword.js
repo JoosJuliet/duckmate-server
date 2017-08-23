@@ -17,7 +17,7 @@ router.route('/')
 		}
 		rows = JSON.parse( JSON.stringify(rows));
 		rows = rows[0];
-		if( rows.length === 0 || rows.length === 1 ){
+		if( rows.length === 0 ){
 			res.status(200).json({
 				result: false,
 				msg: "해당 member_email이 등록되있지 않습니다.",
@@ -39,7 +39,7 @@ router.route('/')
 				return;
 			}
 
-			if(results.affectedRows == 1){
+			if(results.affectedRows > 0){
 				res.status(200).json({
 					result: true,
 					msg: "정상적으로 help가 쳐졌습니다.",

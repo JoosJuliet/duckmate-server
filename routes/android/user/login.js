@@ -36,7 +36,7 @@ router.route('/')
                 });
             return;
         }
-        if( rows.length === 0 || rows.length === 1 ){
+        if( rows.length === 0 ){
             res.status(200).json({
                 result: false,
                 msg: "회원가입이 안되있는 email과 passwd입니다.",

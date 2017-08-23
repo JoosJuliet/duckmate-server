@@ -230,7 +230,7 @@ router.route('/')
             return;
         }
 	    console.log(rows,this.sql);
-        if( rows.length === 0 || rows.length === 1 ){
+        if( rows.length === 0 ){
 			res.status(200).json({
                 result: true,
                 msg: "member_name이 없습니다.",

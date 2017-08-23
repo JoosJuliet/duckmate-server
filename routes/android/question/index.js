@@ -29,7 +29,7 @@ router.route('/')
                 return;
         }
 	    console.log(results,this.sql);
-        if( results.affectedRows ){
+        if( results.affectedRows > 0 ){
             res.status(201).json({
                 result: true,
                 msg: "업데이트가 완료되었습니다.",
@@ -62,15 +62,15 @@ router.route('/')
                 return;
         }
         console.log(rows);
-        if( rows.length === 0 || rows.length === 1 ){
+        if( rows.length === 0 ){
             res.status(201).json({
                 result: false,
-                msg: "업데이트가 실패되었습니다.",
+                msg: "question이 없습니다.",
             });
         }else{
             res.status(200).json({
                 result: true,
-                msg: "업데이트가 완료되었습니다.",
+                msg: "question입니다.",
                 data: rows[0]
             });
 
