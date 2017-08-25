@@ -99,6 +99,8 @@ router.route('/')
 			});
 			return;
 		}
+
+		console.log(rows);
 		if( rows.length === 0 ){
 			res.status(201).json({
 				result: false,

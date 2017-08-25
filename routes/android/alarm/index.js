@@ -65,10 +65,13 @@ router.route('/')
 
 	console.log("1",rows);
 	console.log("#",rows["0_flag"]);
-let d0 = JSON.parse( rows["0_flag"]);
-let d1 = JSON.parse( rows["1_flag"]);
-let d2 = JSON.parse( rows["2_flag"]);
-let d3 = JSON.parse( rows["3_flag"]);
+    let d = JSON.parse( rows );
+    console.log(d["0_flag"]);
+
+    let d0 = JSON.parse( rows["0_flag"]);
+    let d1 = JSON.parse( rows["1_flag"]);
+    let d2 = JSON.parse( rows["2_flag"]);
+    let d3 = JSON.parse( rows["3_flag"]);
 
 
 
