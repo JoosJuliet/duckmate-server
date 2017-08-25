@@ -11,7 +11,7 @@
         "cheerio": "^1.0.0-rc.2",
         "cookie-parser": "~1.4.3",
         "debug": "~2.6.0",
-        "ejs": "~2.5.5",
+        "ejs": "^2.5.7",
         "express": "~4.14.1",
         "fcm-push": "^1.1.2",
         "firebase-admin": "^5.1.0",
