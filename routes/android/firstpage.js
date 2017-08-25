@@ -135,15 +135,20 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 										res.status(200).send({result : true, message : true, vote_data : voteresult[0], program_data : proData, chart_data : chartData, nevi_data : sendData});
 									}
 								}
-
 								return
 							});//curevoteQry connection
+							return
 						});//prevoteQry connection
+						return
 					});//chartQry2 connection
+					return
 				}); //chartQry1 connection
+				return
 			}); //votedataQry connection
+			return
 		}); //SingerValueQry connection
+		return
 	}); //InsertValueQry connection
-}); //post
+}); //get
 
 module.exports = router;
