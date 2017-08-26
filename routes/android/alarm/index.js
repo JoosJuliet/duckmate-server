@@ -62,16 +62,18 @@ router.route('/')
         rows = JSON.parse( JSON.stringify(rows[0]));
 
 
-	console.log("rows type",typeof rows);
-	console.log("1",rows);
-	console.log("#",typeof rows["0_flag"]);
+	console.log(rows);
 
     let d0 = JSON.parse( rows["0_flag"]);
     let d1 = JSON.parse( rows["1_flag"]);
     let d2 = JSON.parse( rows["2_flag"]);
     let d3 = JSON.parse( rows["3_flag"]);
 
+	let arr = []
+	for(let i =0 ; i < 4 ; i++)
+		arr.push ( JSON.parse( rows[""+i+"_flag"] ) );
 
+	console.log("arr", arr );
 
 	console.log("#",rows["0_flag"]);
 
