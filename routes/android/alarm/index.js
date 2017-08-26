@@ -64,6 +64,7 @@ router.route('/')
 
 	console.log(rows);
 
+
     let d0 = JSON.parse( rows["0_flag"]);
     let d1 = JSON.parse( rows["1_flag"]);
     let d2 = JSON.parse( rows["2_flag"]);
@@ -74,9 +75,17 @@ router.route('/')
 		arr.push ( JSON.parse( rows[""+i+"_flag"] ) );
 
 	console.log("arr", arr );
-
-	console.log("#",rows["0_flag"]);
-
+	
+	let arrr = [];
+	for( let i =0 ; i < 4; i++)
+	{
+		let d = {}
+		d[""+i+""] = [];
+		d[""+i+""].push ( i );
+		d[""+i+""].push( arr[i] );
+		
+		arrr.push(d);	
+	}
         if( rows.length === 0 ){
             res.status(200).json({
                 result: false,
