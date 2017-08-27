@@ -45,6 +45,7 @@ router.route('/')
     });
 })
 .get((req,res)=>{
+
     if( !req.query.firebaseToken ){
         res.json({
             result: false,
@@ -78,7 +79,7 @@ router.route('/')
 		arr.push ( JSON.parse( rows[""+i+"_flag"] ) );
 
 	console.log("arr", arr );
-	
+
 	let arrr = [];
 	for( let i =0 ; i < 4; i++)
 	{
@@ -86,8 +87,8 @@ router.route('/')
 		d[""+i+""] = [];
 		d[""+i+""].push ( i );
 		d[""+i+""].push( arr[i] );
-		
-		arrr.push(d);	
+
+		arrr.push(d);
 	}
         if( rows.length === 0 ){
             res.status(200).json({
