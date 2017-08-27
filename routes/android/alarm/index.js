@@ -45,7 +45,6 @@ router.route('/')
     });
 })
 .get((req,res)=>{
-
     if( !req.query.firebaseToken ){
         res.json({
             result: false,
