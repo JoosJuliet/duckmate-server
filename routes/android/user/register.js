@@ -101,7 +101,7 @@ router.route('/')
 		}
 
 		console.log(rows);
-		if( rows.length === 0 ){
+		if( rows.length !== 0 ){
 			res.status(201).json({
 				result: false,
 				msg: "이미 등록된 uid입니다.",
