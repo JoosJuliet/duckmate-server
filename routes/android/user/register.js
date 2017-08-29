@@ -105,6 +105,7 @@ router.route('/')
 			res.status(201).json({
 				result: false,
 				msg: "이미 등록된 uid입니다.",
+
 			});
 			return;
 		}else{
@@ -212,7 +213,6 @@ router.route('/')
 		}
 	});
 
-
 })
 .get((req, res)=>{
 
@@ -223,6 +223,7 @@ router.route('/')
         });
         return;
     }
+	console.log('nonono');
     pool.query('SELECT * FROM duckmate.member where member_name = ?;', [ req.query.member_name ] , function( err, rows ) {
         if (err){
     		console.log(err);
@@ -247,4 +248,5 @@ router.route('/')
         }
     });
 }); // :member_name
+
 module.exports = router;
