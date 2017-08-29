@@ -105,6 +105,7 @@ router.route('/')
 			res.status(201).json({
 				result: false,
 				msg: "이미 등록된 uid입니다.",
+				
 			});
 			return;
 		}
@@ -183,6 +184,7 @@ router.route('/')
     };
 
     const notSnsQry = (FirebaseToken) => {
+	console.log('no!!!!!!!!!!!');
         pool.query( 'insert ignore into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?,?);', [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
             if (err){
                 console.log(err);
@@ -221,6 +223,7 @@ router.route('/')
         });
         return;
     }
+	console.log('nonono');
     pool.query('SELECT * FROM duckmate.member where member_name = ?;', [ req.query.member_name ] , function( err, rows ) {
         if (err){
     		console.log(err);
@@ -245,4 +248,5 @@ router.route('/')
         }
     });
 }); // :member_name
+
 module.exports = router;
