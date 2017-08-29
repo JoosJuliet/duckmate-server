@@ -107,110 +107,112 @@ router.route('/')
 				msg: "이미 등록된 uid입니다.",
 			});
 			return;
+		}else{
+			let FirebaseToken;
+			admin.auth().createCustomToken(uid)
+			.then( customToken =>  tmp(customToken) )
+		  	.catch((error) => {
+				console.log(error+Date.now());
+				res.json({
+					result: false,
+					msg: "토큰이 발급을 실패했습니다.",
+					data: error
+				});
+		        return;
+			});
+
+		    const tmp = (FirebaseToken) => {
+
+				console.log("$",FirebaseToken);
+
+
+				if( !req.body.notSns )
+		            SnsQry(FirebaseToken);
+		        else
+		        {
+		            let properties = ['member_email','member_passwd'];
+		            for(let i=0; i< properties.length;i++){
+		                if(!req.body.hasOwnProperty(properties[i])){
+		                    res.json({
+		                        result: false,
+		                        msg: "req.body."+properties[i]+"이 없습니다."
+		                    });
+		                    return;
+		                }
+		            }
+		            let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		        	if(!regEmail.test(req.body.member_email)) {
+		        		res.json({
+		                    result: false,
+		                    msg: "email 형식이 틀렸습니다."
+		                });
+		        		return;
+		        	}
+		            notSnsQry(FirebaseToken);
+		        }
+		    };
+
+		    const SnsQry = (FirebaseToken) =>{
+		        pool.query( 'insert ignore into duckmate.member( firebaseToken, member_name, firebaseUid ) values(?,?,?)', [ FirebaseToken ,  req.body.member_name, uid ] , function( err, results ) {
+		            if (err){
+		                res.json({
+		                    result: false,
+		                    msg: "db 접속 에러",
+		                    qry: this.sql
+		                });
+		                return;
+		            }
+		            if( results.affectedRows === 1 ){
+		                console.log("!!!!!");
+		                console.log("FirebaseToken",FirebaseToken);
+		                res.status(201).json({
+		                    result: true,
+		                    msg: "업데이트가 완료되었습니다.",
+		                    data : FirebaseToken
+		                });
+		            }else{
+		                res.status(201).json({
+		                    result: false,
+		                    msg: "업데이트를 실패했습니다.",
+		                });
+		                return;
+		            }
+		        });
+		    };
+
+		    const notSnsQry = (FirebaseToken) => {
+		        pool.query( 'insert ignore into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?,?);', [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
+		            if (err){
+		                console.log(err);
+		                res.json({
+		                    result: false,
+		                    msg: "db 접속 에러",
+		                    qry: this.sql
+		                });
+		                return;
+		            }
+		            console.log('results',results);
+		            if( results.affectedRows === 1 ){
+		                res.status(201).json({
+		                    result: true,
+		                    msg: "업데이트가 완료되었습니다.",
+		                    data : {
+		                        firebasToken : FirebaseToken
+		                    }
+		                });
+		            }else{
+		                res.status(201).json({
+		                    result: false,
+		                    msg: "업데이트를 실패했습니다.",
+		                });
+		                return;
+		            }
+		        });
+		    };
 		}
 	});
 
-    let FirebaseToken;
-	admin.auth().createCustomToken(uid)
-	.then( customToken =>  tmp(customToken) )
-  	.catch((error) => {
-		console.log(error+Date.now());
-		res.json({
-			result: false,
-			msg: "토큰이 발급을 실패했습니다.",
-			data: error
-		});
-        return;
-	});
 
-    const tmp = (FirebaseToken) => {
-
-		console.log("$",FirebaseToken);
-
-
-		if( !req.body.notSns )
-            SnsQry(FirebaseToken);
-        else
-        {
-            let properties = ['member_email','member_passwd'];
-            for(let i=0; i< properties.length;i++){
-                if(!req.body.hasOwnProperty(properties[i])){
-                    res.json({
-                        result: false,
-                        msg: "req.body."+properties[i]+"이 없습니다."
-                    });
-                    return;
-                }
-            }
-            let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        	if(!regEmail.test(req.body.member_email)) {
-        		res.json({
-                    result: false,
-                    msg: "email 형식이 틀렸습니다."
-                });
-        		return;
-        	}
-            notSnsQry(FirebaseToken);
-        }
-    };
-
-    const SnsQry = (FirebaseToken) =>{
-        pool.query( 'insert ignore into duckmate.member( firebaseToken, member_name, firebaseUid ) values(?,?,?)', [ FirebaseToken ,  req.body.member_name, uid ] , function( err, results ) {
-            if (err){
-                res.json({
-                    result: false,
-                    msg: "db 접속 에러",
-                    qry: this.sql
-                });
-                return;
-            }
-            if( results.affectedRows === 1 ){
-                console.log("!!!!!");
-                console.log("FirebaseToken",FirebaseToken);
-                res.status(201).json({
-                    result: true,
-                    msg: "업데이트가 완료되었습니다.",
-                    data : FirebaseToken
-                });
-            }else{
-                res.status(201).json({
-                    result: false,
-                    msg: "업데이트를 실패했습니다.",
-                });
-                return;
-            }
-        });
-    };
-
-    const notSnsQry = (FirebaseToken) => {
-        pool.query( 'insert ignore into duckmate.member(firebaseToken,member_email, member_passwd, member_name) values(?,?,?,?);', [ FirebaseToken ,req.body.member_email, req.body.member_passwd, req.body.member_name ] , function( err, results ) {
-            if (err){
-                console.log(err);
-                res.json({
-                    result: false,
-                    msg: "db 접속 에러",
-                    qry: this.sql
-                });
-                return;
-            }
-            console.log('results',results);
-            if( results.affectedRows === 1 ){
-                res.status(201).json({
-                    result: true,
-                    msg: "업데이트가 완료되었습니다.",
-                    data : {
-                        firebasToken : FirebaseToken
-                    }
-                });
-            }else{
-                res.status(201).json({
-                    result: false,
-                    msg: "업데이트를 실패했습니다.",
-                });
-                return;
-            }
-        });
-    };
 })
 .get((req, res)=>{
 
