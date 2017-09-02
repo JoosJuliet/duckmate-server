@@ -77,6 +77,41 @@ admin.initializeApp({
 // sns면 없다.
 // sns가 아니면 notSns :true
 // 닉네임은 무조건 받고
+
+
+router.route('/id')
+.get((req, res)=>{
+	pool.query( 'select FirebaseToken from duckmate.member where firebaseUid = ?', [ req.query.uid ] , function( err, rows ) {
+		if (err){
+			console.log(err);
+			res.json({
+				result: false,
+				msg: "db 접속 에러",
+				qry: this.sql
+			});
+			return;
+		}
+		console.log('rows',rows);
+		console.log('rows[0]',rows[0]);
+		console.log('rows[0].FirebaseToken',rows[0].FirebaseToken);
+		if( rows.length === 1 ){
+			res.status(201).json({
+				result: true,
+				msg: "firebasToken입니다.",
+				data : rows[0].FirebaseToken
+			});
+		}else{
+			res.status(201).json({
+				result: false,
+				msg: "firebasToken이 없습니다",
+			});
+			return;
+		}
+	});
+
+});
+
+
 router.route('/')
 .post((req, res)=>{
     const uid = req.body.uid;
@@ -248,5 +283,7 @@ router.route('/')
         }
     });
 }); // :member_name
+
+
 
 module.exports = router;
