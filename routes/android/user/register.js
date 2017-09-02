@@ -80,7 +80,9 @@ admin.initializeApp({
 
 router.route('/id')
 .get((req, res)=>{
-	pool.query( 'select FirebaseToken from duckmate.member where firebaseUid = ?', [ req.query.uid ] , function( err, rows ) {
+	pool.query( 'select * from duckmate.member ', [ req.query.uid ] , function( err, rows ) {
+
+		// 'select FirebaseToken from duckmate.member where firebaseUid = ?', [ req.query.uid ] , function( err, rows ) {
 		if (err){
 			console.log(err);
 			res.json({
@@ -92,12 +94,12 @@ router.route('/id')
 		}
 		console.log('rows',rows);
 		console.log('rows[0]',rows[0]);
-		console.log('rows[0].FirebaseToken',rows[0].FirebaseToken);
+		// console.log('rows[0].FirebaseToken',rows[0].FirebaseToken);
 		if( rows.length === 1 ){
 			res.status(201).json({
 				result: true,
 				msg: "firebasToken입니다.",
-				data : rows[0].FirebaseToken
+				data : rows[0]
 			});
 		}else{
 			res.status(201).json({
