@@ -86,9 +86,7 @@ LOCK TABLES `member` WRITE;
 
 INSERT INTO `member` (`member_id`, `member_name`, `member_img`, `member_level`, `member_score`, `fcm_token`, `member_email`, `member_passwd`, `helpFlag`, `firebaseToken`, `today_alarm`, `singer0_id`, `0_flag`, `0_vote_count`, `singer1_id`, `1_flag`, `1_vote_count`, `singer2_id`, `2_flag`, `2_vote_count`, `singer3_id`, `3_flag`, `3_vote_count`)
 VALUES
-	(1,'hi',NULL,1,37,'d',NULL,NULL,NULL,'asdfdsa','1',1,'[1,2]',NULL,3,'[0,1]',NULL,2,'[0,1,2]',NULL,4,'[0,1,2]',NULL),
-	(2,'hello',NULL,2,43,NULL,NULL,NULL,NULL,'qwerty',NULL,4,NULL,NULL,2,NULL,NULL,5,NULL,NULL,1,NULL,NULL),
-	(3,'hi',NULL,0,0,NULL,'dfd@dd.dd','h',NULL,'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJoaWhpIiwiaWF0IjoxNTAzNDcxNjQ2LCJleHAiOjE1MDM0NzUyNDYsImF1ZCI6Imh0dHBzOi8vaWRlbnRpdHl0b29sa2l0Lmdvb2dsZWFwaXMuY29tL2dvb2dsZS5pZGVudGl0eS5pZGVudGl0eXRvb2xraXQudjEuSWRlbnRpdHlUb29sa2l0IiwiaXNzIjoiZmlyZWJhc2UtYWRtaW5zZGstdXlnY3VAZGVva2ppbG1hdGUtOTRjODcuaWF',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+	(3,'hi',NULL,0,0,'d','dfd@dd.dd','h','asdfdsa','eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJoaWhpIiwiaWF0IjoxNTAzNDcxNjQ2LCJleHAiOjE1MDM0NzUyNDYsImF1ZCI6Imh0dHBzOi8vaWRlbnRpdHl0b29sa2l0Lmdvb2dsZWFwaXMuY29tL2dvb2dsZS5pZGVudGl0eS5pZGVudGl0eXRvb2xraXQudjEuSWRlbnRpdHlUb29sa2l0IiwiaXNzIjoiZmlyZWJhc2UtYWRtaW5zZGstdXlnY3VAZGVva2ppbG1hdGUtOTRjODcuaWF',[1,2],'1',1,'[1,2]',34,3,'[0,1]',23,2,'[0,1,2]',12,4,'[0,1,2]',24);
 
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -140,8 +138,8 @@ LOCK TABLES `program_cure` WRITE;
 INSERT INTO `program_cure` (`program_id`, `program_name`, `program_data`, `singer1`, `singer2`, `singer3`, `singer4`, `singer5`)
 VALUES
 	(1,'인기가요','1월 1주차','라붐','신화','젝스키스','엑소','트와이스'),
-	(2,'엠카운트다운','1월 1주차','','','','',''),
-	(3,'뮤직뱅크','1월 1주차','','','','','');
+	(2,'엠카운트다운','1월 1주차','라붐','신화','젝스키스','엑소','트와이스'),
+	(3,'뮤직뱅크','1월 1주차','라붐','신화','젝스키스','엑소','트와이스');
 
 /*!40000 ALTER TABLE `program_cure` ENABLE KEYS */;
 UNLOCK TABLES;
