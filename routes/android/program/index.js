@@ -4,7 +4,7 @@ var app = express();
 
 router.route('/')
 .get((req, res)=>{
-    pool.query('select * from program', function(error, rows){
+    pool.query('select * from program_pre', function(error, rows){
         if (err){
     		console.log(err);
     		res.status(500).json({

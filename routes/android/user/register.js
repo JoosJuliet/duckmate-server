@@ -65,7 +65,6 @@ router.post('/fileupload/:filename', function(req, res, next) {
 
 
 
-
 const admin = require("firebase-admin");
 const serviceAccount = require('../../../config/firebase_config.json');
 admin.initializeApp({
@@ -105,7 +104,7 @@ router.route('/')
 			res.status(201).json({
 				result: false,
 				msg: "이미 등록된 uid입니다.",
-
+				token : "temp"
 			});
 			return;
 		}else{
