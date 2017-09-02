@@ -91,9 +91,10 @@ router.route('/id')
 			return;
 		}
 		console.log('rows',rows);
-		console.log('rows[0]',rows[0]);
-		console.log('rows[0].FirebaseToken',rows[0].firebaseToken);
+
 		if( rows.length === 1 ){
+			console.log('rows[0]',rows[0]);
+			console.log('rows[0].FirebaseToken',rows[0].firebaseToken);
 			res.status(201).json({
 				result: true,
 				msg: "firebasToken입니다.",
