@@ -20,7 +20,13 @@ router.route('/')
         }
     }
 
-    pool.query( 'update duckmate.member set fcm_token = ?, today_alarm = ?, 0_flag = ?, 1_flag = ?, 2_flag = ?, 3_flag = ?  where firebaseToken = ?;', [ req.body.fcm_token, req.body.today_alarm, req.body.zero_flag ,req.body.one_flag, req.body.two_flag ,req.body.three_flag, req.body.firebaseToken] , function( err, results ) {
+	console.log(req.body.zero_flag);
+	let zero_flag_1 = "["+req.body.zero_flag+"]";
+	let one_flag_1 = "["+req.body.one_flag+"]";
+	let two_flag_1 = "["+req.body.two_flag+"]";
+	let three_flag_1 = "["+req.body.three_flag+"]";
+
+    pool.query( 'update duckmate.member set fcm_token = ?, today_alarm = ?, 0_flag = ?, 1_flag = ?, 2_flag = ?, 3_flag = ?  where firebaseToken = ?;', [ req.body.fcm_token, req.body.today_alarm, zero_flag_1 , one_flag_1, two_flag_1 , three_flag_1 , req.body.firebaseToken] , function( err, results ) {
         if (err){
     		console.log(err);
     		res.json({
