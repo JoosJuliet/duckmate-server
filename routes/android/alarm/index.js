@@ -1,7 +1,4 @@
 
-
-
-
 var express = require('express');
 var fs = require('fs');
 var router = express.Router();
@@ -19,6 +16,15 @@ router.route('/')
             return;
         }
     }
+    // const properties = ['title','summary','started_at','ended_at','choice_type','content'];
+    // const invalidProperty = properties.find((property)=> !req.body.hasOwnProperty(properties[i]) );
+    //
+    // if( invalidProperty ){
+    //   return res.status(400).json({
+    //     msg: "req.body."+properties[i]+"이 없습니다."
+    //   });
+    // }
+
 
 	console.log(req.body.zero_flag);
 	let zero_flag_1 = "["+req.body.zero_flag+"]";
