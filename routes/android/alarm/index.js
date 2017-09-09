@@ -17,11 +17,10 @@ router.route('/')
         }
     }
     // const properties = ['title','summary','started_at','ended_at','choice_type','content'];
-    // const invalidProperty = properties.find((property)=> !req.body.hasOwnProperty(properties[i]) );
-    //
+    // const invalidProperty = properties.find((property) => !req.body.hasOwnProperty(property));
     // if( invalidProperty ){
     //   return res.status(400).json({
-    //     msg: "req.body."+properties[i]+"이 없습니다."
+    //     msg: "req.body."+properties+"이 없습니다."
     //   });
     // }
 
