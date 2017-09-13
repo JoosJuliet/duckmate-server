@@ -16,7 +16,7 @@ const notice = require('./notice');
 const alarm = require('./alarm');
 const program = require('./program');
 const firstpage = require('./firstpage');
-
+const crawinput = require('./crawinput');
 
 
 router.use((req, res, next) => {
@@ -37,6 +37,7 @@ router.use('/program',program);
 
 router.use('/singer', singer);
 
+router.use('/crawinput', crawinput);
 
 router.use((req, res, next)=>{
     let firebaseToken;
