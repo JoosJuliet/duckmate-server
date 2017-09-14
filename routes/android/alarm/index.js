@@ -17,7 +17,7 @@ router.route('/input')
     }
     res.status(200).json(typeof rows[0]['singer1_id']);
 
-	
+
 	console.log(rows[0]);
 	let arr = [];
 	for( let i = 0; i < rows.length; i++){
@@ -28,7 +28,34 @@ router.route('/input')
 
   });
 
+})
+.get((req.res)=>{
+  if(!req.query.singer_id){
+    res.json({
+      result: false,
+      msg: "req.query.singer_id가 없습니다."
+    });
+    return;
+  }
+
+  pool.query('select alarm_array from duckmate.singer where singer_id = ?;' , [ req.query.singer_id ] ,function( err, rows ) {
+    if (err){
+    	console.log(err);
+    	res.json({
+        result: false,
+        msg: "db 접속 에러",
+        qry: this.sql
+      });
+      return;
+    }
+
+    res.status(200).json(rows);
+  });
+
 });
+
+//일단 /input get으로 가져온다. 그다음 post /alarm으로 선택한 것을 나에게 적용시킨다.
+//  /input post로 어떤 singer가 어디에 출연하는지 가져온다.
 
 
 router.route('/')
