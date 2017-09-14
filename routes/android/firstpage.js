@@ -19,6 +19,21 @@ router.get('/scoreup/:firebaseToken', function(req, res, next) {
 
 
 
+router.get('/checktest', function(req, res, next) {
+        pool.query('select * from chart_genie', function(error, rows){
+                if (error){
+                        console.log("Connection Error" + error);
+                        res.sendStatus(500);
+                }
+                else {
+			console.log(rows);
+                        res.status(201).send({result : rows});
+                }
+        });
+});
+
+
+
 
 router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 
@@ -32,7 +47,7 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 	var prevoteQry = "select program_name, program_data from duckmate.program_pre where singer1=? or singer2=? or singer3=? or singer4=? or singer5=?";
 	var curevoteQry = "select program_name, program_data from duckmate.program_cure where singer1=? or singer2=? or singer3=? or singer4=? or singer5=?";
 	var chartQry2 = "SELECT chart_sample.idx, chart_sample.is_up FROM chart_sample WHERE chart_sample.singer_name=?";
-
+	var genieQry = "SELECT chart_genie.idx, chart_genie.is_up FROM chart_genie WHERE chart_genie.singer_name=?";
 
 	pool.query(InsertValueQry, [ParamsFirebase], function(error, result) {
 		console.log(result);
@@ -69,6 +84,8 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 				}
 
 				var singerb_name = voteresult[0].singer_name;
+				
+				if(singerb_name === 'TWICE') singerb_name = 'TWICE (트와이스)';
 
 				pool.query(chartQry1, [ParamsSingerId], function(error, chartresult1) {
 
@@ -78,17 +95,23 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 
 					pool.query(chartQry2, [singerb_name], function(error, chartresult2) {
 
+						
+					pool.query(genieQry, [singerb_name], function(error, genieresult) {
+
+
 						pool.query(prevoteQry,[singerb_name, singerb_name, singerb_name, singerb_name, singerb_name],function(error, prevoteresult) {
 
 							pool.query(curevoteQry,[singerb_name, singerb_name, singerb_name, singerb_name, singerb_name],function(error, curevoteresult) {
 
 								console.log(prevoteresult);
 								console.log(curevoteresult);
+								console.log(genieresult);
 								var chartData = {
 									song_name : chartresult1[0].song_name,
 									album_name : chartresult1[0].album_name,
 									album_img : chartresult1[0].album_img,
-									melonchart : chartresult2
+									melonchart : chartresult2,
+									geniechart : genieresult
 								}
 
 
@@ -130,6 +153,8 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 						});//prevoteQry connection
 						return
 					});//chartQry2 connection
+					return
+					});
 					return
 				}); //chartQry1 connection
 				return

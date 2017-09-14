@@ -3,9 +3,9 @@ var express = require('express');
 var fs = require('fs');
 var router = express.Router();
 
-router.route('/')
+router.route('/input')
 .post((req, res)=>{
-  pool.query( 'select member_name,singer0_id,singer1_id,singer2_id,singer3_id from duckmate.member where singer0_id = '56';' , function( err, rows ) {
+  pool.query( 'select member_name,singer0_id,singer1_id,singer2_id,singer3_id from duckmate.member where singer0_id = \'56\';' , function( err, rows ) {
     if (err){
     	console.log(err);
     	res.json({
@@ -15,7 +15,17 @@ router.route('/')
       });
       return;
     }
-    console.log(rows[0]);
+    res.status(200).json(typeof rows[0]['singer1_id']);
+
+	
+	console.log(rows[0]);
+	let arr = [];
+	for( let i = 0; i < rows.length; i++){
+		if( rows[i]['singer0_id'] === 56 )
+			arr.push (rows[i]);
+	}
+	console.log(arr[0]["member_name"]);
+
   });
 
 });

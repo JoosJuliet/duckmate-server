@@ -16,7 +16,6 @@ const notice = require('./notice');
 const alarm = require('./alarm');
 const program = require('./program');
 const firstpage = require('./firstpage');
-const crawinput = require('./crawinput');
 
 
 router.use((req, res, next) => {
@@ -37,8 +36,7 @@ router.use('/program',program);
 
 router.use('/singer', singer);
 
-router.use('/crawinput', crawinput);
-
+router.use('/alarm',alarm);
 router.use((req, res, next)=>{
     let firebaseToken;
     let rqstMethodCheck = (req.method == 'GET') ? req.query : req.body;
@@ -77,7 +75,7 @@ router.use((req, res, next)=>{
 });
 router.use('/memberDelete',memberDelete);
 router.use('/question', question);
-router.use('/alarm',alarm);
+//router.use('/alarm',alarm);
 
 
 module.exports = router;
