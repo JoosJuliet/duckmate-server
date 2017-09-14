@@ -49,7 +49,7 @@ router.route('/input')
       return;
     }
 
-    res.status(200).json(rows);
+    res.status(200).json(rows[0]);
   });
 
 })
