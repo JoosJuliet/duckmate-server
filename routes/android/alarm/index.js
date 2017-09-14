@@ -29,7 +29,7 @@ router.route('/input')
   });
 
 })
-.get((req.res)=>{
+.get((req,res)=>{
   if(!req.query.singer_id){
     res.json({
       result: false,
