@@ -52,6 +52,29 @@ router.route('/input')
     res.status(200).json(rows);
   });
 
+})
+.put((req,res)=>{
+  if(!req.body.singer_id){
+    res.json({
+      result: false,
+      msg: "req.body.singer_id가 없습니다."
+    });
+    return;
+  }
+
+  pool.query( 'update duckmate.singer set alarm_array = ? where singer_id = ?;',[ req.body.alarm_array ,req.body.singer_id ] , function( err, results ) {
+    if (err){
+      console.log(err);
+      res.json({
+        result: false,
+        msg: "db 접속 에러",
+        qry: this.sql
+      });
+      return;
+    }
+    res.status(200).json({result: true});
+  });
+
 });
 
 //일단 /input get으로 가져온다. 그다음 post /alarm으로 선택한 것을 나에게 적용시킨다.
