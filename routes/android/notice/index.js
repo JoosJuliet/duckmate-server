@@ -28,7 +28,7 @@ router.route('/')
             res.status(200).json({
                 result: false,
        			msg: "공지입니다",
-				data: rows[0]
+		        data: rows
             });
 
         }
