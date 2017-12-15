@@ -33,7 +33,19 @@ router.get('/checktest', function(req, res, next) {
 });
 
 
-
+router.get('/special/:firebaseToken/:singer_id',function(req, res, next){
+	var specialQuery = 'select * from program_special';
+	pool.query(specialQuery, function(error, rows){
+		if(error){
+			console.log("Connection Error" + error);
+			res.sendStatus(500);
+		}
+		else{
+			console.log(rows);
+			res.status(201).send({result : rows});
+		}
+	});
+});
 
 router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 
@@ -46,8 +58,14 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 	var chartQry1 = 'SELECT singer.song_name, singer.album_name, singer.album_img FROM singer WHERE singer.singer_id=?';
 	var prevoteQry = "select program_name, program_data from duckmate.program_pre where singer1=? or singer2=? or singer3=? or singer4=? or singer5=?";
 	var curevoteQry = "select program_name, program_data from duckmate.program_cure where singer1=? or singer2=? or singer3=? or singer4=? or singer5=?";
-	var chartQry2 = "SELECT chart_sample.idx, chart_sample.is_up FROM chart_sample WHERE chart_sample.singer_name=?";
+	var melonQry = "SELECT chart_melon.idx, chart_melon.is_up FROM chart_melon WHERE chart_melon.singer_name=?";
 	var genieQry = "SELECT chart_genie.idx, chart_genie.is_up FROM chart_genie WHERE chart_genie.singer_name=?";
+	var soribadaQry = "SELECT chart_soribada.idx, chart_soribada.is_up FROM chart_soribada WHERE chart_soribada.singer_name=?";
+	var mnetQry = "SELECT chart_mnet.idx, chart_mnet.is_up FROM chart_mnet WHERE chart_mnet.singer_name=?";
+	var bugsQry = "SELECT chart_bugs.idx, chart_bugs.is_up FROM chart_bugs WHERE chart_bugs.singer_name=?";
+
+	var nulltemp = "{\"idx\" : -1}";
+	var nulltempjson =  JSON.parse(nulltemp);
 
 	pool.query(InsertValueQry, [ParamsFirebase], function(error, result) {
 		console.log(result);
@@ -85,7 +103,7 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 
 				var singerb_name = voteresult[0].singer_name;
 				
-				if(singerb_name === 'TWICE') singerb_name = 'TWICE (트와이스)';
+				if(singerb_name === 'TWICE') singerb_name = 'TWICE(트와이스)';
 
 				pool.query(chartQry1, [ParamsSingerId], function(error, chartresult1) {
 
@@ -93,11 +111,36 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 						res.status(200).json({ result: false, msg: "chartQry1 error"});
 					}
 
-					pool.query(chartQry2, [singerb_name], function(error, chartresult2) {
+					pool.query(melonQry, [singerb_name], function(error, melonresult) {
 
-						
+						if(melonresult.length === 0){
+							melonresult[0] = nulltempjson;
+						}	
 					pool.query(genieQry, [singerb_name], function(error, genieresult) {
 
+						if(genieresult.length === 0){
+							genieresult[0] = nulltempjson;
+						}
+
+					pool.query(mnetQry, [singerb_name], function(error, mnetresult) {
+
+						if(mnetresult.length ===0){
+							mnetresult[0] = nulltempjson;
+						}
+					
+
+					pool.query(bugsQry, [singerb_name], function(error, bugsresult) {
+
+                                                if(bugsresult.length === 0){
+                                                        bugsresult[0] = nulltempjson;
+                                                }
+
+
+					pool.query(soribadaQry, [singerb_name], function(error, soribadaresult) {
+
+						if(soribadaresult.length ===0){
+							soribadaresult[0] = nulltempjson;
+						}
 
 						pool.query(prevoteQry,[singerb_name, singerb_name, singerb_name, singerb_name, singerb_name],function(error, prevoteresult) {
 
@@ -106,12 +149,16 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 								console.log(prevoteresult);
 								console.log(curevoteresult);
 								console.log(genieresult);
+								console.log(bugsresult);
 								var chartData = {
 									song_name : chartresult1[0].song_name,
 									album_name : chartresult1[0].album_name,
 									album_img : chartresult1[0].album_img,
-									melonchart : chartresult2,
-									geniechart : genieresult
+									melonchart : [melonresult[0]],
+									geniechart : [genieresult[0]],
+									soribadachart : [soribadaresult[0]],
+									mnetchart : [mnetresult[0]],
+									bugschart : [bugsresult[0]]
 								}
 
 
@@ -154,7 +201,10 @@ router.get('/:firebaseToken/:singer_id', function(req, res, next) {
 						return
 					});//chartQry2 connection
 					return
-					});
+					});//soribada
+					});//bugs
+					});//mnet
+					});//genie
 					return
 				}); //chartQry1 connection
 				return
