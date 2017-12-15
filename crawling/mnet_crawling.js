@@ -2,11 +2,11 @@ const request = require('request');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
-//var period = 3000;
+const period = 3000;
 const url = 'http://www.mnet.com/chart/TOP100';
 const url2 = 'http://www.mnet.com/chart/TOP100?pNum=2';
 
-//setInterval( function(){
+setInterval( function(){
 let jbAry = [];
 let jbAry2 = [];
 let jbAry3 = [];
@@ -98,4 +98,4 @@ const next = () =>{
 //	}, 1000);
 
 console.log('finish');
-//}, period);
+}, period);
