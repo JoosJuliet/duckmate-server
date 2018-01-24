@@ -10,12 +10,13 @@ conn = pymysql.connect(
 	charset='utf8mb4')
 
  
-html = requests.get('http://www.melon.com/chart/index.htm').text
+html = requests.post('http://www.melon.com/chart/real/index.htm').text
 soup = BeautifulSoup(html, 'html.parser')
 
 
 tag_list = []
 tag_list2 = []
+
 for tr_tag in soup.find('tbody').find_all('tr'):
     tag = tr_tag.find(class_='wrap_song_info')
     if tag:
@@ -25,7 +26,6 @@ for tr_tag in soup.find('tbody').find_all('tr'):
     if tag:
 	tag_sub_list2 = tag.find(class_='ellipsis rank02').find_all(class_='checkEllipsis')
 	tag_list2.extend(tag_sub_list2)
-
 
 
 num=0
