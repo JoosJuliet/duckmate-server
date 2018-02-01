@@ -53,6 +53,7 @@ router.route('/')
   			console.log("Connection Error" + error);
   			res.sendStatus(500);
   		}
+      console.log("singerId"+singerId);
       console.log('여기온다.');
       console.log(results);
   			res.status(201).send({result : 'success'});
