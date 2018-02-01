@@ -8,6 +8,7 @@ router.route('/')
   let singerNum = req.body.singerNum;
   let tmp_singerId = 'singer'+singerNum+'_id';
   let singerVoteCount = singerNum+'_vote_count';
+  let singerId;
   pool.query( 'select member_id,? from duckmate.member where firebaseToken = ?;', [ tmp_singerId, req.body.firebaseToken ] , function( err, rows ) {
     if (err){
       console.log(err);
@@ -21,6 +22,7 @@ router.route('/')
     }
     console.log(rows[0].member_id);
     memeberId = rows[0].member_id;
+    singerId = rows[0].singer_id;
     // updateVoteTable();
     updateMemberSingerVotes();
 
@@ -37,9 +39,8 @@ router.route('/')
   			console.log("Connection Error" + error);
   			res.sendStatus(500);
   		}
-      console.log("일단 맴버해걸");
 
-      // updateSingerVotes();
+      updateSingerVotes();
   	});
 
   };
@@ -47,7 +48,7 @@ router.route('/')
   const updateSingerVotes = ()=>{
     console.log("updateSingerVotes왔당");
 
-    pool.query('update duckmate.singer set ? = ? +1 where firebaseToken = ?', [req.body.firebaseToken], function(error, results){
+    pool.query('update duckmate.singer set choice_count = choice_count +1 where singer_id = ?', [singerId], function(error, results){
   		if (error){
   			console.log("Connection Error" + error);
   			res.sendStatus(500);
