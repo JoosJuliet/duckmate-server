@@ -23,7 +23,7 @@ router.route('/')
     memeberId = rows[0].member_id;
     // updateVoteTable();
     updateMemberSingerVotes();
-    updateSingerVotes();
+
 
   });
 
@@ -38,8 +38,7 @@ router.route('/')
   			res.sendStatus(500);
   		}
 
-			res.status(201).send({result : 'success'});
-
+      updateSingerVotes();
   	});
 
   };
