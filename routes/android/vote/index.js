@@ -32,13 +32,14 @@ router.route('/')
 
   const updateMemberSingerVotes = () =>{
     console.log("updateMemberSingerVotes왔당");
-    pool.query('update duckmate.member set ? = ? +1 where firebaseToken = ?', [singerVoteCount,singerVoteCount,req.body.firebaseToken], function(error, results){
+    pool.query('update duckmate.member set '+singerVoteCount+' = '+singerVoteCount+' +1 where firebaseToken = ?', [req.body.firebaseToken], function(error, results){
   		if (error){
   			console.log("Connection Error" + error);
   			res.sendStatus(500);
   		}
+      console.log("일단 맴버해걸");
 
-      updateSingerVotes();
+      // updateSingerVotes();
   	});
 
   };
@@ -46,7 +47,7 @@ router.route('/')
   const updateSingerVotes = ()=>{
     console.log("updateSingerVotes왔당");
 
-    pool.query('update duckmate.singer set choice_count = choice_count+1 where firebaseToken = ?', [req.body.firebaseToken], function(error, results){
+    pool.query('update duckmate.singer set ? = ? +1 where firebaseToken = ?', [req.body.firebaseToken], function(error, results){
   		if (error){
   			console.log("Connection Error" + error);
   			res.sendStatus(500);
