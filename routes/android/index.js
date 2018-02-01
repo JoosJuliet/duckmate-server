@@ -13,7 +13,7 @@ const alarm 				= require('./alarm');
 const program 			= require('./program');
 const firstpage 		= require('./firstpage');
 const adminpage 		= require('./adminpage');
-
+const vote 					= require('./vote');
 router.use((req, res, next) => {
 	console.log("req.headers['user-agent']"+req.headers['user-agent']);
 	next();
@@ -68,6 +68,8 @@ router.use((req, res, next)=>{
 router.use('/memberDelete',memberDelete);
 router.use('/question', question);
 //router.use('/alarm',alarm);
+
+router.use('/vote',vote);
 
 
 module.exports = router;

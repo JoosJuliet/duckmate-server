@@ -169,13 +169,11 @@ router.route('/')
   	console.log("arr", arr );
 
   	let arrr = [];
-  	for( let i =0 ; i < 4; i++)
-  	{
+  	for( let i =0 ; i < 4; i++){
   		let d = {};
   		d[""+i+""] = [];
   		d[""+i+""].push ( i );
   		d[""+i+""].push( arr[i] );
-
   		arrr.push(d);
   	}
     console.log("arrr",arrr);
