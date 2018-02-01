@@ -46,7 +46,7 @@ router.route('/')
   const updateSingerVotes = ()=>{
     console.log("updateSingerVotes왔당");
 
-    pool.query('update duckmate.singer set choice_count = choice_count+1 where firebaseToken = ?', [req.params.firebaseToken], function(error, results){
+    pool.query('update duckmate.singer set choice_count = choice_count+1 where firebaseToken = ?', [req.body.firebaseToken], function(error, results){
   		if (error){
   			console.log("Connection Error" + error);
   			res.sendStatus(500);
