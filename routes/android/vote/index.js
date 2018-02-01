@@ -9,7 +9,7 @@ router.route('/')
   let tmp_singerId = 'singer'+singerNum+'_id';
   let singerVoteCount = singerNum+'_vote_count';
   let singerId;
-  pool.query( 'select member_id,singer_id from duckmate.member where firebaseToken = ?;', [ tmp_singerId, req.body.firebaseToken ] , function( err, rows ) {
+  pool.query( 'select member_id,? from duckmate.member where firebaseToken = ?;', [ tmp_singerId, req.body.firebaseToken ] , function( err, rows ) {
     if (err){
       console.log(err);
       res.status(500).json({
@@ -22,7 +22,7 @@ router.route('/')
     }
     console.log(rows[0].member_id);
     memeberId = rows[0].member_id;
-    singerId = rows[0].singer_id;
+    singerId = rows[0].tmp_singerId;
     console.log('singerId풀쿼리안'+singerId);
     // updateVoteTable();
     updateMemberSingerVotes();
