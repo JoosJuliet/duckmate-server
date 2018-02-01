@@ -9,7 +9,7 @@ router.route('/')
   let tmp_singerId = 'singer'+singerNum+'_id';
   let singerVoteCount = singerNum+'_vote_count';
   let singerId;
-  pool.query( 'select member_id,? from duckmate.member where firebaseToken = ?;', [ tmp_singerId, req.body.firebaseToken ] , function( err, rows ) {
+  pool.query( 'select member_id,'+tmp_singerId+' from duckmate.member where firebaseToken = ?;', [ req.body.firebaseToken ] , function( err, rows ) {
     if (err){
       console.log(err);
       res.status(500).json({
@@ -20,11 +20,21 @@ router.route('/')
       });
       return;
     }
-    console.log(rows[0].member_id);
-    memeberId = rows[0].member_id;
-    singerId = rows[0].tmp_singerId;
-    console.log('singerId풀쿼리안'+singerId);
-    // updateVoteTable();
+    
+
+	memeberId = rows[0].member_id;
+
+    const properties = ['singer0_id','singer1_id','singer2_id','singer3_id'];
+    for(var i=0; i< properties.length;i++){
+      if( rows[0].hasOwnProperty(properties[i])){
+        let tmp = properties[i];
+	 singerId = rows[0][""+tmp+""];
+
+      }
+    }
+
+
+	console.log("singerID값");
     updateMemberSingerVotes();
 
 
@@ -54,8 +64,7 @@ router.route('/')
   			console.log("Connection Error" + error);
   			res.sendStatus(500);
   		}
-      console.log("singerId"+singerId);
-      console.log('여기온다.');
+      console.log("singerId는 "+singerId);
       console.log(results);
   			res.status(201).send({result : 'success'});
   	});
