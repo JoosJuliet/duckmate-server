@@ -4,6 +4,13 @@ var app = express();
 
 router.route('/')
 .post((req, res)=>{
+  // 프로그램 이름과  실시간인지 사전투표인지 알려주면 투표가 반영되는 것
+
+  /*
+    voteTypeCPS로 table위치 찾고
+    singerName , programName으로 column찾는다.
+    존재하면 count올리는 것
+  */
   let memeberId;
   let singerNum = req.body.singerNum;
   let tmp_singerId = 'singer'+singerNum+'_id';
@@ -20,21 +27,15 @@ router.route('/')
       });
       return;
     }
-    
 
-	memeberId = rows[0].member_id;
-
+    memeberId = rows[0].member_id;
     const properties = ['singer0_id','singer1_id','singer2_id','singer3_id'];
     for(var i=0; i< properties.length;i++){
       if( rows[0].hasOwnProperty(properties[i])){
         let tmp = properties[i];
-	 singerId = rows[0][""+tmp+""];
-
+        singerId = rows[0][""+tmp+""];
       }
     }
-
-
-	console.log("singerID값");
     updateMemberSingerVotes();
 
 
@@ -50,25 +51,19 @@ router.route('/')
   			console.log("Connection Error" + error);
   			res.sendStatus(500);
   		}
-
       updateSingerVotes();
   	});
 
   };
 
   const updateSingerVotes = ()=>{
-    console.log("updateSingerVotes왔당");
-
     pool.query('update duckmate.singer set choice_count = choice_count +1 where singer_id = ?', [singerId], function(error, results){
   		if (error){
   			console.log("Connection Error" + error);
   			res.sendStatus(500);
   		}
-      console.log("singerId는 "+singerId);
-      console.log(results);
-  			res.status(201).send({result : 'success'});
+			res.status(201).send({result : 'success'});
   	});
-
   };
 
 
