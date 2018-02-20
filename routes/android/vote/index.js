@@ -79,8 +79,6 @@ router.route('/')
 
   const checkSingerVoteCPS = ()=>{
 // 싱어가 하는 지 프로그램 하는지 안하는지 확인
-
-	console.log("voteTypeCPS",voteTypeCPS);
     if( voteTypeCPS === "0" ){
       //cure이다
       pool.query('SELECT * FROM program_cure WHERE \''+ singerName +'\' IN (singer1,singer2,singer3,singer4,singer5,singer6,singer7,singer8,singer9,singer10)', function(error, rows){
@@ -88,23 +86,42 @@ router.route('/')
     			console.log("Connection Error" + error);
     			res.sendStatus(500);
     		}
-
-	console.log("rows값",rows);
-console.log( this.sql);
-        if ( rows !== undefined)
- {
-console.log("undeined일때");
+        if ( rows !== undefined){
           updateMemberSingerVotes();
         }else{
-console.log("맞나");
           res.status(301).send({result : 'false',
                                 message : '해당 가수가 없다'});
-
         }
-
-
       });
+    }else if (voteTypeCPS === "1"){
+      pool.query('SELECT * FROM program_pre WHERE \''+ singerName +'\' IN (singer1,singer2,singer3,singer4,singer5,singer6,singer7,singer8,singer9,singer10)', function(error, rows){
+        if (error){
+    			console.log("Connection Error" + error);
+    			res.sendStatus(500);
+    		}
+        if ( rows !== undefined){
+          updateMemberSingerVotes();
+        }else{
+          res.status(301).send({result : 'false',
+                                message : '해당 가수가 없다'});
+        }
+      });
+
     }
+    // else if (voteTypeCPS === "2"){
+    //   pool.query('SELECT * FROM program_cure WHERE \''+ singerName +'\' IN (singer1,singer2,singer3,singer4,singer5,singer6,singer7,singer8,singer9,singer10)', function(error, rows){
+    //     if (error){
+    // 			console.log("Connection Error" + error);
+    // 			res.sendStatus(500);
+    // 		}
+    //     if ( rows !== undefined){
+    //       updateMemberSingerVotes();
+    //     }else{
+    //       res.status(301).send({result : 'false',
+    //                             message : '해당 가수가 없다'});
+    //     }
+    //   });
+    // }
 
   };
 
