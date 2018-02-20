@@ -2,9 +2,6 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 
-let voteTypeCPS;
-let programName;
-let singerName;
 router.route('/')
 .post((req, res)=>{
   // 프로그램 이름과  실시간인지 사전투표인지 알려주면 투표가 반영되는 것
@@ -17,18 +14,17 @@ router.route('/')
     {'ingi':'0','mcount':'1','music_bank':'2'}
   */
   let memeberId;
-  let singerNum = req.body.singerNum;
-  let tmp_singerId = 'singer'+singerNum+'_id';
+  let singerId;
+
+  let singerNum       = req.body.singerNum;
+  let tmp_singerId    = 'singer'+singerNum+'_id';
   let singerVoteCount = singerNum+'_vote_count';
 
-  voteTypeCPS = req.body.voteTypeCPS;
-  programName = req.body.programName;
-  singerName = req.body.singerName;
+  let voteTypeCPS     = req.body.voteTypeCPS;
+  let programName     = req.body.programName;
+  let singerName      = req.body.singerName;
 
 
-
-
-  let singerId;
   pool.query( 'select member_id,'+tmp_singerId+' from duckmate.member where firebaseToken = ?;', [ req.body.firebaseToken ] , function( err, rows ) {
     if (err){
       console.log(err);
@@ -50,35 +46,17 @@ router.route('/')
       }
     }
 
+    console.log("test해보기");
+    properties.filter(function (n) {
+      if( rows[0].hasOwnProperty(n)) console.log(n);
+    });
+
 
     checkSingerVoteCPS();
   });
 
-  const updateMemberSingerVotes = () =>{
-    console.log("updateMemberSingerVotes왔당");
-    pool.query('update duckmate.member set '+singerVoteCount+' = '+singerVoteCount+' +1 where firebaseToken = ?', [req.body.firebaseToken], function(error, results){
-  		if (error){
-  			console.log("Connection Error" + error);
-  			res.sendStatus(500);
-  		}
-      updateSingerVotes();
-  	});
-
-  };
-
-  const updateSingerVotes = ()=>{
-    pool.query('update duckmate.singer set choice_count = choice_count +1 where singer_id = ?', [singerId], function(error, results){
-  		if (error){
-  			console.log("Connection Error" + error);
-  			res.sendStatus(500);
-  		}
-      res.status(201).send({result : 'success'});
-			// res.status(201).send({result : 'success'});
-  	});
-  };
-
   const checkSingerVoteCPS = ()=>{
-// 싱어가 하는 지 프로그램 하는지 안하는지 확인
+    // 싱어가 하는 지 프로그램 하는지 안하는지 확인
     if( voteTypeCPS === "0" ){
       //cure이다
       pool.query('SELECT * FROM program_cure WHERE \''+ singerName +'\' IN (singer1,singer2,singer3,singer4,singer5,singer6,singer7,singer8,singer9,singer10)', function(error, rows){
@@ -108,6 +86,7 @@ router.route('/')
       });
 
     }
+    // 스페셜 투표를 위한 것
     // else if (voteTypeCPS === "2"){
     //   pool.query('SELECT * FROM program_cure WHERE \''+ singerName +'\' IN (singer1,singer2,singer3,singer4,singer5,singer6,singer7,singer8,singer9,singer10)', function(error, rows){
     //     if (error){
@@ -124,6 +103,30 @@ router.route('/')
     // }
 
   };
+
+  const updateMemberSingerVotes = () =>{
+    pool.query('update duckmate.member set '+singerVoteCount+' = '+singerVoteCount+' +1 where firebaseToken = ?', [req.body.firebaseToken], function(error, results){
+  		if (error){
+  			console.log("Connection Error" + error);
+  			res.sendStatus(500);
+  		}
+      updateSingerVotes();
+  	});
+
+  };
+
+  const updateSingerVotes = ()=>{
+    pool.query('update duckmate.singer set choice_count = choice_count +1 where singer_id = ?', [singerId], function(error, results){
+  		if (error){
+  			console.log("Connection Error" + error);
+  			res.sendStatus(500);
+  		}
+      res.status(201).send({result : 'success'});
+			// res.status(201).send({result : 'success'});
+  	});
+  };
+
+
 
 
 });
