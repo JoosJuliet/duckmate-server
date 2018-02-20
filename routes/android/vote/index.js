@@ -33,22 +33,14 @@ router.route('/')
         result: false,
         msg: "db 접속 에러",
         qry: this.sql
-      });
+     });
       return;
     }
 
     memeberId = rows[0].member_id;
     const properties = ['singer0_id','singer1_id','singer2_id','singer3_id'];
-    for(var i=0; i< properties.length;i++){
-      if( rows[0].hasOwnProperty(properties[i])){
-        let tmp = properties[i];
-        singerId = rows[0][""+tmp+""];
-      }
-    }
-
-    console.log("test해보기");
-    properties.filter(function (n) {
-      if( rows[0].hasOwnProperty(n)) console.log(n);
+    properties.find(function (n) {
+      if( rows[0].hasOwnProperty(n))singerId = rows[0][""+n+""];
     });
 
 
