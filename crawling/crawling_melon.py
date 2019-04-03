@@ -4,7 +4,7 @@ import requests
 import json
 
 def save_json(data):
-    with open('crawling_melon.txt', 'w', encoding = 'utf-8') as f:
+    with open('crawling_melon.json', 'w') as f:
         json.dump(data, f)
     print('melon crawling saved')
 
